@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kitty/bloc/database_bloc/database_bloc.dart';
@@ -60,6 +61,9 @@ class _MainPageState extends State<MainPage> {
         listener: (_, state) {
           if (state.status == NavigationStateStatus.tab) {
             _onSelectTab(state.currentIndex);
+          }
+          if (state.status == NavigationStateStatus.none) {
+            SystemChannels.platform.invokeMethod('SystemNavigator.pop');
           }
         },
         builder: (context, state) {

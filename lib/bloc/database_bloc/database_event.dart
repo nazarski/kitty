@@ -25,3 +25,9 @@ class GetIconEvent extends DatabaseEvent{
 
   GetIconEvent(this.icon);
 }
+class CreateExpenseCategoryEvent extends DatabaseEvent{
+  final String categoryName;
+
+  CreateExpenseCategoryEvent({required this.categoryName});
+
+}

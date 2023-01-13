@@ -32,7 +32,9 @@ class DatabaseBloc extends Bloc<DatabaseEvent, DatabaseState> {
               totalAmount: double.parse(e['totalAmount']),
               entries: e['entries'],
               title: e['title'],
-              icon: CategoryIcon.fromJson(iconData));
+              categoryId: e['categoryId'],
+            icon: CategoryIcon.fromJson(iconData),
+          );
         }).toList();
       });
     });
@@ -52,18 +54,32 @@ class DatabaseBloc extends Bloc<DatabaseEvent, DatabaseState> {
               totalAmount: double.parse(e['totalAmount']),
               entries: e['entries'],
               title: e['title'],
-              icon: CategoryIcon.fromJson(iconData));
+              categoryId: e['categoryId'],
+              icon: CategoryIcon.fromJson(iconData),);
         }).toList();
       });
     });
     emit(state.copyWith(expCategories: categories));
   }
 
+  Future<void> _createExpenseCategory(String title, CategoryIcon icon, int categoryId) async {
+    final category = ExpenseCategory(title: title, icon: icon, categoryId: categoryId);
+    final db = await databaseRepository.database;
+    await db.transaction((txn) async {
+      await txn.insert(databaseRepository.exCatTable, {
+        'title': category.title,
+        'totalAmount': (category.totalAmount).toString(),
+        'entries': category.entries,
+        'icon': json.encode(category.icon)
+      });
+    });
+  }
+
   DatabaseBloc(this.databaseRepository) : super(DatabaseState()) {
     IncomeCategory selectedIncomeCategory;
     ExpenseCategory selectedExpenseCategory;
     on<InitialDatabaseEvent>((event, emit) {
-      emit(state.copyWith(categoryToAdd: ''));
+      emit(state.copyWith(categoryToAdd: '', icons: []));
     });
     on<CallAllDataEvent>((_, __) {
       add(CallIncomeCategoriesEvent());
@@ -84,9 +100,14 @@ class DatabaseBloc extends Bloc<DatabaseEvent, DatabaseState> {
       emit(state.copyWith(categoryToAdd: selectedExpenseCategory.title));
     });
     on<GetIconEvent>((event, emit) {
-      final icon = CategoryIcon(
-          pathToIcon: event.icon['icon']!, color: event.icon['color']!);
-      emit(state.copyWith(icons: [icon]));
+      // final icon = CategoryIcon(
+      //     pathToIcon: event.icon['icon']!, color: event.icon['color']!);
+      // emit(state.copyWith(icons: [icon]));
+    });
+    on<CreateExpenseCategoryEvent>((event, emit) async {
+      await _createExpenseCategory(event.categoryName, state.icons.first, 0);
+      add(InitialDatabaseEvent());
+      add(CallExpenseCategoriesEvent());
     });
   }
 }

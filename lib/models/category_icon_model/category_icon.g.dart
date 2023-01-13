@@ -8,12 +8,14 @@ part of 'category_icon.dart';
 
 _$_CategoryIcon _$$_CategoryIconFromJson(Map<String, dynamic> json) =>
     _$_CategoryIcon(
-      pathToIcon: json['pathToIcon'] as String,
+      iconId: json['iconId'] as int,
+      localPath: json['localPath'] as String,
       color: json['color'] as String,
     );
 
 Map<String, dynamic> _$$_CategoryIconToJson(_$_CategoryIcon instance) =>
     <String, dynamic>{
-      'pathToIcon': instance.pathToIcon,
+      'iconId': instance.iconId,
+      'localPath': instance.localPath,
       'color': instance.color,
     };

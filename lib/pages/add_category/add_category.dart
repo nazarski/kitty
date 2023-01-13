@@ -1,10 +1,11 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kitty/bloc/database_bloc/database_bloc.dart';
+import 'package:kitty/bloc/navigation_bloc/navigation_bloc.dart';
 import 'package:kitty/resources/app_colors.dart';
 import 'package:kitty/resources/app_icons.dart';
+import 'package:kitty/resources/app_text_styles.dart';
 import 'package:kitty/resources/initial_values.dart';
 import 'package:kitty/widgets/add_category/choose_icon.dart';
 import 'package:kitty/widgets/icon_view.dart';
@@ -53,12 +54,27 @@ class _AddCategoryState extends State<AddCategory> {
           return Scaffold(
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerFloat,
-            floatingActionButton: FloatingActionButton.extended(
-                onPressed: () {},
-                label: SizedBox(
-                  width: width - 64,
-                  child: const Center(child: Text('Add new category')),
-                )),
+            floatingActionButton: ValueListenableBuilder(
+              valueListenable: categoryController,
+              builder: (BuildContext context, TextEditingValue value,
+                  Widget? child) {
+                return ElevatedButton(
+                    style: AppStyles.buttonStyle,
+                    onPressed: state.icons.isNotEmpty && value.text.isNotEmpty
+                        ? () {
+                            context.read<DatabaseBloc>().add(
+                                CreateExpenseCategoryEvent(
+                                    categoryName: value.text));
+                            context.read<NavigationBloc>().add(NavigationPop());
+                          }
+                        : null,
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      child: const Center(
+                          heightFactor: 1, child: Text('Add new category')),
+                    ));
+              },
+            ),
             appBar: BackAppBar(
               text: 'Add new',
               back: _closeBottomSheet,
@@ -91,13 +107,16 @@ class _AddCategoryState extends State<AddCategory> {
                                         MediaQuery.of(context).size.height / 2),
                                 enableDrag: false,
                                 builder: (_) {
-                                  return ChooseIcon(iconList: iconList, controller: bottomSheetController!,);
+                                  return ChooseIcon(
+                                    iconList: iconList,
+                                    controller: bottomSheetController!,
+                                  );
                                 });
-                            setState(() {});
+                            setState((){});
                           },
                           icon: state.icons.isNotEmpty
                               ? IconView(
-                                  icon: state.icons.first.pathToIcon,
+                                  icon: state.icons.first.localPath,
                                   color: state.icons.first.color,
                                 )
                               : const IconView(

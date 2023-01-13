@@ -8,6 +8,7 @@ part 'income_category.g.dart';
 class IncomeCategory with _$IncomeCategory{
   @JsonSerializable(explicitToJson: true)
   const factory IncomeCategory({
+    required int categoryId,
     required String title,
     @Default(0.0) double totalAmount,
     @Default(0) int entries,

@@ -26,7 +26,7 @@ class _AddEntryState extends State<AddEntry> {
 
   void _onComplete() {
     setState(() {
-      if(FocusScope.of(context).hasFocus) {
+      if (FocusScope.of(context).hasFocus) {
         FocusScope.of(context).unfocus();
       }
     });
@@ -80,12 +80,12 @@ class _AddEntryState extends State<AddEntry> {
                   ),
                   TextField(
                     readOnly: true,
-
                     controller: categoryController..text = state.categoryToAdd,
                     onTap: () {
                       bottomSheetController = showBottomSheet(
-                          constraints:
-                          BoxConstraints(maxHeight: MediaQuery.of(context).size.height / 2),
+                          constraints: BoxConstraints(
+                              maxHeight:
+                                  MediaQuery.of(context).size.height / 2),
                           enableDrag: false,
                           context: context,
                           builder: (_) {
@@ -151,11 +151,17 @@ class _AddEntryState extends State<AddEntry> {
                   const SizedBox(
                     height: 24,
                   ),
-                  AddEntryButton(
-                    option: option,
-                    isActive: state.categoryToAdd.isNotEmpty &&
-                        option != 'entry' &&
-                        amountController.text.isNotEmpty,
+                  ValueListenableBuilder(
+                    valueListenable: amountController,
+                    builder: (BuildContext context, TextEditingValue value,
+                        Widget? child) {
+                      return AddEntryButton(
+                        option: option,
+                        isActive: state.categoryToAdd.isNotEmpty &&
+                            option != 'entry' &&
+                            value.text.isNotEmpty,
+                      );
+                    },
                   ),
                 ],
               ),

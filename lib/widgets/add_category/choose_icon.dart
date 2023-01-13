@@ -66,13 +66,15 @@ class ChooseIcon extends StatelessWidget {
                               context
                                   .read<DatabaseBloc>()
                                   .add(GetIconEvent(iconList[index]));
-controller.close;
+                              Future.delayed(const Duration(milliseconds: 500), () {
+                                controller.close();
+                              });
                             },
                             icon: Container(
                               padding: const EdgeInsets.all(2),
                               decoration: BoxDecoration(
                                   color: state.icons.isNotEmpty &&
-                                          state.icons.first.pathToIcon ==
+                                          state.icons.first.localPath ==
                                               (iconList[index]['icon']!)
                                       ? AppColors.activeBlue
                                       : null,
