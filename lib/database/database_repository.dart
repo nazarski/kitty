@@ -31,7 +31,7 @@ class DatabaseRepository {
       // expenses categories table
       await txn.execute('''
       CREATE TABLE $exCatTable (
-      categoryID INTEGER PRIMARY KEY AUTOINCREMENT,
+      categoryId INTEGER PRIMARY KEY AUTOINCREMENT,
       title TEXT,
       totalAmount TEXT,
       entries INTEGER,
@@ -42,7 +42,7 @@ class DatabaseRepository {
       // income categories table
       await txn.execute('''
       CREATE TABLE $inCatTable (
-      categoryID INTEGER PRIMARY KEY AUTOINCREMENT,
+      categoryId INTEGER PRIMARY KEY AUTOINCREMENT,
       title TEXT,
       totalAmount TEXT,
       entries INTEGER,
@@ -108,7 +108,7 @@ class DatabaseRepository {
       // expense categories
         for (int i = 6; i < 9; i++) {
           await txn.insert(exCatTable, {
-            'title': InitialValues.expenseCategories[i],
+            'title': InitialValues.expenseCategories[i-6],
             'totalAmount': (0.0).toString(),
             'entries': 0,
             'iconId': i

@@ -36,11 +36,6 @@ class _AddCategoryState extends State<AddCategory> {
     });
   }
 
-  final List<Map<String, String>> iconList = [
-    ...InitialValues.expenseIcons.values.toList(),
-    ...InitialValues.incomeIcons.values.toList()
-  ];
-
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
@@ -60,11 +55,13 @@ class _AddCategoryState extends State<AddCategory> {
                   Widget? child) {
                 return ElevatedButton(
                     style: AppStyles.buttonStyle,
-                    onPressed: state.icons.isNotEmpty && value.text.isNotEmpty
+                    onPressed: state.selectedIcon != null &&
+                            value.text.isNotEmpty
                         ? () {
                             context.read<DatabaseBloc>().add(
                                 CreateExpenseCategoryEvent(
-                                    categoryName: value.text));
+                                    categoryName: value.text,
+                                    selectedIcon: state.selectedIcon!));
                             context.read<NavigationBloc>().add(NavigationPop());
                           }
                         : null,
@@ -108,16 +105,16 @@ class _AddCategoryState extends State<AddCategory> {
                                 enableDrag: false,
                                 builder: (_) {
                                   return ChooseIcon(
-                                    iconList: iconList,
+                                    iconList: state.icons,
                                     controller: bottomSheetController!,
                                   );
                                 });
-                            setState((){});
+                            setState(() {});
                           },
-                          icon: state.icons.isNotEmpty
+                          icon: state.selectedIcon != null
                               ? IconView(
-                                  icon: state.icons.first.localPath,
-                                  color: state.icons.first.color,
+                                  icon: state.selectedIcon!.localPath,
+                                  color: state.selectedIcon!.color,
                                 )
                               : const IconView(
                                   icon: AppIcons.addPlus,

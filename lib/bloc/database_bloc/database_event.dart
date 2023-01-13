@@ -2,7 +2,9 @@ part of 'database_bloc.dart';
 
 @immutable
 abstract class DatabaseEvent {}
-class InitialDatabaseEvent extends DatabaseEvent{}
+
+class InitialDatabaseEvent extends DatabaseEvent {}
+
 class CallAllDataEvent extends DatabaseEvent {}
 
 class CallIncomeCategoriesEvent extends DatabaseEvent {}
@@ -20,14 +22,16 @@ class GetIncomeCategoryEvent extends DatabaseEvent {
 
   GetIncomeCategoryEvent(this.category);
 }
-class GetIconEvent extends DatabaseEvent{
-  final Map<String, String> icon;
+
+class GetIconEvent extends DatabaseEvent {
+  final CategoryIcon icon;
 
   GetIconEvent(this.icon);
 }
-class CreateExpenseCategoryEvent extends DatabaseEvent{
+
+class CreateExpenseCategoryEvent extends DatabaseEvent {
   final String categoryName;
+  final CategoryIcon selectedIcon;
 
-  CreateExpenseCategoryEvent({required this.categoryName});
-
+  CreateExpenseCategoryEvent({required this.selectedIcon, required this.categoryName});
 }

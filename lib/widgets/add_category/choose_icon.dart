@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kitty/bloc/database_bloc/database_bloc.dart';
+import 'package:kitty/models/category_icon_model/category_icon.dart';
 import 'package:kitty/resources/app_colors.dart';
 import 'package:kitty/resources/app_icons.dart';
 import 'package:kitty/resources/app_text_styles.dart';
@@ -14,7 +15,7 @@ class ChooseIcon extends StatelessWidget {
     required this.controller,
   }) : super(key: key);
 
-  final List<Map<String, String>> iconList;
+  final List<CategoryIcon> iconList;
   final PersistentBottomSheetController controller;
 
   @override
@@ -48,44 +49,41 @@ class ChooseIcon extends StatelessWidget {
                 height: 16,
               ),
               Flexible(
-                fit: FlexFit.tight,
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: GridView.builder(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      itemCount: iconList.length,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 4),
-                      itemBuilder: (_, index) {
-                        return IconButton(
-                            iconSize: 48,
-                            onPressed: () {
-                              context
-                                  .read<DatabaseBloc>()
-                                  .add(GetIconEvent(iconList[index]));
-                              Future.delayed(const Duration(milliseconds: 500), () {
-                                controller.close();
-                              });
-                            },
-                            icon: Container(
-                              padding: const EdgeInsets.all(2),
-                              decoration: BoxDecoration(
-                                  color: state.icons.isNotEmpty &&
-                                          state.icons.first.localPath ==
-                                              (iconList[index]['icon']!)
-                                      ? AppColors.activeBlue
-                                      : null,
-                                  shape: BoxShape.circle),
-                              child: IconView(
-                                icon: iconList[index]['icon']!,
-                                color: iconList[index]['color']!,
-                              ),
-                            ));
-                      }),
-                ),
+                child: GridView.builder(
+                    physics: const ScrollPhysics(),
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    itemCount: iconList.length,
+                    shrinkWrap: true,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 4),
+                    itemBuilder: (_, index) {
+                      return IconButton(
+                          iconSize: 48,
+                          onPressed: () {
+                            context
+                                .read<DatabaseBloc>()
+                                .add(GetIconEvent(iconList[index]));
+                            Future.delayed(const Duration(milliseconds: 500),
+                                () {
+                              controller.close();
+                            });
+                          },
+                          icon: Container(
+                            padding: const EdgeInsets.all(2),
+                            decoration: BoxDecoration(
+                                color: state.selectedIcon != null &&
+                                        state.selectedIcon!.localPath ==
+                                            iconList[index].localPath
+                                    ? AppColors.activeBlue
+                                    : null,
+                                shape: BoxShape.circle),
+                            child: IconView(
+                              icon: iconList[index].localPath,
+                              color: iconList[index].color,
+                            ),
+                          ));
+                    }),
               ),
             ],
           ),

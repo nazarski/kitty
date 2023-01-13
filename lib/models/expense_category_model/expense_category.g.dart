@@ -8,6 +8,7 @@ part of 'expense_category.dart';
 
 _$_ExpenseCategory _$$_ExpenseCategoryFromJson(Map<String, dynamic> json) =>
     _$_ExpenseCategory(
+      categoryId: json['categoryId'] as int,
       title: json['title'] as String,
       totalAmount: (json['totalAmount'] as num?)?.toDouble() ?? 0.0,
       entries: json['entries'] as int? ?? 0,
@@ -16,6 +17,7 @@ _$_ExpenseCategory _$$_ExpenseCategoryFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$_ExpenseCategoryToJson(_$_ExpenseCategory instance) =>
     <String, dynamic>{
+      'categoryId': instance.categoryId,
       'title': instance.title,
       'totalAmount': instance.totalAmount,
       'entries': instance.entries,

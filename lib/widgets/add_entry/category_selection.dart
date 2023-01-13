@@ -34,7 +34,6 @@ class CategorySelection extends StatelessWidget {
           ]),
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SvgPicture.asset(AppIcons.drag),
           const SizedBox(
@@ -48,45 +47,41 @@ class CategorySelection extends StatelessWidget {
             height: 16,
           ),
           Flexible(
-            fit: FlexFit.tight,
-            child: SingleChildScrollView(
+            child: GridView.builder(
               physics: const BouncingScrollPhysics(),
-              child: GridView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                  ),
-                  itemCount: categories.length,
-                  itemBuilder: (_, index) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            if (categories[index] is IncomeCategory) {
-                              context.read<DatabaseBloc>().add(
-                                  GetIncomeCategoryEvent(categories[index]));
-                            } else {
-                              context.read<DatabaseBloc>().add(
-                                  GetExpenseCategoryEvent(categories[index]));
-                            }
-                            controller.close();
-                          },
-                          iconSize: 60,
-                          icon: IconView(
-                            icon: categories[index].icon.pathToIcon,
-                            color: categories[index].icon.color,
-                          ),
+                shrinkWrap: true,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                ),
+                itemCount: categories.length,
+                itemBuilder: (_, index) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          if (categories[index] is IncomeCategory) {
+                            context.read<DatabaseBloc>().add(
+                                GetIncomeCategoryEvent(categories[index]));
+                          } else {
+                            context.read<DatabaseBloc>().add(
+                                GetExpenseCategoryEvent(categories[index]));
+                          }
+                          controller.close();
+                        },
+                        iconSize: 60,
+                        icon: IconView(
+                          icon: categories[index].icon.localPath,
+                          color: categories[index].icon.color,
                         ),
-                        Text(
-                          categories[index].title,
-                          style: AppStyles.caption,
-                        ),
-                      ],
-                    );
-                  }),
-            ),
+                      ),
+                      Text(
+                        categories[index].title,
+                        style: AppStyles.caption,
+                      ),
+                    ],
+                  );
+                }),
           ),
           addCategory ?? const SizedBox.shrink()
         ],

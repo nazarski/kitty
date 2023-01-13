@@ -7,8 +7,9 @@ class DatabaseState extends Equatable {
   final List<Expense> expenses;
   final List<CategoryIcon> icons;
   final String categoryToAdd;
+  final CategoryIcon? selectedIcon;
 
-  DatabaseState({
+  const DatabaseState({
     this.expCategories = const [],
     this.inCategories = const [],
     this.balance =
@@ -16,6 +17,7 @@ class DatabaseState extends Equatable {
     this.expenses = const [],
     this.icons = const [],
     this.categoryToAdd = '',
+    this.selectedIcon,
   });
 
   DatabaseState copyWith({
@@ -25,6 +27,7 @@ class DatabaseState extends Equatable {
     List<Expense>? expenses,
     List<CategoryIcon>? icons,
     String? categoryToAdd,
+    CategoryIcon? selectedIcon,
   }) {
     return DatabaseState(
       expCategories: expCategories ?? this.expCategories,
@@ -33,9 +36,11 @@ class DatabaseState extends Equatable {
       expenses: expenses ?? this.expenses,
       icons: icons ?? this.icons,
       categoryToAdd: categoryToAdd ?? this.categoryToAdd,
+      selectedIcon: selectedIcon ?? this.selectedIcon,
     );
   }
 
   @override
-  List<Object?> get props => [expCategories, inCategories, categoryToAdd, icons];
+  List<Object?> get props =>
+      [expCategories, inCategories, categoryToAdd, icons, selectedIcon];
 }
