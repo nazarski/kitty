@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kitty/bloc/database_bloc/database_bloc.dart';
+import 'package:kitty/bloc/navigation_bloc/navigation_bloc.dart';
+import 'package:kitty/pages/add_category/add_category.dart';
 import 'package:kitty/resources/app_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kitty/widgets/add_entry/add_entry_button.dart';
@@ -16,26 +18,17 @@ class AddEntry extends StatefulWidget {
 }
 
 class _AddEntryState extends State<AddEntry> {
-  @override
-  void initState() {
-    focusNode.addListener((_onFocus));
-    super.initState();
-  }
-
-  void _onFocus() {
-    if (!focusNode.hasFocus) {
-      setState(() {});
-    }
-  }
-
   void _closeBottomSheet() {
     if (bottomSheetController != null) {
       bottomSheetController!.close();
     }
   }
-  void _onComplete(){
+
+  void _onComplete() {
     setState(() {
-      FocusScope.of(context).unfocus();
+      if(FocusScope.of(context).hasFocus) {
+        FocusScope.of(context).unfocus();
+      }
     });
   }
 
@@ -87,33 +80,45 @@ class _AddEntryState extends State<AddEntry> {
                   ),
                   TextField(
                     readOnly: true,
+
                     controller: categoryController..text = state.categoryToAdd,
                     onTap: () {
-                      bottomSheetController = buildShowBottomSheet(context, () {
-                        if (option == 'income') {
-                          return CategorySelection(
-                            controller: bottomSheetController!,
-                            categories: state.inCategories,
-                          );
-                        }
-                        if (option == 'expense') {
-                          return CategorySelection(
-                            controller: bottomSheetController!,
-                            categories: state.expCategories,
-                            addCategory: OutlinedButton(
-                              onPressed: () {},
-                              child: const Text(
-                                'Add new category',
-                                style: TextStyle(
-                                    color: AppColors.activeBlue,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                            ),
-                          );
-                        }
-                        return const SizedBox.shrink();
-                      });
+                      bottomSheetController = showBottomSheet(
+                          constraints:
+                          BoxConstraints(maxHeight: MediaQuery.of(context).size.height / 2),
+                          enableDrag: false,
+                          context: context,
+                          builder: (_) {
+                            if (option == 'income') {
+                              return CategorySelection(
+                                controller: bottomSheetController!,
+                                categories: state.inCategories,
+                              );
+                            }
+                            if (option == 'expense') {
+                              return CategorySelection(
+                                controller: bottomSheetController!,
+                                categories: state.expCategories,
+                                addCategory: OutlinedButton(
+                                  onPressed: () {
+                                    _closeBottomSheet();
+                                    context.read<NavigationBloc>().add(
+                                        NavigateTab(
+                                            tabIndex: 4,
+                                            route: AddCategory.routeName));
+                                  },
+                                  child: const Text(
+                                    'Add new category',
+                                    style: TextStyle(
+                                        color: AppColors.activeBlue,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              );
+                            }
+                            return const SizedBox.shrink();
+                          });
                     },
                     decoration: const InputDecoration(
                       labelText: 'Category name',
@@ -159,15 +164,5 @@ class _AddEntryState extends State<AddEntry> {
         ),
       );
     });
-  }
-
-  PersistentBottomSheetController<dynamic> buildShowBottomSheet(
-      BuildContext context, Function builder) {
-    return showBottomSheet(
-        constraints:
-            BoxConstraints(maxHeight: MediaQuery.of(context).size.height / 2),
-        enableDrag: false,
-        context: context,
-        builder: builder(context));
   }
 }

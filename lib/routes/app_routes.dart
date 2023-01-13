@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kitty/pages/add_category/add_category.dart';
 import 'package:kitty/pages/add_entry/add_entry.dart';
 import 'package:kitty/pages/home_page/home_page.dart';
 import 'package:kitty/pages/main_page.dart';
@@ -35,6 +36,9 @@ class AppRoutes {
       case AddEntry.routeName:
         return PageTransition(
             child: const AddEntry(), type: PageTransitionType.fade);
+      case AddCategory.routeName:
+        return PageTransition(
+            child: const AddCategory(), type: PageTransitionType.fade);
 
       default:
         throw Exception('Invalid route: ${settings.name}');

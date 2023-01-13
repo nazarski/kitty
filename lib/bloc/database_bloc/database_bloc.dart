@@ -83,5 +83,10 @@ class DatabaseBloc extends Bloc<DatabaseEvent, DatabaseState> {
       selectedExpenseCategory = event.category;
       emit(state.copyWith(categoryToAdd: selectedExpenseCategory.title));
     });
+    on<GetIconEvent>((event, emit) {
+      final icon = CategoryIcon(
+          pathToIcon: event.icon['icon']!, color: event.icon['color']!);
+      emit(state.copyWith(icons: [icon]));
+    });
   }
 }

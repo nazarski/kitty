@@ -6,7 +6,8 @@ import 'package:kitty/resources/app_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kitty/resources/app_icons.dart';
 import 'package:kitty/resources/app_text_styles.dart';
-import 'package:kitty/utils/helper.dart';
+import 'package:kitty/widgets/icon_view.dart';
+
 class CategorySelection extends StatelessWidget {
   const CategorySelection({
     Key? key,
@@ -31,70 +32,60 @@ class CategorySelection extends StatelessWidget {
                 blurRadius: 10,
                 offset: const Offset(0, -5))
           ]),
-      child: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SvgPicture.asset(AppIcons.drag),
-            const SizedBox(
-              height: 20,
-            ),
-            const Text(
-              'CHOOSE CATEGORY',
-              style: AppStyles.overline,
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-
-              child: GridView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                  ),
-                  itemCount: categories.length,
-                  itemBuilder: (_, index) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            if (categories[index] is IncomeCategory) {
-                              context
-                                  .read<DatabaseBloc>()
-                                  .add(GetIncomeCategoryEvent(categories[index]));
-                            } else {
-                              context.read<DatabaseBloc>().add(
-                                  GetExpenseCategoryEvent(categories[index]));
-                            }
-                            controller.close();
-                          },
-                          iconSize: 60,
-                          icon: Container(
-                            padding: const EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: fromHex(categories[index].icon.color),
-                            ),
-                            child: SvgPicture.asset(
-                                categories[index].icon.pathToIcon),
-                          ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SvgPicture.asset(AppIcons.drag),
+          const SizedBox(
+            height: 20,
+          ),
+          const Text(
+            'CHOOSE CATEGORY',
+            style: AppStyles.overline,
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          SingleChildScrollView(
+            child: GridView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                ),
+                itemCount: categories.length,
+                itemBuilder: (_, index) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          if (categories[index] is IncomeCategory) {
+                            context.read<DatabaseBloc>().add(
+                                GetIncomeCategoryEvent(categories[index]));
+                          } else {
+                            context.read<DatabaseBloc>().add(
+                                GetExpenseCategoryEvent(categories[index]));
+                          }
+                          controller.close();
+                        },
+                        iconSize: 60,
+                        icon: IconView(
+                          icon: categories[index].icon.pathToIcon,
+                          color: categories[index].icon.color,
                         ),
-                        Text(
-                          categories[index].title,
-                          style: AppStyles.caption,
-                        ),
-                      ],
-                    );
-                  }),
-            ),
-            addCategory ?? const SizedBox.shrink()
-          ],
-        ),
+                      ),
+                      Text(
+                        categories[index].title,
+                        style: AppStyles.caption,
+                      ),
+                    ],
+                  );
+                }),
+          ),
+          addCategory ?? const SizedBox.shrink()
+        ],
       ),
     );
   }

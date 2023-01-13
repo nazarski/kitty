@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kitty/resources/app_colors.dart';
 import 'package:kitty/resources/app_text_styles.dart';
 
 class AddEntryButton extends StatelessWidget {
@@ -15,17 +14,7 @@ class AddEntryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      style: ButtonStyle(
-        padding:
-        const MaterialStatePropertyAll(EdgeInsets.symmetric(vertical: 12)),
-        backgroundColor: const MaterialStatePropertyAll(AppColors.activeBlue),
-        textStyle: const MaterialStatePropertyAll(AppStyles.buttonWhite),
-        shape: MaterialStatePropertyAll(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(50),
-          ),
-        ),
-      ),
+      style: AppStyles.buttonStyle,
       onPressed: isActive ? () {} : null,
       child: SizedBox(
         width: MediaQuery.of(context).size.width - 32,

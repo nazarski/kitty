@@ -37,5 +37,5 @@ class DatabaseState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [expCategories, inCategories, categoryToAdd];
+  List<Object?> get props => [expCategories, inCategories, categoryToAdd, icons];
 }

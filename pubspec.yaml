@@ -22,6 +22,7 @@ dependencies:
   page_transition: ^2.0.9
   sliding_up_panel: ^2.0.0+1
   equatable: ^2.0.5
+  dotted_border: ^2.0.0+3
 
 
 dev_dependencies:

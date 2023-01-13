@@ -4,12 +4,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kitty/bloc/database_bloc/database_bloc.dart';
 import 'package:kitty/bloc/navigation_bloc/navigation_bloc.dart';
 import 'package:kitty/database/database_repository.dart';
+import 'package:kitty/pages/add_category/add_category.dart';
 import 'package:kitty/pages/add_entry/add_entry.dart';
 import 'package:kitty/pages/home_page/home_page.dart';
 import 'package:kitty/pages/settings_page/settings_page.dart';
 import 'package:kitty/pages/statistics_page/statistics_page.dart';
 import 'package:kitty/resources/app_icons.dart';
 import 'package:kitty/routes/app_routes.dart';
+import 'package:kitty/widgets/navigation/main_bottom_navigation_bar.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -26,6 +28,7 @@ class _MainPageState extends State<MainPage> {
     HomePage.routeName,
     SettingsPage.routeName,
     AddEntry.routeName,
+    AddCategory.routeName
   ];
   final GlobalKey<ScaffoldState> _key = GlobalKey();
   static final GlobalKey<NavigatorState> _navigatorKey =
@@ -58,12 +61,6 @@ class _MainPageState extends State<MainPage> {
           if (state.status == NavigationStateStatus.tab) {
             _onSelectTab(state.currentIndex);
           }
-          // if (state.status == NavigationStateStatus.initial) {
-          //   _onInitialTab(HomePage.routeName);
-          // }
-          // if (state.status == NavigationStateStatus.pop) {
-          //   _onPopTab();
-          // }
         },
         builder: (context, state) {
           return WillPopScope(
@@ -82,29 +79,12 @@ class _MainPageState extends State<MainPage> {
                 onGenerateRoute: AppRoutes.generateRoute,
               ),
               bottomNavigationBar: [0, 1, 2].contains(state.currentIndex)
-                  ? BottomNavigationBar(
-                      onTap: (int index) {
+                  ? MainBottomNavigationBar(
+                      navigateTo: (value) {
                         context.read<NavigationBloc>().add(
-                            NavigateTab(tabIndex: index, route: _pages[index]));
+                            NavigateTab(tabIndex: value, route: _pages[value]));
                       },
                       currentIndex: state.currentIndex,
-                      items: [
-                        BottomNavigationBarItem(
-                          icon: SvgPicture.asset(AppIcons.pieChart),
-                          activeIcon: SvgPicture.asset(AppIcons.pieChartFilled),
-                          label: 'Statistics',
-                        ),
-                        BottomNavigationBarItem(
-                          icon: SvgPicture.asset(AppIcons.home),
-                          activeIcon: SvgPicture.asset(AppIcons.homeFilled),
-                          label: 'Home',
-                        ),
-                        BottomNavigationBarItem(
-                          icon: SvgPicture.asset(AppIcons.settings),
-                          activeIcon: SvgPicture.asset(AppIcons.settingsFilled),
-                          label: 'Settings',
-                        ),
-                      ],
                     )
                   : null,
             ),

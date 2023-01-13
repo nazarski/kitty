@@ -13,15 +13,25 @@ class AppStyles {
   static const TextStyle caption =
       TextStyle(color: AppColors.subTitle, fontSize: 12);
   static const TextStyle overline = TextStyle(
-    letterSpacing: 1.5,
-      color: AppColors.title, fontWeight: FontWeight.w500, fontSize: 10);
+      letterSpacing: 1.5,
+      color: AppColors.title,
+      fontWeight: FontWeight.w500,
+      fontSize: 10);
   static const TextStyle buttonBlack = TextStyle(
       color: AppColors.mainText, fontWeight: FontWeight.w500, fontSize: 14);
   static const TextStyle buttonWhite =
       TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 14);
   static const TextStyle subtitle1 =
-  TextStyle(color: AppColors.title, fontSize: 16);
-  // static const TextStyle overline =
-  // TextStyle(color: AppColors.title, fontSize: 16);
+      TextStyle(color: AppColors.title, fontSize: 16);
 
+  static ButtonStyle buttonStyle = ElevatedButton.styleFrom(
+    disabledBackgroundColor: AppColors.borderGrey,
+    disabledForegroundColor: AppColors.subTitle,
+    padding: const EdgeInsets.symmetric(vertical: 12),
+    backgroundColor: AppColors.activeBlue,
+    textStyle: AppStyles.buttonWhite,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(50),
+    ),
+  );
 }

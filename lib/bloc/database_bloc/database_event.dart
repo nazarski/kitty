@@ -20,3 +20,8 @@ class GetIncomeCategoryEvent extends DatabaseEvent {
 
   GetIncomeCategoryEvent(this.category);
 }
+class GetIconEvent extends DatabaseEvent{
+  final Map<String, String> icon;
+
+  GetIconEvent(this.icon);
+}
