@@ -26,12 +26,16 @@ class InitialValues {
     'groceries': {'color': 'C8E6C9', 'icon': AppIcons.groceries},
     'cafe': {'color': 'FFECB3', 'icon': AppIcons.cafe},
     'electronics': {'color': 'FFCDD2', 'icon': AppIcons.electronics},
-    'gifts': {'color': 'E1BEE7', 'icon': AppIcons.gifts},
     'laundry': {'color': 'B3E5FC', 'icon': AppIcons.laundry},
     'party': {'color': 'BBDEFB', 'icon': AppIcons.party},
     'liquor': {'color': 'DCEDC8', 'icon': AppIcons.liquor},
     'fuel': {'color': 'D7CCC8', 'icon': AppIcons.fuel},
     'maintenance': {'color': 'B39DDB', 'icon': AppIcons.maintenance},
     'education': {'color': 'C8E6C9', 'icon': AppIcons.education},
+    'transportation': {'color': 'B2EBF2', 'icon': AppIcons.transportation},
+    'sport': {'color': 'E6EE9C', 'icon': AppIcons.sport},
+    'self_development': {'color': 'CFD8DC', 'icon': AppIcons.selfDevelopment},
+    'savings': {'color': 'FFECB3', 'icon': AppIcons.savings},
+    'restaurant': {'color': 'C5CAE9', 'icon': AppIcons.restaurant},
   };
 }

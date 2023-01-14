@@ -48,7 +48,7 @@ class AppIcons {
   static const String party = '$_pathCategories/party.svg';
   static const String restaurant = '$_pathCategories/restaurant.svg';
   static const String savings = '$_pathCategories/savings.svg';
-  static const String selfDevelopment = '$_pathCategories/selfDevelopment.svg';
+  static const String selfDevelopment = '$_pathCategories/self_development.svg';
   static const String sport = '$_pathCategories/sport.svg';
   static const String transportation = '$_pathCategories/transportation.svg';
 }

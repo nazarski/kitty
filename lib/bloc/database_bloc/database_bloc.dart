@@ -1,15 +1,13 @@
 import 'dart:async';
-
-import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:kitty/database/database_repository.dart';
 import 'package:kitty/models/balance_model/balance.dart';
 import 'package:kitty/models/category_icon_model/category_icon.dart';
-import 'package:kitty/models/expense_category_model/expense_category.dart';
-import 'package:kitty/models/expense_model/expense.dart';
-import 'package:kitty/models/income_category_model/income_category.dart';
-import 'package:meta/meta.dart';
-import 'dart:convert';
+import 'package:kitty/models/entry_category_model/entry_category.dart';
+import 'package:kitty/models/entry_model/entry.dart';
+import 'package:intl/intl.dart';
 
 part 'database_event.dart';
 
@@ -19,69 +17,123 @@ class DatabaseBloc extends Bloc<DatabaseEvent, DatabaseState> {
   DatabaseRepository databaseRepository;
 
   //fetch categories
-  Future<void> _getIncomeCategories(Emitter emit) async {
-    print('income cat');
-    List<IncomeCategory> categories = [];
+  Future<void> _getEntryCategories(Emitter emit) async {
+    List<EntryCategory> categories = [];
     final db = await databaseRepository.database;
     await db.transaction((txn) async {
-      await txn.query(databaseRepository.inCatTable).then((data) {
+      await txn.query(databaseRepository.entryCatTable).then((data) {
         final converted = List<Map<String, dynamic>>.from(data);
         categories = converted.map((e) {
-          final iconData = json.decode(e['icon']);
-          return IncomeCategory(
-              totalAmount: double.parse(e['totalAmount']),
-              entries: e['entries'],
-              title: e['title'],
-              icon: CategoryIcon.fromJson(iconData));
+          return EntryCategory(
+            categoryId: e['categoryId'],
+            title: e['title'],
+            totalAmount: double.parse(e['totalAmount']),
+            entries: e['entries'],
+            type: e['type'],
+            icon: state.icons.firstWhere((icon) => icon.iconId == e['iconId']),
+          );
         }).toList();
       });
     });
-    emit(state.copyWith(inCategories: categories));
+    emit(state.copyWith(
+        expCategories: categories
+            .where(
+              (element) => element.type == 'expense',
+            )
+            .toList(),
+        inCategories: categories
+            .where(
+              (element) => element.type == 'income',
+            )
+            .toList()));
   }
 
-  Future<void> _getExpenseCategories(Emitter emit) async {
-    print('expense cat');
-    List<ExpenseCategory> categories = [];
+  Future<void> _getAllIcons(Emitter emit) async {
+    List<CategoryIcon> icons = [];
     final db = await databaseRepository.database;
     await db.transaction((txn) async {
-      await txn.query(databaseRepository.exCatTable).then((data) {
+      icons = await txn.query(databaseRepository.icTable).then((data) {
         final converted = List<Map<String, dynamic>>.from(data);
-        categories = converted.map((e) {
-          final iconData = json.decode(e['icon']);
-          return ExpenseCategory(
-              totalAmount: double.parse(e['totalAmount']),
-              entries: e['entries'],
-              title: e['title'],
-              icon: CategoryIcon.fromJson(iconData));
-        }).toList();
+        return converted.map((e) => CategoryIcon.fromJson(e)).toList();
       });
     });
-    emit(state.copyWith(expCategories: categories));
+    emit(state.copyWith(icons: icons));
   }
 
-  DatabaseBloc(this.databaseRepository) : super(DatabaseState()) {
-    IncomeCategory selectedIncomeCategory;
-    ExpenseCategory selectedExpenseCategory;
-    on<InitialDatabaseEvent>((event, emit) {
-      emit(state.copyWith(categoryToAdd: ''));
+  Future<void> _createExpenseCategory({
+    required String title,
+    required int iconId,
+  }) async {
+    final db = await databaseRepository.database;
+    await db.transaction((txn) async {
+      await txn.insert(databaseRepository.entryCatTable, {
+        'title': title,
+        'totalAmount': (0.0).toString(),
+        'entries': 0,
+        'iconId': iconId,
+      });
     });
-    on<CallAllDataEvent>((_, __) {
-      add(CallIncomeCategoriesEvent());
-      add(CallExpenseCategoriesEvent());
+  }
+
+  Future<void> _createEntry({
+    required int categoryId,
+    required String amount,
+    required String description,
+  }) async {
+    final db = await databaseRepository.database;
+    await db.transaction((txn) async {
+      await txn.insert(databaseRepository.entryTable, {
+        'description': description,
+        'amount': int.parse(amount),
+        'dateTime': DateFormat('dd-MMM-yyyy HH:mm').format(DateTime.now()),
+        'categoryId': categoryId,
+      });
     });
-    on<CallIncomeCategoriesEvent>((_, emit) async {
-      await _getIncomeCategories(emit);
+  }
+
+  Future<void> _getAllEntries(Emitter emit) async {
+    List<Entry> entries = [];
+    final db = await databaseRepository.database;
+    await db.transaction((txn) async {
+      entries = await txn.query(databaseRepository.entryTable).then((data) {
+        final converted = List<Map<String, dynamic>>.from(data);
+        return converted.map((e) => Entry.fromJson(e)).toList();
+      });
     });
-    on<CallExpenseCategoriesEvent>((_, emit) async {
-      await _getExpenseCategories(emit);
+    emit(state.copyWith(entries: entries));
+  }
+
+  Future<void> _getAllData(Emitter emit) async {
+    await _getAllIcons(emit);
+    await _getEntryCategories(emit);
+    await _getAllEntries(emit);
+  }
+
+  DatabaseBloc(this.databaseRepository) : super(const DatabaseState()) {
+    on<InitialDatabaseEvent>((_, emit) {
+      emit(state.copyWith(categoryToAdd: null, selectedIcon: null));
     });
-    on<GetIncomeCategoryEvent>((event, emit) {
-      selectedIncomeCategory = event.category;
-      emit(state.copyWith(categoryToAdd: selectedIncomeCategory.title));
+    on<CallAllDataEvent>((_, emit) async => await _getAllData(emit));
+    on<CallEntryCategoriesEvent>(
+        (_, emit) async => await _getEntryCategories(emit));
+    on<GetCategoryEvent>((event, emit) {
+      emit(state.copyWith(categoryToAdd: event.category));
     });
-    on<GetExpenseCategoryEvent>((event, emit) {
-      selectedExpenseCategory = event.category;
-      emit(state.copyWith(categoryToAdd: selectedExpenseCategory.title));
+    on<GetIconEvent>((event, emit) {
+      emit(state.copyWith(selectedIcon: event.icon));
+    });
+    on<CreateExpenseCategoryEvent>((event, _) async {
+      await _createExpenseCategory(
+          title: event.categoryName, iconId: state.selectedIcon!.iconId);
+      add(InitialDatabaseEvent());
+      add(CallEntryCategoriesEvent());
+    });
+    on<CreateEntryEvent>((event, emit) async {
+      await _createEntry(
+          categoryId: state.categoryToAdd!.categoryId,
+          amount: event.amount,
+          description: event.description);
+      await _getAllEntries(emit);
     });
   }
 }
