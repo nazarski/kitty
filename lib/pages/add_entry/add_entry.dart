@@ -123,13 +123,21 @@ class _AddEntryState extends State<AddEntry> {
                       valueListenable: amountController,
                       builder: (BuildContext context, TextEditingValue value,
                           Widget? child) {
+                        print('check ${descriptionController.text}');
                         return AddEntryButton(
                           option: option,
                           isActive: state.categoryToAdd != null &&
                               option != 'entry' &&
                               value.text.isNotEmpty,
-                          amount: value.text,
-                          description: descriptionController.text,
+                          action: () {
+                            context.read<DatabaseBloc>().add(
+                                  CreateEntryEvent(
+                                    amount: value.text,
+                                    description: descriptionController.text,
+                                  ),
+                                );
+                            context.read<NavigationBloc>().add(NavigationPop());
+                          },
                         );
                       },
                     ),

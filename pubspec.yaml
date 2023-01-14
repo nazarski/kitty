@@ -23,6 +23,7 @@ dependencies:
   sliding_up_panel: ^2.0.0+1
   equatable: ^2.0.5
   dotted_border: ^2.0.0+3
+  collection: ^1.16.0
 
 
 dev_dependencies:

@@ -4,7 +4,7 @@ class DatabaseState extends Equatable {
   final List<EntryCategory> expCategories;
   final List<EntryCategory> inCategories;
   final Balance balance;
-  final List<Entry> entries;
+  final Map<String, List<Entry>> entries;
   final List<CategoryIcon> icons;
   final EntryCategory? categoryToAdd;
   final CategoryIcon? selectedIcon;
@@ -14,7 +14,7 @@ class DatabaseState extends Equatable {
     this.inCategories = const [],
     this.balance =
         const Balance(income: 0, expenses: 0, balance: 0, date: '--'),
-    this.entries = const [],
+    this.entries = const {},
     this.icons = const [],
     this.categoryToAdd,
     this.selectedIcon,
@@ -24,7 +24,7 @@ class DatabaseState extends Equatable {
     List<EntryCategory>? expCategories,
     List<EntryCategory>? inCategories,
     Balance? balance,
-    List<Entry>? entries,
+    Map<String,List<Entry>>? entries,
     List<CategoryIcon>? icons,
     EntryCategory? categoryToAdd,
     CategoryIcon? selectedIcon,
@@ -42,5 +42,5 @@ class DatabaseState extends Equatable {
 
   @override
   List<Object?> get props =>
-      [expCategories, inCategories, categoryToAdd, icons, selectedIcon];
+      [expCategories, inCategories, categoryToAdd, icons, selectedIcon, entries];
 }
