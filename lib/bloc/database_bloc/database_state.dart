@@ -1,12 +1,12 @@
 part of 'database_bloc.dart';
 
 class DatabaseState extends Equatable {
-  final List<ExpenseCategory> expCategories;
-  final List<IncomeCategory> inCategories;
+  final List<EntryCategory> expCategories;
+  final List<EntryCategory> inCategories;
   final Balance balance;
-  final List<Expense> expenses;
+  final List<Entry> entries;
   final List<CategoryIcon> icons;
-  final String categoryToAdd;
+  final EntryCategory? categoryToAdd;
   final CategoryIcon? selectedIcon;
 
   const DatabaseState({
@@ -14,26 +14,26 @@ class DatabaseState extends Equatable {
     this.inCategories = const [],
     this.balance =
         const Balance(income: 0, expenses: 0, balance: 0, date: '--'),
-    this.expenses = const [],
+    this.entries = const [],
     this.icons = const [],
-    this.categoryToAdd = '',
+    this.categoryToAdd,
     this.selectedIcon,
   });
 
   DatabaseState copyWith({
-    List<ExpenseCategory>? expCategories,
-    List<IncomeCategory>? inCategories,
+    List<EntryCategory>? expCategories,
+    List<EntryCategory>? inCategories,
     Balance? balance,
-    List<Expense>? expenses,
+    List<Entry>? entries,
     List<CategoryIcon>? icons,
-    String? categoryToAdd,
+    EntryCategory? categoryToAdd,
     CategoryIcon? selectedIcon,
   }) {
     return DatabaseState(
       expCategories: expCategories ?? this.expCategories,
       inCategories: inCategories ?? this.inCategories,
       balance: balance ?? this.balance,
-      expenses: expenses ?? this.expenses,
+      entries: entries ?? this.entries,
       icons: icons ?? this.icons,
       categoryToAdd: categoryToAdd ?? this.categoryToAdd,
       selectedIcon: selectedIcon ?? this.selectedIcon,

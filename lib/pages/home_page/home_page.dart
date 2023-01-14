@@ -3,11 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kitty/bloc/database_bloc/database_bloc.dart';
 import 'package:kitty/bloc/navigation_bloc/navigation_bloc.dart';
+import 'package:kitty/models/entry_category_model/entry_category.dart';
 import 'package:kitty/pages/add_entry/add_entry.dart';
 import 'package:kitty/resources/app_colors.dart';
 import 'package:kitty/resources/app_icons.dart';
 import 'package:kitty/resources/app_text_styles.dart';
 import 'package:kitty/widgets/home_page/home_page_app_bar.dart';
+import 'package:kitty/widgets/icon_view.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -19,12 +21,17 @@ class HomePage extends StatelessWidget {
       appBar: const HomePageAppBar(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton.extended(
-        icon: SvgPicture.asset(AppIcons.addPlus, color: Colors.white,),
+        icon: SvgPicture.asset(
+          AppIcons.addPlus,
+          color: Colors.white,
+        ),
         label: const Text('Add new'),
         onPressed: () {
-          context.read<NavigationBloc>().add(NavigateTab(tabIndex: 3, route: AddEntry.routeName));
+          context
+              .read<NavigationBloc>()
+              .add(NavigateTab(tabIndex: 3, route: AddEntry.routeName));
         },
-    ),
+      ),
       body: BlocBuilder<DatabaseBloc, DatabaseState>(
         builder: (context, state) {
           return Padding(
@@ -73,7 +80,8 @@ class HomePage extends StatelessWidget {
                 height: 20,
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(color: AppColors.borderGrey, width: 1)),
@@ -138,25 +146,7 @@ class HomePage extends StatelessWidget {
                 height: 16,
               ),
               Expanded(
-                child: ListView.builder(
-                    itemCount: 3,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        leading: SvgPicture.asset(AppIcons.institute),
-                        title: const Text(
-                          'Egg & veggies',
-                          style: AppStyles.body2,
-                        ),
-                        subtitle: const Text(
-                          'Groceries',
-                          style: AppStyles.caption,
-                        ),
-                        trailing: const Text(
-                          '-500',
-                          style: AppStyles.appRed,
-                        ),
-                      );
-                    }),
+                child: EntriesListBuilder(),
               )
             ]),
           );
@@ -166,4 +156,44 @@ class HomePage extends StatelessWidget {
   }
 }
 
+class EntriesListBuilder extends StatelessWidget {
+  const EntriesListBuilder({
+    Key? key,
+  }) : super(key: key);
 
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<DatabaseBloc, DatabaseState>(
+      builder: (context, state) {
+        return ListView.builder(
+          itemCount: 3,
+          itemBuilder: (context, index) {
+            final EntryCategory category =
+                state.expCategories.firstWhere((element) {
+              return element.categoryId == state.entries[index].categoryId;
+            });
+            return ListTile(
+              leading: IconView(
+                icon: category.icon.localPath,
+                color: category.icon.color,
+              ),
+              // leading: SvgPicture.asset(AppIcons.institute),
+              title: Text(
+                category.title,
+                style: AppStyles.body2,
+              ),
+              subtitle: Text(
+                state.entries[index].description,
+                style: AppStyles.caption,
+              ),
+              trailing: Text(
+                (state.entries[index].amount).toString(),
+                style: AppStyles.appRed,
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+}

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kitty/bloc/database_bloc/database_bloc.dart';
-import 'package:kitty/models/income_category_model/income_category.dart';
+import 'package:kitty/models/entry_category_model/entry_category.dart';
 import 'package:kitty/resources/app_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kitty/resources/app_icons.dart';
@@ -15,7 +15,7 @@ class CategorySelection extends StatelessWidget {
     required this.controller,
     this.addCategory,
   }) : super(key: key);
-  final List categories;
+  final List<EntryCategory> categories;
   final PersistentBottomSheetController controller;
   final Widget? addCategory;
 
@@ -48,7 +48,7 @@ class CategorySelection extends StatelessWidget {
           ),
           Flexible(
             child: GridView.builder(
-              physics: const BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 shrinkWrap: true,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
@@ -60,13 +60,8 @@ class CategorySelection extends StatelessWidget {
                     children: [
                       IconButton(
                         onPressed: () {
-                          if (categories[index] is IncomeCategory) {
-                            context.read<DatabaseBloc>().add(
-                                GetIncomeCategoryEvent(categories[index]));
-                          } else {
-                            context.read<DatabaseBloc>().add(
-                                GetExpenseCategoryEvent(categories[index]));
-                          }
+                          context.read<DatabaseBloc>().add(
+                                GetCategoryEvent(categories[index]));
                           controller.close();
                         },
                         iconSize: 60,

@@ -65,7 +65,7 @@ class _AddEntryState extends State<AddEntry> {
                     CategoryDropDown(
                       onTap: _closeBottomSheet,
                       onChanged: (value) {
-                        if (state.categoryToAdd.isNotEmpty) {
+                        if (state.categoryToAdd != null) {
                           context
                               .read<DatabaseBloc>()
                               .add(InitialDatabaseEvent());
@@ -83,7 +83,7 @@ class _AddEntryState extends State<AddEntry> {
                     TextField(
                       readOnly: true,
                       controller: categoryController
-                        ..text = state.categoryToAdd,
+                        ..text = (state.categoryToAdd?.title ?? ''),
                       onTap: () {
                         bottomSheetController =
                             buildShowBottomSheet(context, state);
@@ -125,9 +125,11 @@ class _AddEntryState extends State<AddEntry> {
                           Widget? child) {
                         return AddEntryButton(
                           option: option,
-                          isActive: state.categoryToAdd.isNotEmpty &&
+                          isActive: state.categoryToAdd != null &&
                               option != 'entry' &&
                               value.text.isNotEmpty,
+                          amount: value.text,
+                          description: descriptionController.text,
                         );
                       },
                     ),

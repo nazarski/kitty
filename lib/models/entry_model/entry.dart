@@ -1,15 +1,15 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'expense.freezed.dart';
-part 'expense.g.dart';
+part 'entry.freezed.dart';
+part 'entry.g.dart';
 @freezed
-class Expense with _$Expense{
-  const factory Expense({
+class Entry with _$Entry{
+  const factory Entry({
     required int expenseId,
     required String description,
     required int amount,
     required String dateTime,
     required int categoryId,
-  }) = _Expense;
-  factory Expense.fromJson(Map<String, dynamic> json)=> _$ExpenseFromJson(json);
+  }) = _Entry;
+  factory Entry.fromJson(Map<String, dynamic> json)=> _$EntryFromJson(json);
 }

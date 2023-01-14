@@ -19,59 +19,38 @@ class DatabaseRepository {
   }
 
 // name all tables
-  final String exCatTable = 'expensesCategoriesTable';
-  final String inCatTable = 'incomeCategoriesTable';
-  final String exTable = 'expensesTable';
-  final String inTable = 'incomeTable';
+  final String entryCatTable = 'entryCategoryTable';
+  final String entryTable = 'entryTable';
   final String icTable = 'iconsTable';
 
 // set tables and fill with initial values once when db created
   Future<void> _createDb(Database db, int version) async {
     await db.transaction((txn) async {
-      // expenses categories table
+      // entry categories table
       await txn.execute('''
-      CREATE TABLE $exCatTable (
+      CREATE TABLE $entryCatTable (
       categoryId INTEGER PRIMARY KEY AUTOINCREMENT,
       title TEXT,
       totalAmount TEXT,
       entries INTEGER,
+      type TEXT,
       iconId INTEGER NOT NULL,
       FOREIGN KEY (iconId) REFERENCES $icTable (iconId)
       )
       ''');
-      // income categories table
+
+      // entries table
       await txn.execute('''
-      CREATE TABLE $inCatTable (
-      categoryId INTEGER PRIMARY KEY AUTOINCREMENT,
-      title TEXT,
-      totalAmount TEXT,
-      entries INTEGER,
-      iconId INTEGER NOT NULL,
-      FOREIGN KEY (iconId) REFERENCES $icTable (iconId)
-      )
-      ''');
-      // expenses table
-      await txn.execute('''
-      CREATE TABLE $exTable (
+      CREATE TABLE $entryTable (
       expenseId INTEGER PRIMARY KEY AUTOINCREMENT,
       description TEXT,
       amount INTEGER,
       dateTime TEXT,
       categoryId INTEGER NOT NULL,
-      FOREIGN KEY (categoryId) REFERENCES $exCatTable (categoryId)
+      FOREIGN KEY (categoryId) REFERENCES $entryCatTable (categoryId)
       )
       ''');
-      // income table
-      await txn.execute('''
-      CREATE TABLE $inTable (
-      incomeId INTEGER PRIMARY KEY AUTOINCREMENT,
-      description TEXT,
-      amount INTEGER,
-      dateTime TEXT,
-      categoryId INTEGER NOT NULL,
-      FOREIGN KEY (categoryId) REFERENCES $exCatTable (categoryId)
-      )
-      ''');
+
       //icons table
       await txn.execute('''
       CREATE TABLE $icTable (
@@ -96,21 +75,23 @@ class DatabaseRepository {
                     color: allIcons[i]['color']!)
                 .toJson());
       }
-      // income categories
+      // expense categories
       for (int i = 0; i < InitialValues.incomeCategories.length; i++) {
-        await txn.insert(inCatTable, {
+        await txn.insert(entryCatTable, {
           'title': InitialValues.incomeCategories[i],
           'totalAmount': (0.0).toString(),
           'entries': 0,
+          'type': 'income',
           'iconId': i,
         });
       }
       // expense categories
         for (int i = 6; i < 9; i++) {
-          await txn.insert(exCatTable, {
+          await txn.insert(entryCatTable, {
             'title': InitialValues.expenseCategories[i-6],
             'totalAmount': (0.0).toString(),
             'entries': 0,
+            'type': 'expense',
             'iconId': i
           });
         }
