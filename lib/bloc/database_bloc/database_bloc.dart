@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:kitty/database/database_repository.dart';
@@ -9,6 +8,7 @@ import 'package:kitty/models/balance_model/balance.dart';
 import 'package:kitty/models/category_icon_model/category_icon.dart';
 import 'package:kitty/models/entry_category_model/entry_category.dart';
 import 'package:kitty/models/entry_model/entry.dart';
+import 'package:kitty/utils/helper.dart';
 
 part 'database_event.dart';
 
@@ -71,6 +71,7 @@ class DatabaseBloc extends Bloc<DatabaseEvent, DatabaseState> {
         'title': title,
         'totalAmount': (0.0).toString(),
         'entries': 0,
+        'type': 'expense',
         'iconId': iconId,
       });
     });
@@ -92,33 +93,28 @@ class DatabaseBloc extends Bloc<DatabaseEvent, DatabaseState> {
     });
   }
 
-
   Future<void> _getAllEntries(Emitter emit) async {
+    emit(state.copyWith(status: DatabaseStatus.loading));
     List<Entry> entries = [];
     final db = await databaseRepository.database;
     await db.transaction((txn) async {
-      entries = await txn.query(databaseRepository.entryTable).then((data) {
+      entries = await txn
+          .query(databaseRepository.entryTable, orderBy: 'expenseId DESC',
+          where: 'dateTime NOT LIKE ?', whereArgs: ['___Feb-2023'])
+          .then((data) {
         final converted = List<Map<String, dynamic>>.from(data);
         return converted.map((e) {
           return Entry(
               expenseId: e['expenseId'],
               description: e['description'],
               amount: e['amount'],
-              dateTime: _transformDate(e['dateTime']),
+              dateTime: e['dateTime'],
               categoryId: e['categoryId']);
         }).toList();
       });
     });
-
-    _transformEntries(emit: emit, list: entries);
-
-    // emit(state.copyWith(entries: entries));
-  }
-
-  void _transformEntries({required Emitter emit, required List<Entry> list}) {
-    final transformed = list.groupListsBy((element) => element.dateTime);
-    // .map((key, value) => key);
-    print(transformed);
+    emit(state.copyWith(status: DatabaseStatus.loaded, entries: groupEntries
+      (list: entries)));
   }
 
   Future<void> _getAllData(Emitter emit) async {

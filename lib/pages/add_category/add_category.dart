@@ -38,7 +38,6 @@ class _AddCategoryState extends State<AddCategory> {
 
   @override
   Widget build(BuildContext context) {
-    final double width = MediaQuery.of(context).size.width;
     return WillPopScope(
       onWillPop: () async {
         _closeBottomSheet();

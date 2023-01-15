@@ -3,14 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kitty/bloc/database_bloc/database_bloc.dart';
 import 'package:kitty/bloc/navigation_bloc/navigation_bloc.dart';
-import 'package:kitty/models/entry_category_model/entry_category.dart';
 import 'package:kitty/pages/add_entry/add_entry.dart';
 import 'package:kitty/resources/app_colors.dart';
 import 'package:kitty/resources/app_icons.dart';
 import 'package:kitty/resources/app_text_styles.dart';
 import 'package:kitty/widgets/home_page/entries_list.dart';
 import 'package:kitty/widgets/home_page/home_page_app_bar.dart';
-import 'package:kitty/widgets/icon_view.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -36,7 +34,7 @@ class HomePage extends StatelessWidget {
       body: BlocBuilder<DatabaseBloc, DatabaseState>(
         builder: (context, state) {
           return Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.only(top: 8.0, left: 16, right: 16),
             child: Column(
               children: [
                 Row(
@@ -146,23 +144,9 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(
-                  height: 16,
+                  height: 8,
                 ),
-                state.entries.isEmpty
-                    ? Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 24, vertical: 16),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                                color: AppColors.borderGrey, width: 1)),
-                        child: const Center(
-                          child: Text('No expenses found, tap "Add new"'),
-                        ),
-                      )
-                    : const Expanded(
-                        child: EntriesListBuilder(),
-                      )
+                EntriesListBuilder()
               ],
             ),
           );

@@ -24,6 +24,7 @@ dependencies:
   equatable: ^2.0.5
   dotted_border: ^2.0.0+3
   collection: ^1.16.0
+  flutter_datetime_picker: ^1.5.1
 
 
 dev_dependencies:

@@ -35,3 +35,9 @@ class CreateEntryEvent extends DatabaseEvent {
   CreateEntryEvent(
       {required this.amount, required this.description});
 }
+class SelectEntriesByDateEvent extends DatabaseEvent{
+  final DateTime monthYear;
+
+  SelectEntriesByDateEvent(this.monthYear);
+
+}
