@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:kitty/bloc/database_bloc/database_bloc.dart';
 import 'package:kitty/bloc/navigation_bloc/navigation_bloc.dart';
@@ -26,7 +28,9 @@ class _AddEntryState extends State<AddEntry> {
 
   void _onComplete() {
     setState(() {
-      if (FocusScope.of(context).hasFocus) {
+      if (FocusScope
+          .of(context)
+          .hasFocus) {
         FocusScope.of(context).unfocus();
       }
     });
@@ -45,6 +49,9 @@ class _AddEntryState extends State<AddEntry> {
   Widget build(BuildContext context) {
     return BlocBuilder<DatabaseBloc, DatabaseState>(
       builder: (context, state) {
+        if(state.categoryToAdd !=null){
+          categoryController.text = state.categoryToAdd!.title;
+        }
         return WillPopScope(
           onWillPop: () async {
             _closeBottomSheet();
@@ -59,7 +66,7 @@ class _AddEntryState extends State<AddEntry> {
               reverse: true,
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 24.0),
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 24.0),
                 child: Column(
                   children: [
                     CategoryDropDown(
@@ -71,7 +78,7 @@ class _AddEntryState extends State<AddEntry> {
                               .add(InitialDatabaseEvent());
                         }
                         setState(
-                          () {
+                              () {
                             option = value!;
                           },
                         );
@@ -82,8 +89,7 @@ class _AddEntryState extends State<AddEntry> {
                     ),
                     TextField(
                       readOnly: true,
-                      controller: categoryController
-                        ..text = (state.categoryToAdd?.title ?? ''),
+                      controller: categoryController,
                       onTap: () {
                         bottomSheetController =
                             buildShowBottomSheet(context, state);
@@ -123,7 +129,6 @@ class _AddEntryState extends State<AddEntry> {
                       valueListenable: amountController,
                       builder: (BuildContext context, TextEditingValue value,
                           Widget? child) {
-                        print('check ${descriptionController.text}');
                         return AddEntryButton(
                           option: option,
                           isActive: state.categoryToAdd != null &&
@@ -131,11 +136,11 @@ class _AddEntryState extends State<AddEntry> {
                               value.text.isNotEmpty,
                           action: () {
                             context.read<DatabaseBloc>().add(
-                                  CreateEntryEvent(
-                                    amount: value.text,
-                                    description: descriptionController.text,
-                                  ),
-                                );
+                              CreateEntryEvent(
+                                amount: value.text,
+                                description: descriptionController.text,
+                              ),
+                            );
                             context.read<NavigationBloc>().add(NavigationPop());
                           },
                         );
@@ -155,7 +160,10 @@ class _AddEntryState extends State<AddEntry> {
       BuildContext context, DatabaseState state) {
     return showBottomSheet(
       constraints:
-          BoxConstraints(maxHeight: MediaQuery.of(context).size.height / 2),
+      BoxConstraints(maxHeight: MediaQuery
+          .of(context)
+          .size
+          .height / 2),
       enableDrag: false,
       context: context,
       builder: (_) {

@@ -9,7 +9,7 @@ Color fromHex(String str) {
 
 String transformDate(String date) {
   final int day =
-      DateFormat('dd-MMM-yyyy').parse(date).difference(DateTime.now()).inDays;
+      parseDate(date).difference(DateTime.now()).inDays;
   switch (day) {
     case 0:
       return 'TODAY';
@@ -28,4 +28,7 @@ String getSum(List<Entry> list) {
   final sum =
       list.fold(0, (previousValue, element) => previousValue + element.amount);
   return '-$sum';
+}
+DateTime parseDate(String date){
+  return DateFormat('dd-MMM-yyyy').parse(date);
 }

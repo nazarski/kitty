@@ -3,6 +3,7 @@ enum DatabaseStatus {
   initial,
   loading,
   loaded,
+  test,
 }
 
 class DatabaseState extends Equatable {

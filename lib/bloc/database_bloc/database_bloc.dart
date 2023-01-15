@@ -98,10 +98,10 @@ class DatabaseBloc extends Bloc<DatabaseEvent, DatabaseState> {
     List<Entry> entries = [];
     final db = await databaseRepository.database;
     await db.transaction((txn) async {
-      entries = await txn
-          .query(databaseRepository.entryTable, orderBy: 'expenseId DESC',
-          where: 'dateTime NOT LIKE ?', whereArgs: ['___Feb-2023'])
-          .then((data) {
+      entries = await txn.query(databaseRepository.entryTable,
+          orderBy: 'expenseId DESC',
+          where: 'dateTime NOT LIKE ?',
+          whereArgs: ['___Feb-2023']).then((data) {
         final converted = List<Map<String, dynamic>>.from(data);
         return converted.map((e) {
           return Entry(
@@ -113,8 +113,8 @@ class DatabaseBloc extends Bloc<DatabaseEvent, DatabaseState> {
         }).toList();
       });
     });
-    emit(state.copyWith(status: DatabaseStatus.loaded, entries: groupEntries
-      (list: entries)));
+    emit(state.copyWith(
+        status: DatabaseStatus.loaded, entries: groupEntries(list: entries)));
   }
 
   Future<void> _getAllData(Emitter emit) async {
@@ -124,8 +124,11 @@ class DatabaseBloc extends Bloc<DatabaseEvent, DatabaseState> {
   }
 
   DatabaseBloc(this.databaseRepository) : super(const DatabaseState()) {
-    on<InitialDatabaseEvent>((_, emit) {
-      emit(state.copyWith(categoryToAdd: null, selectedIcon: null));
+    on<InitialDatabaseEvent>((event, emit) {
+      emit(state.copyWith(
+          categoryToAdd: null,
+          selectedIcon: null,
+          status: DatabaseStatus.initial));
     });
     on<CallAllDataEvent>((_, emit) async => await _getAllData(emit));
     on<CallEntryCategoriesEvent>(

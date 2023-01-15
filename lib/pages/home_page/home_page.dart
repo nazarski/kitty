@@ -10,10 +10,40 @@ import 'package:kitty/resources/app_text_styles.dart';
 import 'package:kitty/widgets/home_page/entries_list.dart';
 import 'package:kitty/widgets/home_page/home_page_app_bar.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
   static const routeName = 'home_page';
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  OverlayEntry? _overlayEntry;
+  // @override
+  // void initState() {
+  //   super.initState();
+  // }
+  _showOverlay(BuildContext context){
+    final overlay = Overlay.of(context);
+    final renderBox = context.findRenderObject() as RenderBox;
+    final size = renderBox.size;
+    final offset = renderBox.localToGlobal(Offset.zero);
+    _overlayEntry = OverlayEntry(builder: (context){
+      return Positioned(
+        left: offset.dx,
+        top: offset.dy,
+        width: size.width,
+        child: Container(
+          height: 100,
+          color: AppColors.appGreen,
+        ),
+      );
+    });
+
+
+    overlay!.insert(_overlayEntry!);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,32 +71,40 @@ class HomePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.arrow_back_ios,
-                          color: AppColors.subTitle,
-                        )),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 8),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          color: AppColors.basicGrey),
-                      child: Row(
-                        children: const [
-                          Icon(
-                            Icons.calendar_today_outlined,
-                            color: AppColors.subTitle,
-                            size: 16,
-                          ),
-                          SizedBox(
-                            width: 8,
-                          ),
-                          Text(
-                            'January, 2023',
-                            style: AppStyles.buttonBlack,
-                          )
-                        ],
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.arrow_back_ios,
+                        color: AppColors.subTitle,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        WidgetsBinding.instance.addPostFrameCallback((_)=>
+                            _showOverlay(context));
+
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 8),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            color: AppColors.basicGrey),
+                        child: Row(
+                          children: const [
+                            Icon(
+                              Icons.calendar_today_outlined,
+                              color: AppColors.subTitle,
+                              size: 16,
+                            ),
+                            SizedBox(
+                              width: 8,
+                            ),
+                            Text(
+                              'January, 2023',
+                              style: AppStyles.buttonBlack,
+                            )
+                          ],
+                        ),
                       ),
                     ),
                     IconButton(
@@ -155,5 +193,3 @@ class HomePage extends StatelessWidget {
     );
   }
 }
-
-
