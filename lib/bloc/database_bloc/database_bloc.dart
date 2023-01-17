@@ -109,12 +109,13 @@ class DatabaseBloc extends Bloc<DatabaseEvent, DatabaseState> {
               expenseId: e['expenseId'],
               description: e['description'],
               amount: e['amount'],
-              dateTime: e['dateTime'],
+              dateTime: parseDate(e['dateTime']),
               categoryId: e['categoryId']);
         }).toList();
       });
     });
     emit(state.copyWith(
+      entriesData: entries,
         status: DatabaseStatus.loaded, entries: groupEntries(list: entries)));
   }
 
@@ -123,8 +124,6 @@ class DatabaseBloc extends Bloc<DatabaseEvent, DatabaseState> {
     await _getEntryCategories(emit);
     await _getAllEntries(emit);
   }
-
-
 
   DatabaseBloc(this.databaseRepository) : super(const DatabaseState()) {
     on<InitialDatabaseEvent>((event, emit) {
@@ -156,6 +155,5 @@ class DatabaseBloc extends Bloc<DatabaseEvent, DatabaseState> {
           description: event.description);
       await _getAllEntries(emit);
     });
-
   }
 }

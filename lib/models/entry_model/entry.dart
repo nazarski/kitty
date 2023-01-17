@@ -8,7 +8,7 @@ class Entry with _$Entry{
     required int expenseId,
     required String description,
     required int amount,
-    required String dateTime,
+    required DateTime dateTime,
     required int categoryId,
   }) = _Entry;
   factory Entry.fromJson(Map<String, dynamic> json)=> _$EntryFromJson(json);

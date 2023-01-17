@@ -35,13 +35,10 @@ class HomePage extends StatelessWidget {
       ),
       body: BlocConsumer<DatabaseBloc, DatabaseState>(
         listener: (context, state) {
-          if (state.entries.isNotEmpty) {
+          if (state.entriesData.isNotEmpty) {
             BlocProvider.of<DateBloc>(context).add(
               InitialDateEvent(
-                DateTimeRange(
-                  start: parseDate(state.entries.values.last.last.dateTime),
-                  end: parseDate(state.entries.values.first.first.dateTime),
-                ),
+                state.entriesData,
               ),
             );
           }
@@ -52,9 +49,9 @@ class HomePage extends StatelessWidget {
             child: Column(
               children: [
                 if (state.entries.isNotEmpty) ...[
-                  MonthPicker()
+                  const MonthPicker()
                 ] else ...[
-                  SizedBox.shrink()
+                  const SizedBox.shrink()
                 ],
                 const SizedBox(
                   height: 20,
@@ -151,6 +148,7 @@ class _MonthPickerState extends State<MonthPicker> {
   @override
   void dispose() {
     _overlayEntry!.remove();
+    _overlayEntry!.dispose();
     super.dispose();
   }
 
@@ -175,24 +173,47 @@ class _MonthPickerState extends State<MonthPicker> {
             width: size.width,
             top: offset.dy + size.height,
             left: offset.dx,
-            child: const OverlayPicker())
+            child: OverlayPicker(
+              listOfMonths: listOfMonths,
+            ))
       ]);
     });
     overlay!.insert(_overlayEntry!);
   }
 
+  final List<String> listOfMonths = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DateBloc, DateState>(
       builder: (context, state) {
+        final bool back = state.selectedYear != state.allYears.last ||
+            state.selectedMonth != state.activeMonths.last;
+        final bool forward = state.selectedYear != state.allYears.first ||
+            state.selectedMonth != state.activeMonths.first;
         return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             IconButton(
-              onPressed: () {},
-              icon: const Icon(
+              onPressed: back ? () {
+                context.read<DateBloc>().add(CallMonthDateEvent('back'));
+              } : null,
+              icon: Icon(
                 Icons.arrow_back_ios,
-                color: AppColors.subTitle,
+                color: back ? AppColors.subTitle : Colors.white,
               ),
             ),
             InkWell(
@@ -207,17 +228,17 @@ class _MonthPickerState extends State<MonthPicker> {
                     borderRadius: BorderRadius.circular(50),
                     color: AppColors.basicGrey),
                 child: Row(
-                  children: const [
-                    Icon(
+                  children: [
+                    const Icon(
                       Icons.calendar_today_outlined,
                       color: AppColors.subTitle,
                       size: 16,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 8,
                     ),
                     Text(
-                      'January, 2023',
+                      '${listOfMonths[state.selectedMonth - 1]}, ${state.selectedYear}',
                       style: AppStyles.buttonBlack,
                     )
                   ],
@@ -225,9 +246,12 @@ class _MonthPickerState extends State<MonthPicker> {
               ),
             ),
             IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.arrow_forward_ios,
-                  color: AppColors.subTitle),
+              onPressed: forward ? () {
+                context.read<DateBloc>().add(CallMonthDateEvent('forward'));
+
+              } : null,
+              icon: Icon(Icons.arrow_forward_ios,
+                  color: forward ? AppColors.subTitle : Colors.white),
             ),
           ],
         );
@@ -239,34 +263,21 @@ class _MonthPickerState extends State<MonthPicker> {
 class OverlayPicker extends StatefulWidget {
   const OverlayPicker({
     Key? key,
+    required this.listOfMonths,
   }) : super(key: key);
+  final List<String> listOfMonths;
 
   @override
   State<OverlayPicker> createState() => _OverlayPickerState();
 }
 
 class _OverlayPickerState extends State<OverlayPicker> {
-  final List<String> listOfMonths = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec',
-  ];
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DateBloc, DateState>(
       builder: (context, state) {
-        final bool back = state.allYears.first != state.year;
-        final bool forward = state.allYears.last != state.year;
+        final bool back = state.allYears.last != state.year;
+        final bool forward = state.allYears.first != state.year;
         return Container(
           width: MediaQuery.of(context).size.width - 32,
           padding:
@@ -333,7 +344,7 @@ class _OverlayPickerState extends State<OverlayPicker> {
                     return MonthItem(
                       isActive: state.selectedYear == state.year &&
                           state.selectedMonth == index + 1,
-                      month: listOfMonths[index],
+                      month: widget.listOfMonths[index].substring(0, 3),
                       inRange: state.activeMonths.contains(index + 1),
                       onTap: () {
                         context.read<DateBloc>().add(
