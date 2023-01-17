@@ -38,10 +38,12 @@ String dateToString(DateTime date) {
 }
 
 int findElement(Set<int> months, int current, int onFound) {
-  final list = months.toList();
-  for (int i = 0; i < list.length; i++) {
-    if (list[i] == current) {
-      return list[i + onFound];
+  if (months.length > 1) {
+    final list = months.toList();
+    for (int i = 0; i < list.length; i++) {
+      if (list[i] == current) {
+        return list[i + onFound];
+      }
     }
   }
   return 0;

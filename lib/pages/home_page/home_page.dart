@@ -147,8 +147,7 @@ class _MonthPickerState extends State<MonthPicker> {
 
   @override
   void dispose() {
-    _overlayEntry!.remove();
-    _overlayEntry!.dispose();
+    _overlayDispose();
     super.dispose();
   }
 
@@ -156,7 +155,11 @@ class _MonthPickerState extends State<MonthPicker> {
   void initState() {
     super.initState();
   }
-
+void _overlayDispose(){
+    context.read<DateBloc>().add(ToDefaultsDateEvent());
+    _overlayEntry!.remove();
+    _overlayEntry!.dispose();
+}
   _showOverlay(BuildContext context) {
     final overlay = Overlay.of(context);
     final renderBox = context.findRenderObject() as RenderBox;
@@ -166,7 +169,7 @@ class _MonthPickerState extends State<MonthPicker> {
       return Stack(children: [
         InkWell(
           onTap: () {
-            _overlayEntry!.remove();
+            _overlayDispose();
           },
         ),
         Positioned(
@@ -200,17 +203,24 @@ class _MonthPickerState extends State<MonthPicker> {
   Widget build(BuildContext context) {
     return BlocBuilder<DateBloc, DateState>(
       builder: (context, state) {
-        final bool back = state.selectedYear != state.allYears.last ||
-            state.selectedMonth != state.activeMonths.last;
-        final bool forward = state.selectedYear != state.allYears.first ||
-            state.selectedMonth != state.activeMonths.first;
+        final bool back = state.allYears.contains(state.selectedYear - 1) ||
+            state.selectedMonth != state.activeMonths.last && state
+                .selectedYear == state.year;
+
+        final bool forward =  state.allYears.contains(state.selectedYear + 1)||
+            state.selectedMonth != state.activeMonths.first && state
+                .selectedYear == state.year;
+
+
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             IconButton(
-              onPressed: back ? () {
-                context.read<DateBloc>().add(CallMonthDateEvent('back'));
-              } : null,
+              onPressed: back
+                  ? () {
+                      context.read<DateBloc>().add(CallMonthDateEvent('back'));
+                    }
+                  : null,
               icon: Icon(
                 Icons.arrow_back_ios,
                 color: back ? AppColors.subTitle : Colors.white,
@@ -246,10 +256,13 @@ class _MonthPickerState extends State<MonthPicker> {
               ),
             ),
             IconButton(
-              onPressed: forward ? () {
-                context.read<DateBloc>().add(CallMonthDateEvent('forward'));
-
-              } : null,
+              onPressed: forward
+                  ? () {
+                      context
+                          .read<DateBloc>()
+                          .add(CallMonthDateEvent('forward'));
+                    }
+                  : null,
               icon: Icon(Icons.arrow_forward_ios,
                   color: forward ? AppColors.subTitle : Colors.white),
             ),

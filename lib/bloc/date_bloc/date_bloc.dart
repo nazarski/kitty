@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kitty/models/entry_model/entry.dart';
 import 'package:kitty/utils/helper.dart';
@@ -11,7 +10,9 @@ class DateBloc extends Bloc<DateEvent, DateState> {
   Map<String, Set<int>> years = {};
   List<int>? allYears;
 
-  DateBloc() : super(DateState(DateTime.now().year)) {
+  DateBloc() : super(DateState(DateTime
+      .now()
+      .year)) {
     getRange(List<Entry> entries, Emitter emit) {
       for (Entry element in entries) {
         if (years.containsKey('${element.dateTime.year}')) {
@@ -53,9 +54,14 @@ class DateBloc extends Bloc<DateEvent, DateState> {
         ),
       );
     });
+    on<ToDefaultsDateEvent>((event, emit) {
+      emit(state.copyWith( year: state.selectedYear, activeMonths: years['${state.selectedYear}']));
+    });
     on<SetDateEvent>((event, emit) {
       emit(
-          state.copyWith(selectedMonth: event.month, selectedYear: event.year));
+          state.copyWith(
+
+              selectedMonth: event.month, selectedYear: event.year));
     });
     on<CallYearDateEvent>((event, emit) => _changeYear(emit, event.operation));
     on<CallMonthDateEvent>((event, emit) {
@@ -64,13 +70,13 @@ class DateBloc extends Bloc<DateEvent, DateState> {
           if (state.activeMonths.last == state.selectedMonth) {
             _changeYear(emit, event.operation);
             emit(state.copyWith(
-              selectedYear: state.year,
+                selectedYear: state.year,
                 selectedMonth: state.activeMonths.first));
           } else {
             emit(state.copyWith(
                 selectedYear: state.year,
                 selectedMonth: findElement(state.activeMonths,
-                state.selectedMonth, 1)));
+                    state.selectedMonth, 1)));
           }
           break;
         case 'forward':
@@ -83,12 +89,10 @@ class DateBloc extends Bloc<DateEvent, DateState> {
             emit(state.copyWith(
                 selectedYear: state.year,
                 selectedMonth: findElement(state.activeMonths,
-                state.selectedMonth, -1)));
-
+                    state.selectedMonth, -1)));
           }
           break;
       }
     });
-
   }
 }

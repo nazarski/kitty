@@ -5,11 +5,13 @@ class DateState {
   final Set<int> activeMonths;
   final List<int> allYears;
   final int selectedMonth;
+  // final int selectedMonthIndex;
   final int selectedYear;
 
   DateState(this.year,
       {this.activeMonths = const {},
       this.allYears = const [],
+        // this.selectedMonthIndex = 0,
       this.selectedMonth = 0,
       this.selectedYear = 0});
 
@@ -19,6 +21,7 @@ class DateState {
     List<int>? allYears,
     int? selectedMonth,
     int? selectedYear,
+    // int? selectedMonthIndex,
   }) {
     return DateState(
       year ?? this.year,
@@ -26,6 +29,7 @@ class DateState {
       allYears: allYears ?? this.allYears,
       selectedMonth: selectedMonth ?? this.selectedMonth,
       selectedYear: selectedYear ?? this.selectedYear,
+        // selectedMonthIndex: selectedMonthIndex?? this.selectedMonthIndex,
     );
   }
 }
