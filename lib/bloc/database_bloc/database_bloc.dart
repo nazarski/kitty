@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -123,6 +124,8 @@ class DatabaseBloc extends Bloc<DatabaseEvent, DatabaseState> {
     await _getAllEntries(emit);
   }
 
+
+
   DatabaseBloc(this.databaseRepository) : super(const DatabaseState()) {
     on<InitialDatabaseEvent>((event, emit) {
       emit(state.copyWith(
@@ -153,5 +156,6 @@ class DatabaseBloc extends Bloc<DatabaseEvent, DatabaseState> {
           description: event.description);
       await _getAllEntries(emit);
     });
+
   }
 }

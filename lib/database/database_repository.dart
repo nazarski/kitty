@@ -4,7 +4,7 @@ import 'package:sqflite/sqflite.dart';
 import 'dart:convert';
 
 class DatabaseRepository {
-  Database? _database;
+  static Database? _database;
 
   Future<Database> get database async {
     final Future<String> dbPath = getDatabasesPath();

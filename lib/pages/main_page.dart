@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kitty/bloc/database_bloc/database_bloc.dart';
+import 'package:kitty/bloc/date_bloc/date_bloc.dart';
 import 'package:kitty/bloc/navigation_bloc/navigation_bloc.dart';
 import 'package:kitty/database/database_repository.dart';
 import 'package:kitty/pages/add_category/add_category.dart';
@@ -53,6 +54,7 @@ class _MainPageState extends State<MainPage> {
         BlocProvider<DatabaseBloc>(
             create: (_) =>
                 DatabaseBloc(DatabaseRepository())..add(CallAllDataEvent())),
+        BlocProvider<DateBloc>(create: (_) => DateBloc()),
         BlocProvider<NavigationBloc>(
           create: (_) => NavigationBloc(),
         ),

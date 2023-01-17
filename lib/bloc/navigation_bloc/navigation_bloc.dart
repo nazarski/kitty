@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:kitty/bloc/navigation_bloc/navigation_bloc.dart';
 import 'package:kitty/pages/home_page/home_page.dart';
 import 'package:meta/meta.dart';
 
