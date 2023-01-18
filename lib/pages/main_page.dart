@@ -32,7 +32,7 @@ class _MainPageState extends State<MainPage> {
     AddEntry.routeName,
     AddCategory.routeName
   ];
-  final GlobalKey<ScaffoldState> _key = GlobalKey();
+  static final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
   static final GlobalKey<NavigatorState> _navigatorKey =
       GlobalKey<NavigatorState>();
 
@@ -54,7 +54,7 @@ class _MainPageState extends State<MainPage> {
         BlocProvider<DatabaseBloc>(
             create: (_) =>
                 DatabaseBloc(DatabaseRepository())..add(CallAllDataEvent())),
-        BlocProvider<DateBloc>(create: (_) => DateBloc()),
+        // BlocProvider<DateBloc>(create: (_) => DateBloc()),
         BlocProvider<NavigationBloc>(
           create: (_) => NavigationBloc(),
         ),
@@ -78,7 +78,7 @@ class _MainPageState extends State<MainPage> {
               return maybePop;
             },
             child: Scaffold(
-              key: _key,
+              key: scaffoldKey,
               body: Navigator(
                 key: _navigatorKey,
                 initialRoute: HomePage.routeName,

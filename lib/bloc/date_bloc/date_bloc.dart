@@ -54,7 +54,7 @@ class DateBloc extends Bloc<DateEvent, DateState> {
         ),
       );
     });
-    on<ToDefaultsDateEvent>((event, emit) {
+    on<ToSelectedDateEvent>((event, emit) {
       emit(state.copyWith( year: state.selectedYear, activeMonths: years['${state.selectedYear}']));
     });
     on<SetDateEvent>((event, emit) {
@@ -94,5 +94,10 @@ class DateBloc extends Bloc<DateEvent, DateState> {
           break;
       }
     });
+  }
+  @override
+  Future<void> close() async {
+    add(ToSelectedDateEvent());
+    super.close();
   }
 }
