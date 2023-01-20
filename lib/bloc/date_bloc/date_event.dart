@@ -3,7 +3,7 @@ part of 'date_bloc.dart';
 class DateEvent {}
 
 class InitialDateEvent extends DateEvent {
-  final List<Entry> entries;
+  final List<EntryDate> entries;
 
   InitialDateEvent(this.entries);
 }

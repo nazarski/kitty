@@ -33,22 +33,17 @@ class HomePage extends StatelessWidget {
         },
       ),
       body: BlocConsumer<DatabaseBloc, DatabaseState>(
-        listener: (context, state) {
-        //   if (state.entriesData.isNotEmpty) {
-        //     BlocProvider.of<DateBloc>(context).add(
-        //       InitialDateEvent(
-        //         state.entriesData,
-        //       ),
-        //     );
-        //   }
-        },
+        listener: (context, state) {},
         builder: (context, state) {
           return Padding(
             padding: const EdgeInsets.only(top: 8.0, left: 16, right: 16),
             child: Column(
               children: [
-                if (state.entriesData.isNotEmpty) ...[
-                  MonthPicker(entries: state.entriesData,)
+                if (state.entriesDates.isNotEmpty) ...[
+                  MonthPicker(
+                    entries: state.entriesDates,
+                    selectType: 'range',
+                  )
                 ] else ...[
                   const SizedBox.shrink()
                 ],
@@ -72,8 +67,8 @@ class HomePage extends StatelessWidget {
                             AppIcons.expenses,
                             color: AppColors.subTitle,
                           ),
-                          const Text(
-                            '-12000',
+                          Text(
+                            '${state.balance.expenses}',
                             style: AppStyles.appRed,
                           ),
                           const Text(
@@ -89,10 +84,15 @@ class HomePage extends StatelessWidget {
                             AppIcons.wallet,
                             color: AppColors.subTitle,
                           ),
-                          const Text(
-                            '48000',
-                            style: AppStyles.appGreen,
-                          ),
+                          state.balance.balance < 0
+                              ? Text(
+                                  '${state.balance.balance}',
+                                  style: AppStyles.appRed,
+                                )
+                              : Text(
+                                  '${state.balance.balance}',
+                                  style: AppStyles.appGreen,
+                                ),
                           const Text(
                             'Balance',
                             style: AppStyles.caption,
@@ -106,8 +106,8 @@ class HomePage extends StatelessWidget {
                             AppIcons.institute,
                             color: AppColors.subTitle,
                           ),
-                          const Text(
-                            '70000',
+                          Text(
+                            '${state.balance.income}',
                             style: AppStyles.buttonBlack,
                           ),
                           const Text(
@@ -131,9 +131,3 @@ class HomePage extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-

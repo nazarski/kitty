@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 part 'balance.freezed.dart';
 part 'balance.g.dart';
@@ -9,7 +8,6 @@ class Balance with _$Balance{
     required int income,
     required int expenses,
     required int balance,
-    required String date,
   }) = _Balance;
   factory Balance.fromJson(Map<String, dynamic> json)=> _$BalanceFromJson(json);
 }

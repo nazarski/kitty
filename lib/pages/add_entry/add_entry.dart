@@ -28,9 +28,7 @@ class _AddEntryState extends State<AddEntry> {
 
   void _onComplete() {
     setState(() {
-      if (FocusScope
-          .of(context)
-          .hasFocus) {
+      if (FocusScope.of(context).hasFocus) {
         FocusScope.of(context).unfocus();
       }
     });
@@ -49,7 +47,7 @@ class _AddEntryState extends State<AddEntry> {
   Widget build(BuildContext context) {
     return BlocBuilder<DatabaseBloc, DatabaseState>(
       builder: (context, state) {
-        if(state.categoryToAdd !=null){
+        if (state.categoryToAdd != null) {
           categoryController.text = state.categoryToAdd!.title;
         }
         return WillPopScope(
@@ -66,7 +64,7 @@ class _AddEntryState extends State<AddEntry> {
               reverse: true,
               child: Padding(
                 padding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 24.0),
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 24.0),
                 child: Column(
                   children: [
                     CategoryDropDown(
@@ -78,7 +76,7 @@ class _AddEntryState extends State<AddEntry> {
                               .add(InitialDatabaseEvent());
                         }
                         setState(
-                              () {
+                          () {
                             option = value!;
                           },
                         );
@@ -136,11 +134,13 @@ class _AddEntryState extends State<AddEntry> {
                               value.text.isNotEmpty,
                           action: () {
                             context.read<DatabaseBloc>().add(
-                              CreateEntryEvent(
-                                amount: value.text,
-                                description: descriptionController.text,
-                              ),
-                            );
+                                  CreateEntryEvent(
+                                    amount: option == 'expense'
+                                        ? '-${value.text}'
+                                        : value.text,
+                                    description: descriptionController.text,
+                                  ),
+                                );
                             context.read<NavigationBloc>().add(NavigationPop());
                           },
                         );
@@ -160,10 +160,7 @@ class _AddEntryState extends State<AddEntry> {
       BuildContext context, DatabaseState state) {
     return showBottomSheet(
       constraints:
-      BoxConstraints(maxHeight: MediaQuery
-          .of(context)
-          .size
-          .height / 2),
+          BoxConstraints(maxHeight: MediaQuery.of(context).size.height / 2),
       enableDrag: false,
       context: context,
       builder: (_) {

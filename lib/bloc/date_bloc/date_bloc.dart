@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kitty/models/entry_date_model/entry_date.dart';
 import 'package:kitty/models/entry_model/entry.dart';
 import 'package:kitty/utils/helper.dart';
 
@@ -13,8 +14,8 @@ class DateBloc extends Bloc<DateEvent, DateState> {
   DateBloc() : super(DateState(DateTime
       .now()
       .year)) {
-    getRange(List<Entry> entries, Emitter emit) {
-      for (Entry element in entries) {
+    getRange(List<EntryDate> entries, Emitter emit) {
+      for (EntryDate element in entries) {
         if (years.containsKey('${element.dateTime.year}')) {
           years['${element.dateTime.year}']!.add(element.dateTime.month);
         } else {
@@ -60,7 +61,6 @@ class DateBloc extends Bloc<DateEvent, DateState> {
     on<SetDateEvent>((event, emit) {
       emit(
           state.copyWith(
-
               selectedMonth: event.month, selectedYear: event.year));
     });
     on<CallYearDateEvent>((event, emit) => _changeYear(emit, event.operation));
@@ -94,10 +94,5 @@ class DateBloc extends Bloc<DateEvent, DateState> {
           break;
       }
     });
-  }
-  @override
-  Future<void> close() async {
-    add(ToSelectedDateEvent());
-    super.close();
   }
 }

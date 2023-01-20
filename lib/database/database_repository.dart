@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:kitty/models/category_icon_model/category_icon.dart';
 import 'package:kitty/resources/initial_values.dart';
 import 'package:sqflite/sqflite.dart';
@@ -45,7 +47,7 @@ class DatabaseRepository {
       expenseId INTEGER PRIMARY KEY AUTOINCREMENT,
       description TEXT,
       amount INTEGER,
-      dateTime TEXT,
+      dateTime INTEGER NOT NULL,
       categoryId INTEGER NOT NULL,
       FOREIGN KEY (categoryId) REFERENCES $entryCatTable (categoryId)
       )
@@ -75,7 +77,7 @@ class DatabaseRepository {
                     color: allIcons[i]['color']!)
                 .toJson());
       }
-      // expense categories
+      // income categories
       for (int i = 0; i < InitialValues.incomeCategories.length; i++) {
         await txn.insert(entryCatTable, {
           'title': InitialValues.incomeCategories[i],
@@ -86,16 +88,16 @@ class DatabaseRepository {
         });
       }
       // expense categories
-        for (int i = 6; i < 9; i++) {
-          await txn.insert(entryCatTable, {
-            'title': InitialValues.expenseCategories[i-6],
-            'totalAmount': (0.0).toString(),
-            'entries': 0,
-            'type': 'expense',
-            'iconId': i
-          });
-        }
+      for (int i = 6; i < 9; i++) {
+        await txn.insert(entryCatTable, {
+          'title': InitialValues.expenseCategories[i - 6],
+          'totalAmount': (0.0).toString(),
+          'entries': 0,
+          'type': 'expense',
+          'iconId': i
+        });
+      }
+
     });
   }
 }
-

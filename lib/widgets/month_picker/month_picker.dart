@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kitty/bloc/database_bloc/database_bloc.dart';
 import 'package:kitty/bloc/date_bloc/date_bloc.dart';
-import 'package:kitty/models/entry_model/entry.dart';
+import 'package:kitty/models/entry_date_model/entry_date.dart';
 import 'package:kitty/resources/app_colors.dart';
 import 'package:kitty/resources/app_text_styles.dart';
 import 'package:kitty/widgets/month_picker/overlay_calendar_window.dart';
+import 'package:kitty/widgets/month_picker/place_holder.dart';
 
 class MonthPicker extends StatefulWidget {
   const MonthPicker({
     Key? key,
     required this.entries,
+    required this.selectType,
   }) : super(key: key);
-  final List<Entry> entries;
+  final List<EntryDate> entries;
+  final String selectType;
 
   @override
   State<MonthPicker> createState() => _MonthPickerState();
@@ -20,11 +24,19 @@ class MonthPicker extends StatefulWidget {
 class _MonthPickerState extends State<MonthPicker> {
   OverlayEntry? _overlayEntry;
   OverlayState? _overlay;
+  DateBloc? provider;
 
   @override
   void dispose() {
     _overlayDispose();
+    provider!.close();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    provider = DateBloc();
+    super.initState();
   }
 
   void _overlayDispose() {
@@ -46,51 +58,34 @@ class _MonthPickerState extends State<MonthPicker> {
     'November',
     'December',
   ];
-  final DateBloc provider = DateBloc();
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => provider..add(InitialDateEvent(widget.entries)),
-      child: BlocBuilder<DateBloc, DateState>(
+      create: (context) => provider!..add(InitialDateEvent(widget.entries)),
+      child: BlocConsumer<DateBloc, DateState>(
+        listenWhen: (previous, current) {
+          return (previous.selectedYear != current.selectedYear ||
+                  previous.selectedMonth != current.selectedMonth) &&
+              current.selectedYear != 0;
+        },
+        listener: (context, state) {
+          context.read<DatabaseBloc>().add(SetDateToEntriesEvent(
+              type: widget.selectType,
+              year: state.selectedYear,
+              month: state.selectedMonth));
+        },
         builder: (context, state) {
           if (state.selectedYear == 0) {
-            return Center(
-              child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    color: AppColors.basicGrey),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(
-                      Icons.calendar_today_outlined,
-                      color: AppColors.subTitle,
-                      size: 16,
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    Text(
-                      '${listOfMonths[DateTime.now().month - 1]}, ${DateTime.now().year}',
-                      style: AppStyles.buttonBlack,
-                    )
-                  ],
-                ),
-              ),
-            );
+            return PlaceHolder(listOfMonths: listOfMonths);
           }
           final bool back = state.allYears.contains(state.selectedYear - 1) ||
               state.selectedMonth != state.activeMonths.last &&
                   state.selectedYear == state.year;
-
           final bool forward =
               state.allYears.contains(state.selectedYear + 1) ||
                   state.selectedMonth != state.activeMonths.first &&
                       state.selectedYear == state.year;
-
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -164,7 +159,7 @@ class _MonthPickerState extends State<MonthPicker> {
         child: Stack(children: [
           InkWell(
             onTap: () {
-              // context.read<DateBloc>().add(ToSelectedDateEvent());
+              context.read<DateBloc>().add(ToSelectedDateEvent());
               _overlayDispose();
             },
           ),

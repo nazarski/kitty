@@ -41,3 +41,10 @@ class SelectEntriesByDateEvent extends DatabaseEvent{
   SelectEntriesByDateEvent(this.monthYear);
 
 }
+class SetDateToEntriesEvent extends DatabaseEvent{
+  final String type;
+  final int year;
+  final int month;
+
+  SetDateToEntriesEvent({required this.type, required this.year, required this.month});
+}

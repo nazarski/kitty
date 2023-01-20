@@ -23,7 +23,6 @@ mixin _$Balance {
   int get income => throw _privateConstructorUsedError;
   int get expenses => throw _privateConstructorUsedError;
   int get balance => throw _privateConstructorUsedError;
-  String get date => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +34,7 @@ abstract class $BalanceCopyWith<$Res> {
   factory $BalanceCopyWith(Balance value, $Res Function(Balance) then) =
       _$BalanceCopyWithImpl<$Res, Balance>;
   @useResult
-  $Res call({int income, int expenses, int balance, String date});
+  $Res call({int income, int expenses, int balance});
 }
 
 /// @nodoc
@@ -54,7 +53,6 @@ class _$BalanceCopyWithImpl<$Res, $Val extends Balance>
     Object? income = null,
     Object? expenses = null,
     Object? balance = null,
-    Object? date = null,
   }) {
     return _then(_value.copyWith(
       income: null == income
@@ -69,10 +67,6 @@ class _$BalanceCopyWithImpl<$Res, $Val extends Balance>
           ? _value.balance
           : balance // ignore: cast_nullable_to_non_nullable
               as int,
-      date: null == date
-          ? _value.date
-          : date // ignore: cast_nullable_to_non_nullable
-              as String,
     ) as $Val);
   }
 }
@@ -84,7 +78,7 @@ abstract class _$$_BalanceCopyWith<$Res> implements $BalanceCopyWith<$Res> {
       __$$_BalanceCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int income, int expenses, int balance, String date});
+  $Res call({int income, int expenses, int balance});
 }
 
 /// @nodoc
@@ -100,7 +94,6 @@ class __$$_BalanceCopyWithImpl<$Res>
     Object? income = null,
     Object? expenses = null,
     Object? balance = null,
-    Object? date = null,
   }) {
     return _then(_$_Balance(
       income: null == income
@@ -115,10 +108,6 @@ class __$$_BalanceCopyWithImpl<$Res>
           ? _value.balance
           : balance // ignore: cast_nullable_to_non_nullable
               as int,
-      date: null == date
-          ? _value.date
-          : date // ignore: cast_nullable_to_non_nullable
-              as String,
     ));
   }
 }
@@ -127,10 +116,7 @@ class __$$_BalanceCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Balance implements _Balance {
   const _$_Balance(
-      {required this.income,
-      required this.expenses,
-      required this.balance,
-      required this.date});
+      {required this.income, required this.expenses, required this.balance});
 
   factory _$_Balance.fromJson(Map<String, dynamic> json) =>
       _$$_BalanceFromJson(json);
@@ -141,12 +127,10 @@ class _$_Balance implements _Balance {
   final int expenses;
   @override
   final int balance;
-  @override
-  final String date;
 
   @override
   String toString() {
-    return 'Balance(income: $income, expenses: $expenses, balance: $balance, date: $date)';
+    return 'Balance(income: $income, expenses: $expenses, balance: $balance)';
   }
 
   @override
@@ -157,13 +141,12 @@ class _$_Balance implements _Balance {
             (identical(other.income, income) || other.income == income) &&
             (identical(other.expenses, expenses) ||
                 other.expenses == expenses) &&
-            (identical(other.balance, balance) || other.balance == balance) &&
-            (identical(other.date, date) || other.date == date));
+            (identical(other.balance, balance) || other.balance == balance));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, income, expenses, balance, date);
+  int get hashCode => Object.hash(runtimeType, income, expenses, balance);
 
   @JsonKey(ignore: true)
   @override
@@ -183,8 +166,7 @@ abstract class _Balance implements Balance {
   const factory _Balance(
       {required final int income,
       required final int expenses,
-      required final int balance,
-      required final String date}) = _$_Balance;
+      required final int balance}) = _$_Balance;
 
   factory _Balance.fromJson(Map<String, dynamic> json) = _$_Balance.fromJson;
 
@@ -194,8 +176,6 @@ abstract class _Balance implements Balance {
   int get expenses;
   @override
   int get balance;
-  @override
-  String get date;
   @override
   @JsonKey(ignore: true)
   _$$_BalanceCopyWith<_$_Balance> get copyWith =>

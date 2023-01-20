@@ -7,30 +7,30 @@ Color fromHex(String str) {
   return Color(int.parse('FF$str', radix: 16));
 }
 
-String transformDate(String date) {
-  final int day = parseDate(date).difference(DateTime.now()).inDays;
+String checkDate(DateTime date) {
+  final int day = date.day - DateTime.now().day;
   switch (day) {
     case 0:
       return 'TODAY';
     case -1:
       return 'YESTERDAY';
     default:
-      return date;
+      return DateFormat('dd-MMM-yyyy').format(date);
   }
 }
 
 Map<String, List<Entry>> groupEntries({required List<Entry> list}) {
-  return list.groupListsBy((element) => dateToString(element.dateTime));
+  return list.groupListsBy((element) => checkDate(element.dateTime));
 }
 
 String getSum(List<Entry> list) {
   final sum =
       list.fold(0, (previousValue, element) => previousValue + element.amount);
-  return '-$sum';
+  return '$sum';
 }
 
 DateTime parseDate(String date) {
-  return DateFormat('dd-MMM-yyyy').parse(date);
+  return DateFormat('yyyy-mm-dd').parse(date);
 }
 
 String dateToString(DateTime date) {
@@ -48,18 +48,4 @@ int findElement(Set<int> months, int current, int onFound) {
   }
   return 0;
 }
-// final DateTime startingDate = DateTime(2020, 5);
-// final DateTime endDate = DateTime(2022, 10);
-// for (int i = startingDate.year; i <= endDate.year; i++) {
-//   for (int j = (startingDate.year == i) ? startingDate.month : 1;
-//       (endDate.year == i) ? j <= endDate.month : j <= 12;
-//       j++) {
-//     if (years.containsKey('$i')) {
-//       years['$i']!.add(j);
-//     } else {
-//       years.addAll({
-//         '$i': [j]
-//       });
-//     }
-//   }
-// }
+

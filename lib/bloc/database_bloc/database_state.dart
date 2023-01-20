@@ -12,23 +12,28 @@ class DatabaseState extends Equatable {
   final List<EntryCategory> inCategories;
   final Balance balance;
   final Map<String, List<Entry>> entries;
-  final List<Entry> entriesData;
+  final List<EntryDate> entriesDates;
   final List<CategoryIcon> icons;
   final EntryCategory? categoryToAdd;
   final CategoryIcon? selectedIcon;
   final DatabaseStatus status;
+  final List<StatisticsElement> statistics;
 
   const DatabaseState({
     this.expCategories = const [],
     this.inCategories = const [],
-    this.balance =
-        const Balance(income: 0, expenses: 0, balance: 0, date: '--'),
+    this.balance = const Balance(
+      income: 0,
+      expenses: 0,
+      balance: 0,
+    ),
     this.entries = const {},
     this.icons = const [],
     this.categoryToAdd,
     this.selectedIcon,
     this.status = DatabaseStatus.initial,
-    this.entriesData = const [],
+    this.entriesDates = const [],
+    this.statistics = const [],
   });
 
   DatabaseState copyWith({
@@ -40,7 +45,8 @@ class DatabaseState extends Equatable {
     EntryCategory? categoryToAdd,
     CategoryIcon? selectedIcon,
     DatabaseStatus? status,
-    List<Entry>? entriesData,
+    List<EntryDate>? entriesDates,
+    List<StatisticsElement>? statistics,
   }) {
     return DatabaseState(
       expCategories: expCategories ?? this.expCategories,
@@ -51,7 +57,8 @@ class DatabaseState extends Equatable {
       categoryToAdd: categoryToAdd ?? this.categoryToAdd,
       selectedIcon: selectedIcon ?? this.selectedIcon,
       status: status ?? this.status,
-      entriesData: entriesData ?? this.entriesData,
+      entriesDates: entriesDates ?? this.entriesDates,
+      statistics: statistics ?? this.statistics,
     );
   }
 
@@ -64,6 +71,7 @@ class DatabaseState extends Equatable {
         selectedIcon,
         entries,
         status,
-        entriesData
+        entriesDates,
+        statistics,
       ];
 }

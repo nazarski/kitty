@@ -16,56 +16,59 @@ class EntriesListBuilder extends StatelessWidget {
     return BlocBuilder<DatabaseBloc, DatabaseState>(
       builder: (context, state) {
         if (state.status == DatabaseStatus.loading) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }
         if (state.entries.isEmpty) {
           return Container(
-            padding: const EdgeInsets.symmetric(
-                horizontal: 24, vertical: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(
-                    color: AppColors.borderGrey, width: 1)),
+                border: Border.all(color: AppColors.borderGrey, width: 1)),
             child: const Center(
               child: Text('No expenses found, tap "Add new"'),
             ),
           );
         }
         final entryData = state.entries.entries;
+        final categories = [
+          ...state.inCategories,
+          ...state.expCategories
+        ];
         return Flexible(
           child: ListView.separated(
             physics: const BouncingScrollPhysics(),
             itemCount: state.entries.length,
-            itemBuilder: (context, index,) {
-              final blockEntries = entryData
-                  .elementAt(index)
-                  .value;
+            itemBuilder: (
+              context,
+              index,
+            ) {
+              final blockEntries = entryData.elementAt(index).value;
               return Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
                     border: Border.all(color: AppColors.borderGrey, width: 1),
-                    borderRadius: BorderRadius.circular(8)
-                ),
+                    borderRadius: BorderRadius.circular(8)),
                 child: Column(
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(entryData
-                            .elementAt(index)
-                            .key, style: AppStyles
-                            .overline,),
-                        Text(getSum(entryData
-                            .elementAt(index)
-                            .value), style:
-                        AppStyles.overline,)
+                        Text(
+                          entryData.elementAt(index).key,
+                          style: AppStyles.overline,
+                        ),
+                        Text(
+                          getSum(entryData.elementAt(index).value),
+                          style: AppStyles.overline,
+                        )
                       ],
                     ),
                     ...List.generate(blockEntries.length, (index) {
-                      final category = state.expCategories.firstWhere((element) {
-                        return element.categoryId ==
+                      final category =
+                      categories.firstWhere((element) {
+                            return element.categoryId ==
                             blockEntries[index].categoryId;
                       });
                       return ListTile(
@@ -82,17 +85,22 @@ class EntriesListBuilder extends StatelessWidget {
                           style: AppStyles.caption,
                         ),
                         trailing: Text(
-                          '-${blockEntries[index].amount}',
-                          style: AppStyles.appRed,
+                          '${blockEntries[index].amount}',
+                          style: blockEntries[index].amount < 0
+                              ? AppStyles.appRed
+                              : AppStyles.appGreen,
                         ),
                       );
                     }),
                   ],
                 ),
               );
-            }, separatorBuilder: (_, __) {
-            return const SizedBox(height: 10,);
-          },
+            },
+            separatorBuilder: (_, __) {
+              return const SizedBox(
+                height: 10,
+              );
+            },
           ),
         );
       },
