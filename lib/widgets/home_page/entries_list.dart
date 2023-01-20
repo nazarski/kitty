@@ -32,10 +32,7 @@ class EntriesListBuilder extends StatelessWidget {
           );
         }
         final entryData = state.entries.entries;
-        final categories = [
-          ...state.inCategories,
-          ...state.expCategories
-        ];
+        final categories = [...state.inCategories, ...state.expCategories];
         return Flexible(
           child: ListView.separated(
             physics: const BouncingScrollPhysics(),
@@ -66,9 +63,8 @@ class EntriesListBuilder extends StatelessWidget {
                       ],
                     ),
                     ...List.generate(blockEntries.length, (index) {
-                      final category =
-                      categories.firstWhere((element) {
-                            return element.categoryId ==
+                      final category = categories.firstWhere((element) {
+                        return element.categoryId ==
                             blockEntries[index].categoryId;
                       });
                       return ListTile(
@@ -77,11 +73,15 @@ class EntriesListBuilder extends StatelessWidget {
                           color: category.icon.color,
                         ),
                         title: Text(
-                          category.title,
+                          blockEntries[index].description.isNotEmpty
+                              ? blockEntries[index].description
+                              : category.title,
                           style: AppStyles.body2,
                         ),
                         subtitle: Text(
-                          blockEntries[index].description,
+                          blockEntries[index].description.isNotEmpty
+                              ? category.title
+                              : blockEntries[index].description,
                           style: AppStyles.caption,
                         ),
                         trailing: Text(

@@ -1,6 +1,7 @@
+import 'package:collection/collection.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kitty/models/entry_date_model/entry_date.dart';
-import 'package:kitty/models/entry_model/entry.dart';
 import 'package:kitty/utils/helper.dart';
 
 part 'date_event.dart';
@@ -11,41 +12,70 @@ class DateBloc extends Bloc<DateEvent, DateState> {
   Map<String, Set<int>> years = {};
   List<int>? allYears;
 
-  DateBloc() : super(DateState(DateTime
-      .now()
-      .year)) {
-    getRange(List<EntryDate> entries, Emitter emit) {
-      for (EntryDate element in entries) {
-        if (years.containsKey('${element.dateTime.year}')) {
-          years['${element.dateTime.year}']!.add(element.dateTime.month);
+  void monthChange(String operation, Emitter emit) {
+    switch (operation) {
+      case 'back':
+        if (state.activeMonths.last == state.selectedMonth) {
+          _changeYear(emit, operation);
+          emit(state.copyWith(
+              selectedYear: state.year,
+              selectedMonth: state.activeMonths.first));
         } else {
-          years.addAll({
-            '${element.dateTime.year}': {element.dateTime.month}
-          });
+          emit(state.copyWith(
+              selectedYear: state.year,
+              selectedMonth:
+                  findElement(state.activeMonths, state.selectedMonth, 1)));
         }
-      }
-      allYears = years.keys.map((e) => int.parse(e)).toList();
-      emit(
-        state.copyWith(
-            allYears: allYears,
-            year: allYears!.first,
-            activeMonths: years['${allYears!.first}']),
-      );
-    }
-
-    void _changeYear(Emitter emit, String direction) {
-      switch (direction) {
-        case 'forward':
+        break;
+      case 'forward':
+        if (state.activeMonths.first == state.selectedMonth) {
+          _changeYear(emit, operation);
           emit(state.copyWith(
-              year: state.year + 1, activeMonths: years['${state.year + 1}']));
-          break;
-        case 'back':
+              selectedYear: state.year,
+              selectedMonth: state.activeMonths.last));
+        } else {
           emit(state.copyWith(
-              year: state.year - 1, activeMonths: years['${state.year - 1}']));
-          break;
+              selectedYear: state.year,
+              selectedMonth:
+                  findElement(state.activeMonths, state.selectedMonth, -1)));
+        }
+        break;
+    }
+  }
+
+  void _changeYear(Emitter emit, String direction) {
+    switch (direction) {
+      case 'forward':
+        emit(state.copyWith(
+            year: state.year + 1, activeMonths: years['${state.year + 1}']));
+        break;
+      case 'back':
+        emit(state.copyWith(
+            year: state.year - 1, activeMonths: years['${state.year - 1}']));
+        break;
+    }
+  }
+
+  void getRange(List<EntryDate> entries, Emitter emit) {
+    for (EntryDate element in entries) {
+      if (years.containsKey('${element.dateTime.year}')) {
+        years['${element.dateTime.year}']!.add(element.dateTime.month);
+      } else {
+        years.addAll({
+          '${element.dateTime.year}': {element.dateTime.month}
+        });
       }
     }
+    allYears = years.keys.map((e) => int.parse(e)).toList();
+    emit(
+      state.copyWith(
+          allYears: allYears,
+          year: allYears!.first,
+          activeMonths: years['${allYears!.first}']),
+    );
+  }
 
+  DateBloc() : super(DateState(DateTime.now().year)) {
     on<InitialDateEvent>((event, emit) {
       getRange(event.entries, emit);
       add(
@@ -56,43 +86,15 @@ class DateBloc extends Bloc<DateEvent, DateState> {
       );
     });
     on<ToSelectedDateEvent>((event, emit) {
-      emit(state.copyWith( year: state.selectedYear, activeMonths: years['${state.selectedYear}']));
+      emit(state.copyWith(
+          year: state.selectedYear,
+          activeMonths: years['${state.selectedYear}']));
     });
     on<SetDateEvent>((event, emit) {
       emit(
-          state.copyWith(
-              selectedMonth: event.month, selectedYear: event.year));
+          state.copyWith(selectedMonth: event.month, selectedYear: event.year));
     });
     on<CallYearDateEvent>((event, emit) => _changeYear(emit, event.operation));
-    on<CallMonthDateEvent>((event, emit) {
-      switch (event.operation) {
-        case 'back':
-          if (state.activeMonths.last == state.selectedMonth) {
-            _changeYear(emit, event.operation);
-            emit(state.copyWith(
-                selectedYear: state.year,
-                selectedMonth: state.activeMonths.first));
-          } else {
-            emit(state.copyWith(
-                selectedYear: state.year,
-                selectedMonth: findElement(state.activeMonths,
-                    state.selectedMonth, 1)));
-          }
-          break;
-        case 'forward':
-          if (state.activeMonths.first == state.selectedMonth) {
-            _changeYear(emit, event.operation);
-            emit(state.copyWith(
-                selectedYear: state.year,
-                selectedMonth: state.activeMonths.last));
-          } else {
-            emit(state.copyWith(
-                selectedYear: state.year,
-                selectedMonth: findElement(state.activeMonths,
-                    state.selectedMonth, -1)));
-          }
-          break;
-      }
-    });
+    on<CallMonthDateEvent>((event, emit) => monthChange(event.operation, emit));
   }
 }
