@@ -222,7 +222,7 @@ class DatabaseBloc extends Bloc<DatabaseEvent, DatabaseState> {
   Future<void> getExactEntries(Emitter emit, int year, int month) async {
     emit(state.copyWith(status: DatabaseStatus.loading));
     final int start = DateTime(year, month).subtract(const Duration(days: 1)).millisecondsSinceEpoch;
-    final int finish = DateTime(year, month + 1).subtract(const Duration(days: 1)).millisecondsSinceEpoch;
+    final int finish = DateTime(year, month + 1).millisecondsSinceEpoch;
     int monthlyAmount = 0;
     final icons = databaseRepository.icTable;
     final categories = databaseRepository.entryCatTable;

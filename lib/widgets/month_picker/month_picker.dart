@@ -65,9 +65,9 @@ class _MonthPickerState extends State<MonthPicker> {
       create: (context) => provider!..add(InitialDateEvent(widget.entries)),
       child: BlocConsumer<DateBloc, DateState>(
         listenWhen: (previous, current) {
-          return (previous.selectedYear != current.selectedYear ||
-                  previous.selectedMonth != current.selectedMonth) &&
-              current.selectedYear != 0;
+          // return (previous.selectedYear != current.selectedYear ||
+          //         previous.selectedMonth != current.selectedMonth) &&
+          //     current.selectedYear != 0;
         },
         listener: (context, state) {
           context.read<DatabaseBloc>().add(SetDateToEntriesEvent(

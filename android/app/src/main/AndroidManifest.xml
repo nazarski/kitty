@@ -1,9 +1,23 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.spacelab.kitty">
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
    <application
         android:label="kitty"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+       <provider
+           android:name="androidx.core.content.FileProvider"
+           android:authorities="com.spacelab.kitty.fileprovider"
+           android:exported="false"
+           android:grantUriPermissions="true">
+           <meta-data
+               android:name="android.support.FILE_PROVIDER_PATHS"
+               android:resource="@xml/file_provider" />
+       </provider>
         <activity
             android:name=".MainActivity"
             android:exported="true"
