@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:kitty/bloc/navigation_bloc/navigation_bloc.dart';
+import 'package:kitty/pages/search_page/search_page.dart';
 import 'package:kitty/resources/app_colors.dart';
 import 'package:kitty/resources/app_icons.dart';
 import 'package:kitty/resources/app_text_styles.dart';
@@ -33,7 +36,13 @@ class HomePageAppBar extends StatelessWidget with PreferredSizeWidget {
           ],
         ),
         actions: [
-          SvgPicture.asset(AppIcons.search),
+          IconButton(
+              onPressed: () {
+                context
+                    .read<NavigationBloc>()
+                    .add(NavigateTab(tabIndex: 5, route: SearchPage.routeName));
+              },
+              icon: SvgPicture.asset(AppIcons.search)),
           const SizedBox(
             width: 16,
           ),

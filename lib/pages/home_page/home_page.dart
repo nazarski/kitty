@@ -7,6 +7,7 @@ import 'package:kitty/pages/add_entry/add_entry.dart';
 import 'package:kitty/resources/app_colors.dart';
 import 'package:kitty/resources/app_icons.dart';
 import 'package:kitty/resources/app_text_styles.dart';
+import 'package:kitty/widgets/home_page/balance.dart';
 import 'package:kitty/widgets/home_page/entries_list.dart';
 import 'package:kitty/widgets/home_page/home_page_app_bar.dart';
 import 'package:kitty/widgets/month_picker/month_picker.dart';
@@ -44,81 +45,14 @@ class HomePage extends StatelessWidget {
                     entries: state.entriesDates,
                     selectType: 'range',
                   )
-                ] else ...[
-                  const SizedBox.shrink()
-                ],
+                ] else
+                  ...[
+                    const SizedBox.shrink()
+                  ],
                 const SizedBox(
                   height: 20,
                 ),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      border:
-                          Border.all(color: AppColors.borderGrey, width: 1)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            AppIcons.expenses,
-                            color: AppColors.subTitle,
-                          ),
-                          Text(
-                            '${state.balance.expenses}',
-                            style: AppStyles.appRed,
-                          ),
-                          const Text(
-                            'Expenses',
-                            style: AppStyles.caption,
-                          )
-                        ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            AppIcons.wallet,
-                            color: AppColors.subTitle,
-                          ),
-                          state.balance.balance < 0
-                              ? Text(
-                                  '${state.balance.balance}',
-                                  style: AppStyles.appRed,
-                                )
-                              : Text(
-                                  '${state.balance.balance}',
-                                  style: AppStyles.appGreen,
-                                ),
-                          const Text(
-                            'Balance',
-                            style: AppStyles.caption,
-                          )
-                        ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            AppIcons.institute,
-                            color: AppColors.subTitle,
-                          ),
-                          Text(
-                            '${state.balance.income}',
-                            style: AppStyles.buttonBlack,
-                          ),
-                          const Text(
-                            'Income',
-                            style: AppStyles.caption,
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                ),
+                const BalanceWidget(),
                 const SizedBox(
                   height: 8,
                 ),
@@ -131,3 +65,5 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+
+

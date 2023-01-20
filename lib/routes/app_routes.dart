@@ -3,6 +3,7 @@ import 'package:kitty/pages/add_category/add_category.dart';
 import 'package:kitty/pages/add_entry/add_entry.dart';
 import 'package:kitty/pages/home_page/home_page.dart';
 import 'package:kitty/pages/main_page.dart';
+import 'package:kitty/pages/search_page/search_page.dart';
 import 'package:kitty/pages/settings_page/settings_page.dart';
 import 'package:kitty/pages/check_screen/check_screen.dart';
 import 'package:kitty/pages/statistics_page/statistics_page.dart';
@@ -39,6 +40,9 @@ class AppRoutes {
       case AddCategory.routeName:
         return PageTransition(
             child: const AddCategory(), type: PageTransitionType.fade);
+      case SearchPage.routeName:
+        return PageTransition(
+            child: const SearchPage(), type: PageTransitionType.fade);
 
       default:
         throw Exception('Invalid route: ${settings.name}');
