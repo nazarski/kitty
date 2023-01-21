@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:kitty/bloc/database_bloc/database_bloc.dart';
+import 'package:kitty/bloc/database_bloc/entries_control_bloc.dart';
 import 'package:kitty/bloc/navigation_bloc/navigation_bloc.dart';
 import 'package:kitty/pages/add_category/add_category.dart';
 import 'package:kitty/resources/app_colors.dart';
@@ -45,7 +45,7 @@ class _AddEntryState extends State<AddEntry> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DatabaseBloc, DatabaseState>(
+    return BlocBuilder<EntriesControlBloc, EntriesControl>(
       builder: (context, state) {
         if (state.categoryToAdd != null) {
           categoryController.text = state.categoryToAdd!.title;
@@ -72,7 +72,7 @@ class _AddEntryState extends State<AddEntry> {
                       onChanged: (value) {
                         if (state.categoryToAdd != null) {
                           context
-                              .read<DatabaseBloc>()
+                              .read<EntriesControlBloc>()
                               .add(InitialDatabaseEvent());
                         }
                         setState(
@@ -133,7 +133,7 @@ class _AddEntryState extends State<AddEntry> {
                               option != 'entry' &&
                               value.text.isNotEmpty,
                           action: () {
-                            context.read<DatabaseBloc>().add(
+                            context.read<EntriesControlBloc>().add(
                                   CreateEntryEvent(
                                     amount: option == 'expense'
                                         ? '-${value.text}'
@@ -157,7 +157,7 @@ class _AddEntryState extends State<AddEntry> {
   }
 
   PersistentBottomSheetController<dynamic> buildShowBottomSheet(
-      BuildContext context, DatabaseState state) {
+      BuildContext context, EntriesControl state) {
     return showBottomSheet(
       constraints:
           BoxConstraints(maxHeight: MediaQuery.of(context).size.height / 2),

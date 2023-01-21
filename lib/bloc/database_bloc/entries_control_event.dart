@@ -1,27 +1,27 @@
-part of 'database_bloc.dart';
+part of 'entries_control_bloc.dart';
 
 @immutable
-abstract class DatabaseEvent {}
+abstract class EntriesControlEvent {}
 
-class InitialDatabaseEvent extends DatabaseEvent {}
+class InitialDatabaseEvent extends EntriesControlEvent {}
 
-class CallAllDataEvent extends DatabaseEvent {}
+class CallAllDataEvent extends EntriesControlEvent {}
 
-class CallEntryCategoriesEvent extends DatabaseEvent {}
+class CallEntryCategoriesEvent extends EntriesControlEvent {}
 
-class GetCategoryEvent extends DatabaseEvent {
+class GetCategoryEvent extends EntriesControlEvent {
   final EntryCategory category;
 
   GetCategoryEvent(this.category);
 }
 
-class GetIconEvent extends DatabaseEvent {
+class GetIconEvent extends EntriesControlEvent {
   final CategoryIcon icon;
 
   GetIconEvent(this.icon);
 }
 
-class CreateExpenseCategoryEvent extends DatabaseEvent {
+class CreateExpenseCategoryEvent extends EntriesControlEvent {
   final String categoryName;
   final CategoryIcon selectedIcon;
 
@@ -29,19 +29,19 @@ class CreateExpenseCategoryEvent extends DatabaseEvent {
       {required this.selectedIcon, required this.categoryName});
 }
 
-class CreateEntryEvent extends DatabaseEvent {
+class CreateEntryEvent extends EntriesControlEvent {
   final String amount;
   final String description;
   CreateEntryEvent(
       {required this.amount, required this.description});
 }
-class SelectEntriesByDateEvent extends DatabaseEvent{
+class SelectEntriesByDateEvent extends EntriesControlEvent{
   final DateTime monthYear;
 
   SelectEntriesByDateEvent(this.monthYear);
 
 }
-class SetDateToEntriesEvent extends DatabaseEvent{
+class SetDateToEntriesEvent extends EntriesControlEvent{
   final String type;
   final int year;
   final int month;

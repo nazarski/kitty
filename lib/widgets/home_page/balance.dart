@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:kitty/bloc/database_bloc/database_bloc.dart';
+import 'package:kitty/bloc/database_bloc/entries_control_bloc.dart';
 import 'package:kitty/resources/app_colors.dart';
 import 'package:kitty/resources/app_icons.dart';
 import 'package:kitty/resources/app_text_styles.dart';
@@ -13,7 +13,7 @@ class BalanceWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DatabaseBloc, DatabaseState>(
+    return BlocBuilder<EntriesControlBloc, EntriesControl>(
       builder: (context, state) {
         return Container(
           padding:

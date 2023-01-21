@@ -1,4 +1,4 @@
-part of 'database_bloc.dart';
+part of 'entries_control_bloc.dart';
 
 enum DatabaseStatus {
   initial,
@@ -7,7 +7,8 @@ enum DatabaseStatus {
   test,
 }
 
-class DatabaseState extends Equatable {
+class EntriesControl extends Equatable {
+  final List<EntryCategory> allCategories;
   final List<EntryCategory> expCategories;
   final List<EntryCategory> inCategories;
   final Balance balance;
@@ -18,8 +19,12 @@ class DatabaseState extends Equatable {
   final CategoryIcon? selectedIcon;
   final DatabaseStatus status;
   final List<StatisticsElement> statistics;
+  final List<int> searchCategories;
 
-  const DatabaseState({
+
+  const EntriesControl({
+  this.searchCategories = const [],
+  this.allCategories = const [],
     this.expCategories = const [],
     this.inCategories = const [],
     this.balance = const Balance(
@@ -36,7 +41,9 @@ class DatabaseState extends Equatable {
     this.statistics = const [],
   });
 
-  DatabaseState copyWith({
+  EntriesControl copyWith({
+    List<int>? searchCategories,
+    List<EntryCategory>? allCategories,
     List<EntryCategory>? expCategories,
     List<EntryCategory>? inCategories,
     Balance? balance,
@@ -48,7 +55,9 @@ class DatabaseState extends Equatable {
     List<EntryDate>? entriesDates,
     List<StatisticsElement>? statistics,
   }) {
-    return DatabaseState(
+    return EntriesControl(
+      searchCategories: searchCategories ?? this.searchCategories,
+      allCategories:allCategories ?? this.allCategories,
       expCategories: expCategories ?? this.expCategories,
       inCategories: inCategories ?? this.inCategories,
       balance: balance ?? this.balance,
@@ -64,6 +73,7 @@ class DatabaseState extends Equatable {
 
   @override
   List<Object?> get props => [
+    allCategories,
         expCategories,
         inCategories,
         categoryToAdd,

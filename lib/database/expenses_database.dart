@@ -3,9 +3,8 @@ import 'dart:math';
 import 'package:kitty/models/category_icon_model/category_icon.dart';
 import 'package:kitty/resources/initial_values.dart';
 import 'package:sqflite/sqflite.dart';
-import 'dart:convert';
 
-class DatabaseRepository {
+class ExpensesDatabaseProvider {
   static Database? _database;
 
   Future<Database> get database async {

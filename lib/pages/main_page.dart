@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kitty/bloc/database_bloc/database_bloc.dart';
+import 'package:kitty/bloc/database_bloc/entries_control_bloc.dart';
 import 'package:kitty/bloc/navigation_bloc/navigation_bloc.dart';
-import 'package:kitty/database/database_repository.dart';
+import 'package:kitty/database/expenses_database.dart';
 import 'package:kitty/pages/add_category/add_category.dart';
 import 'package:kitty/pages/add_entry/add_entry.dart';
 import 'package:kitty/pages/home_page/home_page.dart';
 import 'package:kitty/pages/search_page/search_page.dart';
 import 'package:kitty/pages/settings_page/settings_page.dart';
 import 'package:kitty/pages/statistics_page/statistics_page.dart';
+import 'package:kitty/repository/database_repository.dart';
 import 'package:kitty/routes/app_routes.dart';
 import 'package:kitty/widgets/navigation/main_bottom_navigation_bar.dart';
 
@@ -50,10 +51,10 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<DatabaseBloc>(
+        BlocProvider<EntriesControlBloc>(
             create: (_) =>
-                DatabaseBloc(DatabaseRepository())..add(CallAllDataEvent())),
-        // BlocProvider<DateBloc>(create: (_) => DateBloc()),
+                EntriesControlBloc(RepositoryProvider.of<DatabaseRepository>(context))
+                  ..add(CallAllDataEvent())),
         BlocProvider<NavigationBloc>(
           create: (_) => NavigationBloc(),
         ),

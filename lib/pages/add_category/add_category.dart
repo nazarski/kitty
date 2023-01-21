@@ -1,7 +1,7 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kitty/bloc/database_bloc/database_bloc.dart';
+import 'package:kitty/bloc/database_bloc/entries_control_bloc.dart';
 import 'package:kitty/bloc/navigation_bloc/navigation_bloc.dart';
 import 'package:kitty/resources/app_colors.dart';
 import 'package:kitty/resources/app_icons.dart';
@@ -43,7 +43,7 @@ class _AddCategoryState extends State<AddCategory> {
         _closeBottomSheet();
         return true;
       },
-      child: BlocBuilder<DatabaseBloc, DatabaseState>(
+      child: BlocBuilder<EntriesControlBloc, EntriesControl>(
         builder: (context, state) {
           return Scaffold(
             floatingActionButtonLocation:
@@ -57,7 +57,7 @@ class _AddCategoryState extends State<AddCategory> {
                     onPressed: state.selectedIcon != null &&
                             value.text.isNotEmpty
                         ? () {
-                            context.read<DatabaseBloc>().add(
+                            context.read<EntriesControlBloc>().add(
                                 CreateExpenseCategoryEvent(
                                     categoryName: value.text,
                                     selectedIcon: state.selectedIcon!));

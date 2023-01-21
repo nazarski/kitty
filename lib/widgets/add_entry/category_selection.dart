@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:kitty/bloc/database_bloc/database_bloc.dart';
+import 'package:kitty/bloc/database_bloc/entries_control_bloc.dart';
 import 'package:kitty/models/entry_category_model/entry_category.dart';
 import 'package:kitty/resources/app_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -60,7 +60,7 @@ class CategorySelection extends StatelessWidget {
                     children: [
                       IconButton(
                         onPressed: () {
-                          context.read<DatabaseBloc>().add(
+                          context.read<EntriesControlBloc>().add(
                                 GetCategoryEvent(categories[index]));
                           controller.close();
                         },

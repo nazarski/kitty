@@ -2,11 +2,7 @@ part of 'date_bloc.dart';
 
 class DateEvent {}
 
-class InitialDateEvent extends DateEvent {
-  final List<EntryDate> entries;
-
-  InitialDateEvent(this.entries);
-}
+class InitialDateEvent extends DateEvent {}
 
 class SetDateEvent extends DateEvent {
   final int month;

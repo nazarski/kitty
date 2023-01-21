@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kitty/models/entry_date_model/entry_date.dart';
+import 'package:kitty/repository/database_repository.dart';
 import 'package:kitty/utils/helper.dart';
 
 part 'date_event.dart';
@@ -9,6 +10,7 @@ part 'date_event.dart';
 part 'date_state.dart';
 
 class DateBloc extends Bloc<DateEvent, DateState> {
+  final DatabaseRepository databaseRepository;
   Map<String, Set<int>> years = {};
   List<int>? allYears;
 
@@ -75,15 +77,16 @@ class DateBloc extends Bloc<DateEvent, DateState> {
     );
   }
 
-  DateBloc() : super(DateState(DateTime.now().year)) {
-    on<InitialDateEvent>((event, emit) {
-      getRange(event.entries, emit);
-      add(
+  DateBloc(this.databaseRepository) : super(DateState(DateTime.now().year)) {
+    on<InitialDateEvent>((_, emit) async {
+      final entriesDates = await databaseRepository.getAllEntriesDates();
+      getRange(entriesDates, emit);
+    /*  add(
         SetDateEvent(
           month: years['${allYears!.first}']!.first,
           year: allYears!.first,
         ),
-      );
+      );*/
     });
     on<ToSelectedDateEvent>((event, emit) {
       emit(state.copyWith(

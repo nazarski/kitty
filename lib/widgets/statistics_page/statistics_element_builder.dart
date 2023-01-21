@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kitty/bloc/database_bloc/database_bloc.dart';
+import 'package:kitty/bloc/database_bloc/entries_control_bloc.dart';
 import 'package:kitty/resources/app_text_styles.dart';
 import 'package:kitty/widgets/icon_view.dart';
 
@@ -11,7 +11,7 @@ class StatisticsElementBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DatabaseBloc, DatabaseState>(
+    return BlocBuilder<EntriesControlBloc, EntriesControl>(
       builder: (context, state) {
         return Flexible(
           child: ListView.builder(

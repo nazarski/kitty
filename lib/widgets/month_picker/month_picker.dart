@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kitty/bloc/database_bloc/database_bloc.dart';
+import 'package:kitty/bloc/database_bloc/entries_control_bloc.dart';
 import 'package:kitty/bloc/date_bloc/date_bloc.dart';
 import 'package:kitty/models/entry_date_model/entry_date.dart';
+import 'package:kitty/repository/database_repository.dart';
 import 'package:kitty/resources/app_colors.dart';
 import 'package:kitty/resources/app_text_styles.dart';
 import 'package:kitty/widgets/month_picker/overlay_calendar_window.dart';
@@ -35,7 +36,7 @@ class _MonthPickerState extends State<MonthPicker> {
 
   @override
   void initState() {
-    provider = DateBloc();
+    provider = DateBloc(RepositoryProvider.of<DatabaseRepository>(context));
     super.initState();
   }
 
@@ -62,7 +63,7 @@ class _MonthPickerState extends State<MonthPicker> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => provider!..add(InitialDateEvent(widget.entries)),
+      create: (context) => provider!..add(InitialDateEvent()),
       child: BlocConsumer<DateBloc, DateState>(
         listenWhen: (previous, current) {
           return (previous.selectedYear != current.selectedYear ||
@@ -70,7 +71,7 @@ class _MonthPickerState extends State<MonthPicker> {
               current.selectedYear != 0;
         },
         listener: (context, state) {
-          context.read<DatabaseBloc>().add(SetDateToEntriesEvent(
+          context.read<EntriesControlBloc>().add(SetDateToEntriesEvent(
               type: widget.selectType,
               year: state.selectedYear,
               month: state.selectedMonth));

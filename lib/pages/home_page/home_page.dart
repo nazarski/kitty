@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:kitty/bloc/database_bloc/database_bloc.dart';
+import 'package:kitty/bloc/database_bloc/entries_control_bloc.dart';
 import 'package:kitty/bloc/navigation_bloc/navigation_bloc.dart';
 import 'package:kitty/pages/add_entry/add_entry.dart';
 import 'package:kitty/resources/app_colors.dart';
@@ -33,7 +33,7 @@ class HomePage extends StatelessWidget {
               .add(NavigateTab(tabIndex: 3, route: AddEntry.routeName));
         },
       ),
-      body: BlocConsumer<DatabaseBloc, DatabaseState>(
+      body: BlocConsumer<EntriesControlBloc, EntriesControl>(
         listener: (context, state) {},
         builder: (context, state) {
           return Padding(

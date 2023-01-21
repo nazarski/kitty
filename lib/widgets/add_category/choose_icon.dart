@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:kitty/bloc/database_bloc/database_bloc.dart';
+import 'package:kitty/bloc/database_bloc/entries_control_bloc.dart';
 import 'package:kitty/models/category_icon_model/category_icon.dart';
 import 'package:kitty/resources/app_colors.dart';
 import 'package:kitty/resources/app_icons.dart';
@@ -20,7 +20,7 @@ class ChooseIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DatabaseBloc, DatabaseState>(
+    return BlocBuilder<EntriesControlBloc, EntriesControl>(
       builder: (context, state) {
         return Container(
           padding: const EdgeInsets.only(top: 8),
@@ -62,7 +62,7 @@ class ChooseIcon extends StatelessWidget {
                           iconSize: 48,
                           onPressed: () {
                             context
-                                .read<DatabaseBloc>()
+                                .read<EntriesControlBloc>()
                                 .add(GetIconEvent(iconList[index]));
                             Future.delayed(const Duration(milliseconds: 500),
                                 () {

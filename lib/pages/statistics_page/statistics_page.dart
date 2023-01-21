@@ -5,7 +5,7 @@ import 'package:flutter/material.dart' as mt;
 import 'package:intl/intl.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kitty/bloc/database_bloc/database_bloc.dart';
+import 'package:kitty/bloc/database_bloc/entries_control_bloc.dart';
 import 'package:kitty/models/statistics_element_model/statistics_element.dart';
 import 'package:kitty/widgets/month_picker/month_picker.dart';
 import 'package:open_document/open_document.dart';
@@ -33,7 +33,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<DatabaseBloc, DatabaseState>(
+    return BlocConsumer<EntriesControlBloc, EntriesControl>(
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
