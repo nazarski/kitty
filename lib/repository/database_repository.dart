@@ -180,7 +180,8 @@ class DatabaseRepository {
     });
   }
 
-  Future<List<StatisticsElement>> getMonthlyStatistics(int year, int month) async {
+  Future<List<StatisticsElement>> getMonthlyStatistics(
+      int year, int month) async {
     final int start = DateTime(year, month)
         .subtract(const Duration(days: 1))
         .millisecondsSinceEpoch;
@@ -227,6 +228,28 @@ class DatabaseRepository {
     });
   }
 
-
-
+  Future<List<Entry>> getSearchedEntries(
+      List<int> ids, String searchValue) async {
+    final db = await databaseProvider.database;
+    final categories =
+        ' AND categoryId IN (${('?' * (ids.length)).split('').join(', ')})';
+    return await db.transaction((txn) async {
+      return await txn
+          .query(databaseProvider.entryTable,
+              where: 'description LIKE ?${ids.isNotEmpty ? categories : ''}',
+              whereArgs: ['$searchValue%', ...ids],
+              orderBy: 'expenseId DESC')
+          .then((data) {
+        final converted = List<Map<String, dynamic>>.from(data);
+        return converted.map((e) {
+          return Entry(
+              expenseId: e['expenseId'],
+              description: e['description'],
+              amount: e['amount'],
+              dateTime: DateTime.fromMillisecondsSinceEpoch(e['dateTime']),
+              categoryId: e['categoryId']);
+        }).toList();
+      });
+    });
+  }
 }

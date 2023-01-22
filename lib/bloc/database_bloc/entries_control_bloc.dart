@@ -26,12 +26,12 @@ class EntriesControlBloc extends Bloc<EntriesControlEvent, EntriesControl> {
         expCategories: categories
             .where(
               (element) => element.type == 'expense',
-        )
+            )
             .toList(),
         inCategories: categories
             .where(
               (element) => element.type == 'income',
-        )
+            )
             .toList()));
   }
 
@@ -39,11 +39,7 @@ class EntriesControlBloc extends Bloc<EntriesControlEvent, EntriesControl> {
     emit(state.copyWith(icons: await databaseRepository.getAllIcons()));
     add(CallEntryCategoriesEvent());
     add(SetDateToEntriesEvent(
-        type: 'range', year: DateTime
-        .now()
-        .year, month: DateTime
-        .now()
-        .month));
+        type: 'range', year: DateTime.now().year, month: DateTime.now().month));
   }
 
   Future<void> getRangeData(emit, int year, int month) async {
@@ -56,15 +52,17 @@ class EntriesControlBloc extends Bloc<EntriesControlEvent, EntriesControl> {
   }
 
   Future<void> getStatistics(Emitter emit, int year, int month) async {
-    final statistics = await databaseRepository.getMonthlyStatistics(
-        year, month);
+    final statistics =
+        await databaseRepository.getMonthlyStatistics(year, month);
     emit(state.copyWith(statistics: statistics));
   }
 
-  Future<void> selectType(String type,
-      int year,
-      int month,
-      Emitter emit,) async {
+  Future<void> selectType(
+    String type,
+    int year,
+    int month,
+    Emitter emit,
+  ) async {
     switch (type) {
       case 'range':
         await getRangeData(emit, year, month);
@@ -73,6 +71,13 @@ class EntriesControlBloc extends Bloc<EntriesControlEvent, EntriesControl> {
         await getStatistics(emit, year, month);
         break;
     }
+  }
+
+  Future<void> getSearchedEntries(
+      Emitter emit, List<int> ids, String searchValue) async {
+    final entries =
+        await databaseRepository.getSearchedEntries(ids, searchValue);
+    emit(state.copyWith(entries: groupEntries(list: entries)));
   }
 
   EntriesControlBloc(this.databaseRepository) : super(const EntriesControl()) {
@@ -103,16 +108,14 @@ class EntriesControlBloc extends Bloc<EntriesControlEvent, EntriesControl> {
           description: event.description);
       add(SetDateToEntriesEvent(
           type: 'range',
-          year: DateTime
-              .now()
-              .year,
-          month: DateTime
-              .now()
-              .month));
+          year: DateTime.now().year,
+          month: DateTime.now().month));
     });
     on<SetDateToEntriesEvent>((event, emit) async {
       await selectType(event.type, event.year, event.month, emit);
     });
+    on<SearchEntries>((event, emit) async {
+      await getSearchedEntries(emit, event.categoryIds, event.searchValue);
+    });
   }
-
 }

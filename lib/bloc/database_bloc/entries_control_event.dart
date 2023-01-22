@@ -48,3 +48,9 @@ class SetDateToEntriesEvent extends EntriesControlEvent{
 
   SetDateToEntriesEvent({required this.type, required this.year, required this.month});
 }
+class SearchEntries extends EntriesControlEvent{
+  final List<int> categoryIds;
+  final String searchValue;
+
+  SearchEntries(this.categoryIds, this.searchValue);
+}

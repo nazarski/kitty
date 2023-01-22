@@ -81,12 +81,12 @@ class DateBloc extends Bloc<DateEvent, DateState> {
     on<InitialDateEvent>((_, emit) async {
       final entriesDates = await databaseRepository.getAllEntriesDates();
       getRange(entriesDates, emit);
-    /*  add(
+      add(
         SetDateEvent(
           month: years['${allYears!.first}']!.first,
           year: allYears!.first,
         ),
-      );*/
+      );
     });
     on<ToSelectedDateEvent>((event, emit) {
       emit(state.copyWith(

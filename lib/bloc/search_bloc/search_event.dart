@@ -6,15 +6,16 @@ abstract class SearchEvent {}
 class CategorySearchEvent extends SearchEvent{
   final int categoryId;
 
-  CategorySearchEvent(this.categoryId);
+  CategorySearchEvent({required this.categoryId});
 }
 class SearchByValueEvent extends SearchEvent{
   final String searchValue;
 
-  SearchByValueEvent(this.searchValue);
+  SearchByValueEvent({required this.searchValue});
 }
 class SaveSearchValueEvent extends SearchEvent{
   final String searchValue;
 
-  SaveSearchValueEvent(this.searchValue);
+  SaveSearchValueEvent({required this.searchValue});
 }
+class GetAvailableCategories extends SearchEvent{}

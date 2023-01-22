@@ -8,7 +8,6 @@ enum DatabaseStatus {
 }
 
 class EntriesControl extends Equatable {
-  final List<EntryCategory> allCategories;
   final List<EntryCategory> expCategories;
   final List<EntryCategory> inCategories;
   final Balance balance;
@@ -19,12 +18,9 @@ class EntriesControl extends Equatable {
   final CategoryIcon? selectedIcon;
   final DatabaseStatus status;
   final List<StatisticsElement> statistics;
-  final List<int> searchCategories;
 
 
   const EntriesControl({
-  this.searchCategories = const [],
-  this.allCategories = const [],
     this.expCategories = const [],
     this.inCategories = const [],
     this.balance = const Balance(
@@ -42,8 +38,6 @@ class EntriesControl extends Equatable {
   });
 
   EntriesControl copyWith({
-    List<int>? searchCategories,
-    List<EntryCategory>? allCategories,
     List<EntryCategory>? expCategories,
     List<EntryCategory>? inCategories,
     Balance? balance,
@@ -56,8 +50,6 @@ class EntriesControl extends Equatable {
     List<StatisticsElement>? statistics,
   }) {
     return EntriesControl(
-      searchCategories: searchCategories ?? this.searchCategories,
-      allCategories:allCategories ?? this.allCategories,
       expCategories: expCategories ?? this.expCategories,
       inCategories: inCategories ?? this.inCategories,
       balance: balance ?? this.balance,
@@ -73,7 +65,6 @@ class EntriesControl extends Equatable {
 
   @override
   List<Object?> get props => [
-    allCategories,
         expCategories,
         inCategories,
         categoryToAdd,

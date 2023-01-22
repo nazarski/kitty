@@ -40,15 +40,10 @@ class HomePage extends StatelessWidget {
             padding: const EdgeInsets.only(top: 8.0, left: 16, right: 16),
             child: Column(
               children: [
-                if (state.entriesDates.isNotEmpty) ...[
                   MonthPicker(
                     entries: state.entriesDates,
                     selectType: 'range',
-                  )
-                ] else
-                  ...[
-                    const SizedBox.shrink()
-                  ],
+                  ),
                 const SizedBox(
                   height: 20,
                 ),
