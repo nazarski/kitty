@@ -30,7 +30,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
         return Scaffold(
           appBar: const HomePageAppBar(),
           floatingActionButtonLocation:
-          FloatingActionButtonLocation.centerFloat,
+              FloatingActionButtonLocation.centerFloat,
           floatingActionButton: FloatingActionButton.extended(
             icon: const Icon(
               Icons.file_download_outlined,
@@ -38,7 +38,8 @@ class _StatisticsPageState extends State<StatisticsPage> {
             ),
             label: const Text('Download report'),
             onPressed: () async {
-              await createOpenPdf(state);
+              await createOpenPdf(
+                  statistics: state.statistics, reportDate: state.reportDate!);
             },
           ),
           body: Padding(
@@ -46,8 +47,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                MonthPicker(
-                  entries: state.entriesDates,
+                const MonthPicker(
                   selectType: 'exact',
                 ),
                 const SizedBox(
@@ -81,4 +81,3 @@ class _StatisticsPageState extends State<StatisticsPage> {
     );
   }
 }
-

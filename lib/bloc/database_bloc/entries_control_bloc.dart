@@ -54,7 +54,8 @@ class EntriesControlBloc extends Bloc<EntriesControlEvent, EntriesControl> {
   Future<void> getStatistics(Emitter emit, int year, int month) async {
     final statistics =
         await databaseRepository.getMonthlyStatistics(year, month);
-    emit(state.copyWith(statistics: statistics));
+    emit(state.copyWith(
+        reportDate: DateTime(year, month), statistics: statistics));
   }
 
   Future<void> selectType(

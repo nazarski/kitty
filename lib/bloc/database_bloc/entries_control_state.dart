@@ -8,19 +8,19 @@ enum DatabaseStatus {
 }
 
 class EntriesControl extends Equatable {
+  final DateTime? reportDate;
   final List<EntryCategory> expCategories;
   final List<EntryCategory> inCategories;
   final Balance balance;
   final Map<String, List<Entry>> entries;
-  final List<EntryDate> entriesDates;
   final List<CategoryIcon> icons;
   final EntryCategory? categoryToAdd;
   final CategoryIcon? selectedIcon;
   final DatabaseStatus status;
   final List<StatisticsElement> statistics;
 
-
   const EntriesControl({
+    this.reportDate,
     this.expCategories = const [],
     this.inCategories = const [],
     this.balance = const Balance(
@@ -33,7 +33,6 @@ class EntriesControl extends Equatable {
     this.categoryToAdd,
     this.selectedIcon,
     this.status = DatabaseStatus.initial,
-    this.entriesDates = const [],
     this.statistics = const [],
   });
 
@@ -48,6 +47,7 @@ class EntriesControl extends Equatable {
     DatabaseStatus? status,
     List<EntryDate>? entriesDates,
     List<StatisticsElement>? statistics,
+    DateTime? reportDate,
   }) {
     return EntriesControl(
       expCategories: expCategories ?? this.expCategories,
@@ -58,8 +58,8 @@ class EntriesControl extends Equatable {
       categoryToAdd: categoryToAdd ?? this.categoryToAdd,
       selectedIcon: selectedIcon ?? this.selectedIcon,
       status: status ?? this.status,
-      entriesDates: entriesDates ?? this.entriesDates,
       statistics: statistics ?? this.statistics,
+      reportDate: reportDate ?? this.reportDate,
     );
   }
 
@@ -72,7 +72,7 @@ class EntriesControl extends Equatable {
         selectedIcon,
         entries,
         status,
-        entriesDates,
         statistics,
+        reportDate,
       ];
 }

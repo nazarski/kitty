@@ -57,16 +57,18 @@ int findElement(Set<int> months, int current, int onFound) {
   }
   return 0;
 }
-Future<void> createOpenPdf(EntriesControl state) async {
+
+Future<void> createOpenPdf(
+    {required List<StatisticsElement> statistics,
+    required DateTime reportDate}) async {
   final data = await buildPdf(
-    selectedMonth: state.entriesDates.first.dateTime,
-    stats: state.statistics,
+    selectedMonth: reportDate,
+    stats: statistics,
   );
   await savePdfFile(
       fileName:
-      'Expense_report_by_${DateFormat(DateFormat.MONTH)
-          .format(state.entriesDates.first.dateTime)}_'
-          '${state.entriesDates.first.dateTime.year}',
+          'Expense_report_by_${DateFormat(DateFormat.MONTH).format(reportDate)}_'
+          '${reportDate.year}',
       byteList: data);
 }
 
@@ -94,7 +96,7 @@ Future<Uint8List> buildPdf({
     headers: ['Category', 'Transactions', 'Expenses', 'Result'],
     data: List<List<dynamic>>.generate(
       stats.length,
-          (index) => <dynamic>[
+      (index) => <dynamic>[
         stats[index].categoryTitle,
         stats[index].countOfEntries,
         stats[index].totalAmount,
@@ -131,7 +133,7 @@ Future<Uint8List> buildPdf({
             child: pw.Chart(
               title: pw.Text(
                   'Expense report on ${DateFormat(DateFormat.MONTH).format(selectedMonth)}, '
-                      '${selectedMonth.year}',
+                  '${selectedMonth.year}',
                   style: pw.TextStyle(
                       color: PdfColor.fromInt(0xff212121),
                       font: medium,
@@ -139,7 +141,7 @@ Future<Uint8List> buildPdf({
               grid: pw.PieGrid(),
               datasets: List.generate(
                 stats.length,
-                    (index) {
+                (index) {
                   return pw.PieDataSet(
                       legend: '${stats[index].categoryTitle} '
                           '${stats[index].monthShare.round()}%',
