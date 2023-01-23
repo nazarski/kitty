@@ -25,7 +25,7 @@ class _SearchPageState extends State<SearchPage> {
     return BlocProvider(
       create: (context) =>
           SearchBloc(RepositoryProvider.of<DatabaseRepository>(context))
-            ..add(GetAvailableCategories()),
+            ..add(GetAvailableSearchData()),
       child: BlocConsumer<SearchBloc, SearchState>(
         listener: (context, state) {
           context
@@ -34,66 +34,104 @@ class _SearchPageState extends State<SearchPage> {
         },
         builder: (context, state) {
           return SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TextField(
-                    controller: controller,
-                    onChanged: (String value) {
-                      context
-                          .read<SearchBloc>()
-                          .add(SearchByValueEvent(searchValue: value));
-                    },
-                    cursorColor: AppColors.mainText,
-                    decoration: InputDecoration(
-                        border: InputBorder.none,
-                        disabledBorder: InputBorder.none,
-                        enabledBorder: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        prefixIcon: IconButton(
-                            onPressed: () {
-                              context
-                                  .read<NavigationBloc>()
-                                  .add(NavigationPop());
-                            },
-                            icon: const Icon(
-                              Icons.arrow_back,
-                              color: AppColors.mainText,
-                            )),
-                        hintText: 'Search for notes, categories or labels',
-                        hintStyle: AppStyles.body2),
-                  ),
-                  SizedBox(
-                    height: 50,
-                    child: ListView.separated(
-                        shrinkWrap: true,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 8),
-                        physics: const BouncingScrollPhysics(),
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (_, index) {
-                          return CategoryFilterChip(
-                            icon: state.availableCategories[index].icon.localPath,
-                            title: state.availableCategories[index].title,
-                            categoryId:
-                                state.availableCategories[index].categoryId,
-                            selected: state.searchCategories.contains(
-                                state.availableCategories[index].categoryId),
-                          );
-                        },
-                        separatorBuilder: (_, __) {
-                          return const SizedBox(
-                            width: 12,
-                          );
-                        },
-                        itemCount: state.availableCategories.length),
-                  ),
-                  const SizedBox(height: 12,),
-                  const EntriesListBuilder()
-                ],
-              ),
+            child: Column(
+              children: [
+                TextField(
+                  controller: controller,
+                  onEditingComplete: () {
+                    context
+                        .read<SearchBloc>()
+                        .add(SaveRecentSearchValue(controller.text));
+                    FocusScope.of(context).unfocus();
+                  },
+                  onChanged: (String value) {
+                    context
+                        .read<SearchBloc>()
+                        .add(SearchByValueEvent(searchValue: value));
+                  },
+                  cursorColor: AppColors.mainText,
+                  decoration: InputDecoration(
+                      border: InputBorder.none,
+                      disabledBorder: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      prefixIcon: IconButton(
+                          onPressed: () {
+                            context.read<NavigationBloc>().add(NavigationPop());
+                          },
+                          icon: const Icon(
+                            Icons.arrow_back,
+                            color: AppColors.mainText,
+                          )),
+                      hintText: 'Search for notes, categories or labels',
+                      hintStyle: AppStyles.body2),
+                ),
+                SizedBox(
+                  height: 50,
+                  child: ListView.separated(
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
+                      physics: const BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (_, index) {
+                        return CategoryFilterChip(
+                          icon: state.availableCategories[index].icon.localPath,
+                          title: state.availableCategories[index].title,
+                          categoryId:
+                              state.availableCategories[index].categoryId,
+                          selected: state.searchCategories.contains(
+                              state.availableCategories[index].categoryId),
+                        );
+                      },
+                      separatorBuilder: (_, __) {
+                        return const SizedBox(
+                          width: 12,
+                        );
+                      },
+                      itemCount: state.availableCategories.length),
+                ),
+                const SizedBox(
+                  height: 12,
+                ),
+                if (state.searchValue.isEmpty &&
+                    state.searchCategories.isEmpty) ...[
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Column(
+                          children: List.generate(state.searchHistory.length, (index) {
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Icon(
+                                  Icons.history,
+                                  color: AppColors.subTitle,
+                                ),
+                                Text(
+                                  state.searchHistory[index],
+                                  style: AppStyles.body2,
+                                ),
+                                IconButton(
+                                  icon: const Icon(
+                                    Icons.north_west,
+                                    color: AppColors.subTitle,
+                                  ),
+                                  onPressed: (){
+                                    context
+                                        .read<SearchBloc>()
+                                        .add(SearchByValueEvent(searchValue: state.searchHistory[index]));
+                                    controller.text = state.searchHistory[index];
+                                  },
+                                ),
+                              ],
+                            );
+                          }),
+                        ),
+                      )
+                ] else ...[
+                  const EntriesListBuilder(),
+                ]
+              ],
             ),
           );
         },

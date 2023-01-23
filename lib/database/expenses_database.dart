@@ -23,6 +23,7 @@ class ExpensesDatabaseProvider {
   final String entryCatTable = 'entryCategoryTable';
   final String entryTable = 'entryTable';
   final String icTable = 'iconsTable';
+  final String searches = 'searchValues';
 
 // set tables and fill with initial values once when db created
   Future<void> _createDb(Database db, int version) async {
@@ -59,6 +60,14 @@ class ExpensesDatabaseProvider {
       localPath TEXT,
       color Text)
       ''');
+
+      //recent search values table
+      await txn.execute('''
+      CREATE TABLE $searches (
+      value TEXT,
+      timeStamp INTEGER)
+      ''');
+
 
       // initial values
 

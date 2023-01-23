@@ -18,4 +18,9 @@ class SaveSearchValueEvent extends SearchEvent{
 
   SaveSearchValueEvent({required this.searchValue});
 }
-class GetAvailableCategories extends SearchEvent{}
+class GetAvailableSearchData extends SearchEvent{}
+class SaveRecentSearchValue extends SearchEvent{
+  final String searchValue;
+
+  SaveRecentSearchValue(this.searchValue);
+}

@@ -252,4 +252,36 @@ class DatabaseRepository {
       });
     });
   }
+
+  Future<void> saveSearchValue(String value) async {
+    final db = await databaseProvider.database;
+    return await db.transaction((txn) async {
+      final int count = await txn
+          .rawQuery(
+              'SELECT COUNT(timeStamp) AS count FROM ${databaseProvider.searches}')
+          .then((data) {
+        final converted = List<Map<String, dynamic>>.from(data);
+        return converted.first['count'] ?? 0;
+      });
+      if (count >= 5) {
+        await txn.rawQuery('DELETE FROM ${databaseProvider.searches} WHERE '
+            'timeStamp = (SELECT MIN(timeStamp) FROM ${databaseProvider.searches})');
+      }
+      await txn.insert(databaseProvider.searches,
+          {'value': value, 'timeStamp': DateTime.now().millisecondsSinceEpoch});
+    });
+  }
+
+  Future<List<String>> getRecentSearchValues() async {
+    final db = await databaseProvider.database;
+    return await db.transaction((txn) async {
+      return await txn
+          .rawQuery('SELECT * FROM ${databaseProvider.searches} '
+              'ORDER BY timeStamp DESC')
+          .then((data) {
+        final converted = List<Map<String, dynamic>>.from(data);
+        return converted.map((e) => e['value'] as String).toList();
+      });
+    });
+  }
 }

@@ -37,21 +37,20 @@ class HomePage extends StatelessWidget {
         listener: (context, state) {},
         builder: (context, state) {
           return Padding(
-            padding: const EdgeInsets.only(top: 8.0, left: 16, right: 16),
+            padding: const EdgeInsets.only(top: 8.0,),
             child: Column(
-              children: [
+              children: const [
                   MonthPicker(
-                    entries: state.entriesDates,
                     selectType: 'range',
                   ),
-                const SizedBox(
+                SizedBox(
                   height: 20,
                 ),
-                const BalanceWidget(),
-                const SizedBox(
+                BalanceWidget(),
+                SizedBox(
                   height: 8,
                 ),
-                const EntriesListBuilder()
+                EntriesListBuilder()
               ],
             ),
           );

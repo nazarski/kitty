@@ -20,16 +20,21 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     emit(state.copyWith(searchCategories: selectedCategories));
   }
 
-  Future<void> _getCategories(Emitter emit) async {
+  Future<void> _getSearchData(Emitter emit) async {
     final categories = await databaseRepository.getUsedCategories();
-    emit(state.copyWith(availableCategories: categories));
+    final searchValues = await databaseRepository.getRecentSearchValues();
+    emit(state.copyWith(
+        searchHistory: searchValues, availableCategories: categories));
   }
 
   SearchBloc(this.databaseRepository) : super(SearchState()) {
     on<CategorySearchEvent>((event, emit) => _categories(event, emit));
-    on<GetAvailableCategories>((_, emit) async => _getCategories(emit));
+    on<GetAvailableSearchData>((_, emit) async => _getSearchData(emit));
     on<SearchByValueEvent>((event, emit) {
       emit(state.copyWith(searchValue: event.searchValue));
+    });
+    on<SaveRecentSearchValue>((event, emit) async {
+      await databaseRepository.saveSearchValue(event.searchValue);
     });
   }
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kitty/bloc/database_bloc/entries_control_bloc.dart';
 import 'package:kitty/bloc/date_bloc/date_bloc.dart';
-import 'package:kitty/models/entry_date_model/entry_date.dart';
 import 'package:kitty/repository/database_repository.dart';
 import 'package:kitty/resources/app_colors.dart';
 import 'package:kitty/resources/app_text_styles.dart';
@@ -12,10 +11,8 @@ import 'package:kitty/widgets/month_picker/place_holder.dart';
 class MonthPicker extends StatefulWidget {
   const MonthPicker({
     Key? key,
-    required this.entries,
     required this.selectType,
   }) : super(key: key);
-  final List<EntryDate> entries;
   final String selectType;
 
   @override
@@ -87,62 +84,65 @@ class _MonthPickerState extends State<MonthPicker> {
               state.allYears.contains(state.selectedYear + 1) ||
                   state.selectedMonth != state.activeMonths.first &&
                       state.selectedYear == state.year;
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              IconButton(
-                onPressed: back
-                    ? () {
-                        context
-                            .read<DateBloc>()
-                            .add(CallMonthDateEvent('back'));
-                      }
-                    : null,
-                icon: Icon(
-                  Icons.arrow_back_ios,
-                  color: back ? AppColors.subTitle : Colors.white,
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  _showOverlay(context);
-                },
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      color: AppColors.basicGrey),
-                  child: Row(
-                    children: [
-                      const Icon(
-                        Icons.calendar_today_outlined,
-                        color: AppColors.subTitle,
-                        size: 16,
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      Text(
-                        '${listOfMonths[state.selectedMonth - 1]}, ${state.selectedYear}',
-                        style: AppStyles.buttonBlack,
-                      )
-                    ],
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                  onPressed: back
+                      ? () {
+                          context
+                              .read<DateBloc>()
+                              .add(CallMonthDateEvent('back'));
+                        }
+                      : null,
+                  icon: Icon(
+                    Icons.arrow_back_ios,
+                    color: back ? AppColors.subTitle : Colors.white,
                   ),
                 ),
-              ),
-              IconButton(
-                onPressed: forward
-                    ? () {
-                        context
-                            .read<DateBloc>()
-                            .add(CallMonthDateEvent('forward'));
-                      }
-                    : null,
-                icon: Icon(Icons.arrow_forward_ios,
-                    color: forward ? AppColors.subTitle : Colors.white),
-              ),
-            ],
+                InkWell(
+                  onTap: () {
+                    _showOverlay(context);
+                  },
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        color: AppColors.basicGrey),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.calendar_today_outlined,
+                          color: AppColors.subTitle,
+                          size: 16,
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        Text(
+                          '${listOfMonths[state.selectedMonth - 1]}, ${state.selectedYear}',
+                          style: AppStyles.buttonBlack,
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                IconButton(
+                  onPressed: forward
+                      ? () {
+                          context
+                              .read<DateBloc>()
+                              .add(CallMonthDateEvent('forward'));
+                        }
+                      : null,
+                  icon: Icon(Icons.arrow_forward_ios,
+                      color: forward ? AppColors.subTitle : Colors.white),
+                ),
+              ],
+            ),
           );
         },
       ),

@@ -34,7 +34,9 @@ class EntriesListBuilder extends StatelessWidget {
         final entryData = state.entries.entries;
         final categories = [...state.inCategories, ...state.expCategories];
         return Flexible(
+          fit: FlexFit.loose,
           child: ListView.separated(
+            padding: EdgeInsets.symmetric(horizontal: 16),
             physics: const BouncingScrollPhysics(),
             itemCount: state.entries.length,
             itemBuilder: (
