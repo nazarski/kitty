@@ -15,7 +15,8 @@ part 'entries_control_event.dart';
 
 part 'entries_control_state.dart';
 
-class EntriesControlBloc extends Bloc<EntriesControlEvent, EntriesControl> {
+class EntriesControlBloc
+    extends Bloc<EntriesControlEvent, EntriesControlState> {
   DatabaseRepository databaseRepository;
 
   //fetch categories
@@ -81,7 +82,8 @@ class EntriesControlBloc extends Bloc<EntriesControlEvent, EntriesControl> {
     emit(state.copyWith(entries: groupEntries(list: entries)));
   }
 
-  EntriesControlBloc(this.databaseRepository) : super(const EntriesControl()) {
+  EntriesControlBloc(this.databaseRepository)
+      : super(const EntriesControlState()) {
     on<InitialDatabaseEvent>((event, emit) {
       emit(state.copyWith(
           categoryToAdd: null,
@@ -117,6 +119,13 @@ class EntriesControlBloc extends Bloc<EntriesControlEvent, EntriesControl> {
     });
     on<SearchEntries>((event, emit) async {
       await getSearchedEntries(emit, event.categoryIds, event.searchValue);
+    });
+    on<DeleteEntryEvent>((event, emit) async {
+      await databaseRepository.deleteEntry(event.entryId);
+      add(SetDateToEntriesEvent(
+          type: 'range',
+          year: DateTime.now().year,
+          month: DateTime.now().month));
     });
   }
 }

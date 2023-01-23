@@ -54,3 +54,8 @@ class SearchEntries extends EntriesControlEvent{
 
   SearchEntries(this.categoryIds, this.searchValue);
 }
+class DeleteEntryEvent extends EntriesControlEvent{
+  final int entryId;
+
+  DeleteEntryEvent(this.entryId);
+}

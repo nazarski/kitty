@@ -284,4 +284,12 @@ class DatabaseRepository {
       });
     });
   }
+
+  Future<void> deleteEntry(int id) async {
+    final db = await databaseProvider.database;
+    await db.transaction((txn) async {
+      await txn.delete(databaseProvider.entryTable,
+          where: 'expenseId = ?', whereArgs: [id]);
+    });
+  }
 }

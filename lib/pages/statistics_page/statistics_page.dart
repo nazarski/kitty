@@ -24,7 +24,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<EntriesControlBloc, EntriesControl>(
+    return BlocConsumer<EntriesControlBloc, EntriesControlState>(
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(

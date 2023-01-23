@@ -13,7 +13,7 @@ class BalanceWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<EntriesControlBloc, EntriesControl>(
+    return BlocBuilder<EntriesControlBloc, EntriesControlState>(
       builder: (context, state) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),

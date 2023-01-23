@@ -168,8 +168,11 @@ class _MonthPickerState extends State<MonthPicker> {
               width: size.width,
               top: offset.dy + size.height,
               left: offset.dx,
-              child: OverlayCalendarWindow(
-                listOfMonths: listOfMonths,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: OverlayCalendarWindow(
+                  listOfMonths: listOfMonths,
+                ),
               ))
         ]),
       );

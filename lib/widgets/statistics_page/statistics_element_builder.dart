@@ -11,7 +11,7 @@ class StatisticsElementBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<EntriesControlBloc, EntriesControl>(
+    return BlocBuilder<EntriesControlBloc, EntriesControlState>(
       builder: (context, state) {
         return Flexible(
           child: ListView.builder(

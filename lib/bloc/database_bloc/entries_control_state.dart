@@ -7,7 +7,7 @@ enum DatabaseStatus {
   test,
 }
 
-class EntriesControl extends Equatable {
+class EntriesControlState extends Equatable {
   final DateTime? reportDate;
   final List<EntryCategory> expCategories;
   final List<EntryCategory> inCategories;
@@ -19,7 +19,7 @@ class EntriesControl extends Equatable {
   final DatabaseStatus status;
   final List<StatisticsElement> statistics;
 
-  const EntriesControl({
+  const EntriesControlState({
     this.reportDate,
     this.expCategories = const [],
     this.inCategories = const [],
@@ -36,7 +36,7 @@ class EntriesControl extends Equatable {
     this.statistics = const [],
   });
 
-  EntriesControl copyWith({
+  EntriesControlState copyWith({
     List<EntryCategory>? expCategories,
     List<EntryCategory>? inCategories,
     Balance? balance,
@@ -49,7 +49,7 @@ class EntriesControl extends Equatable {
     List<StatisticsElement>? statistics,
     DateTime? reportDate,
   }) {
-    return EntriesControl(
+    return EntriesControlState(
       expCategories: expCategories ?? this.expCategories,
       inCategories: inCategories ?? this.inCategories,
       balance: balance ?? this.balance,

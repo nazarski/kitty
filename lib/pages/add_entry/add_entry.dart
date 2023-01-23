@@ -45,7 +45,7 @@ class _AddEntryState extends State<AddEntry> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<EntriesControlBloc, EntriesControl>(
+    return BlocBuilder<EntriesControlBloc, EntriesControlState>(
       builder: (context, state) {
         if (state.categoryToAdd != null) {
           categoryController.text = state.categoryToAdd!.title;
@@ -157,7 +157,7 @@ class _AddEntryState extends State<AddEntry> {
   }
 
   PersistentBottomSheetController<dynamic> buildShowBottomSheet(
-      BuildContext context, EntriesControl state) {
+      BuildContext context, EntriesControlState state) {
     return showBottomSheet(
       constraints:
           BoxConstraints(maxHeight: MediaQuery.of(context).size.height / 2),

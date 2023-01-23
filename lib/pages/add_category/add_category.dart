@@ -43,7 +43,7 @@ class _AddCategoryState extends State<AddCategory> {
         _closeBottomSheet();
         return true;
       },
-      child: BlocBuilder<EntriesControlBloc, EntriesControl>(
+      child: BlocBuilder<EntriesControlBloc, EntriesControlState>(
         builder: (context, state) {
           return Scaffold(
             floatingActionButtonLocation:
