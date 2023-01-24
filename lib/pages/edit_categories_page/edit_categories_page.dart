@@ -71,8 +71,8 @@ class _EditCategoriesPageState extends State<EditCategoriesPage> {
               },
               itemCount: state.expCategories.length,
               onReorder: (oldIndex, newIndex) {
-                print('$oldIndex to $newIndex');
-
+                context.read<EntriesControlBloc>().add(ReorderCategoriesEvent(
+                    oldIndex: oldIndex, newIndex: newIndex));
               });
         },
       ),

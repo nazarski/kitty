@@ -37,6 +37,7 @@ class ExpensesDatabaseProvider {
       entries INTEGER,
       type TEXT,
       iconId INTEGER NOT NULL,
+      orderNum INTEGER AUTOINCREMENT,
       FOREIGN KEY (iconId) REFERENCES $icTable (iconId)
       )
       ''');

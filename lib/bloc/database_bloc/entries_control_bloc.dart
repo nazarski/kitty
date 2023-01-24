@@ -82,6 +82,17 @@ class EntriesControlBloc
     emit(state.copyWith(entries: groupEntries(list: entries)));
   }
 
+  Future<void> swapCategories(int oldIndex, int newIndex) async {
+    if (oldIndex < newIndex) {
+      newIndex -= 1;
+    }
+    final firstElement = state.expCategories[oldIndex].orderNum,
+        secondElement = state.expCategories[newIndex].orderNum;
+    final item = state.expCategories.removeAt(oldIndex);
+    state.expCategories.insert(newIndex, item);
+    await databaseRepository.swapCategories(firstElement, secondElement);
+  }
+
   EntriesControlBloc(this.databaseRepository)
       : super(const EntriesControlState()) {
     on<InitialDatabaseEvent>((event, emit) {
@@ -126,6 +137,9 @@ class EntriesControlBloc
           type: 'range',
           year: DateTime.now().year,
           month: DateTime.now().month));
+    });
+    on<ReorderCategoriesEvent>((event, emit) async {
+      await swapCategories(event.oldIndex, event.newIndex);
     });
   }
 }

@@ -17,12 +17,13 @@ class DatabaseRepository {
     final db = await databaseProvider.database;
     return await db.transaction((txn) async {
       return await txn.rawQuery('''
-      SELECT  $catName.categoryId, $catName.title, 
+      SELECT  $catName.categoryId, $catName.title, $catName.orderNum,
       $catName.totalAmount,$catName.entries, $catName.type, $iconName.iconId, 
       $iconName.localPath,$iconName.color
       FROM $catName
       INNER JOIN $iconName
       ON $catName.iconId = $iconName.iconId
+      ORDER BY orderNum
       ''').then((data) {
         final converted = List<Map<String, dynamic>>.from(data);
         return converted.map((e) {
@@ -32,6 +33,7 @@ class DatabaseRepository {
             totalAmount: double.parse(e['totalAmount']),
             entries: e['entries'],
             type: e['type'],
+            orderNum: e['orderNum'],
             icon: CategoryIcon(
                 iconId: e['iconId'],
                 localPath: e['localPath'],
@@ -127,6 +129,7 @@ class DatabaseRepository {
               categoryId: e['categoryId'],
               title: e['title'],
               type: e['type'],
+              orderNum: e['orderNum'],
               icon: CategoryIcon(
                   iconId: e['iconId'],
                   localPath: e['localPath'],
@@ -290,6 +293,21 @@ class DatabaseRepository {
     await db.transaction((txn) async {
       await txn.delete(databaseProvider.entryTable,
           where: 'expenseId = ?', whereArgs: [id]);
+    });
+  }
+
+  Future<void> swapCategories(int oldId, int newId) async {
+    final db = await databaseProvider.database;
+    await db.transaction((txn) async {
+      await txn.rawQuery('''
+      UPDATE ${databaseProvider.entryCatTable} SET orderNum = 
+      (CASE WHEN orderNum = $oldId THEN -$newId ELSE -$oldId END) 
+      WHERE orderNum IN ($oldId, $newId) 
+      ''');
+      await txn.rawQuery('''
+      UPDATE ${databaseProvider.entryCatTable} SET orderNum = - orderNum 
+      WHERE orderNum < 0;
+      ''');
     });
   }
 }

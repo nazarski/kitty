@@ -54,7 +54,8 @@ class _MainPageState extends State<MainPage> {
       providers: [
         BlocProvider<EntriesControlBloc>(
             create: (_) =>
-                EntriesControlBloc(RepositoryProvider.of<DatabaseRepository>(context))
+                EntriesControlBloc(
+                    RepositoryProvider.of<DatabaseRepository>(context))
                   ..add(CallAllDataEvent())),
         BlocProvider<NavigationBloc>(
           create: (_) => NavigationBloc(),

@@ -56,6 +56,11 @@ class SearchEntries extends EntriesControlEvent{
 }
 class DeleteEntryEvent extends EntriesControlEvent{
   final int entryId;
-
   DeleteEntryEvent(this.entryId);
+}
+class ReorderCategoriesEvent extends EntriesControlEvent{
+  final int oldIndex;
+  final int newIndex;
+
+  ReorderCategoriesEvent({required this.oldIndex, required this.newIndex});
 }

@@ -13,6 +13,7 @@ class EntryCategory with _$EntryCategory{
     @Default(0.0) double totalAmount,
     @Default(0) int entries,
     required String type,
+    required int orderNum,
     required CategoryIcon icon,
   }) = _EntryCategory;
   factory EntryCategory.fromJson(Map<String, dynamic> json)=> _$EntryCategoryFromJson(json);
