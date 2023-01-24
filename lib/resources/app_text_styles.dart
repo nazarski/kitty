@@ -19,6 +19,8 @@ class AppStyles {
       fontSize: 10);
   static const TextStyle buttonBlack = TextStyle(
       color: AppColors.mainText, fontWeight: FontWeight.w500, fontSize: 14);
+  static const TextStyle button = TextStyle(
+      color: AppColors.activeBlue, fontWeight: FontWeight.w500, fontSize: 14);
   static const TextStyle buttonInactive = TextStyle(
       color: AppColors.borderGrey, fontWeight: FontWeight.w500, fontSize: 14);
   static const TextStyle buttonWhite =

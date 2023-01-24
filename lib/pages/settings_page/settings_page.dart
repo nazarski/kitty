@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kitty/bloc/navigation_bloc/navigation_bloc.dart';
+import 'package:kitty/pages/edit_categories_page/edit_categories_page.dart';
 import 'package:kitty/resources/app_colors.dart';
 import 'package:kitty/resources/app_text_styles.dart';
 
@@ -13,12 +16,15 @@ class SettingsPage extends StatelessWidget {
         body: Column(
           children: [
             Container(
+              width: double.infinity,
                 decoration: const BoxDecoration(
                   color: AppColors.basicGrey,
                 ),
                 padding: const EdgeInsets.only(
                     top: 12, left: 16, bottom: 24, right: 16),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+
                   children: [
                     const Text(
                       'Settings',
@@ -60,7 +66,10 @@ class SettingsPage extends StatelessWidget {
                   SettingOption(
                       icon: Icons.category_outlined,
                       title: 'Manage categories',
-                      action: () {}),
+                      action: () {
+                        context.read<NavigationBloc>().add(NavigateTab(
+                            tabIndex: 6, route: EditCategoriesPage.routeName));
+                      }),
                   SettingOption(
                       icon: Icons.picture_as_pdf_outlined,
                       title: 'Export to PDF',
@@ -106,31 +115,37 @@ class SettingOption extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: action,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Wrap(
-            children: [
-              Icon(
-                icon,
-                color: AppColors.subTitle,
-              ),
-              const SizedBox(
-                width: 8,
-              ),
-              Text(
-                title,
-                style: AppStyles.body2,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                Icon(
+                  icon,
+                  color: AppColors.subTitle,
+                  size: 24,
+                ),
+                const SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  title,
+                  style: AppStyles.body2,
+                )
+              ],
+            ),
+            if (arrow) ...[
+              const Icon(
+                Icons.arrow_forward_ios,
+                color: AppColors.borderGrey,
+                size: 24,
               )
-            ],
-          ),
-          if (arrow) ...[
-            const Icon(
-              Icons.arrow_forward_ios,
-              color: AppColors.borderGrey,
-            )
-          ]
-        ],
+            ]
+          ],
+        ),
       ),
     );
   }
