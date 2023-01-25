@@ -18,48 +18,48 @@ class SettingsPage extends StatelessWidget {
           children: [
             Container(
               width: double.infinity,
-                decoration: const BoxDecoration(
-                  color: AppColors.basicGrey,
-                ),
-                padding: const EdgeInsets.only(
-                    top: 12, left: 16, bottom: 24, right: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-
-                  children: [
-                    const Text(
-                      'Settings',
-                      style: AppStyles.menuPageTitle,
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    Wrap(
-                      children: [
-                        const CircleAvatar(
-                          backgroundColor: Colors.white,
-                          child: Text('N', style: AppStyles.menuPageTitle),
-                        ),
-                        const SizedBox(
-                          width: 12,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text(
-                              'Nethan Bukovski',
-                              style: AppStyles.subtitle1,
-                            ),
-                            Text(
-                              'nethanB@bing.com',
-                              style: AppStyles.caption,
-                            )
-                          ],
-                        )
-                      ],
-                    )
-                  ],
-                )),
+              decoration: const BoxDecoration(
+                color: AppColors.basicGrey,
+              ),
+              padding: const EdgeInsets.only(
+                  top: 12, left: 16, bottom: 24, right: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Settings',
+                    style: AppStyles.menuPageTitle,
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  Wrap(
+                    children: [
+                      const CircleAvatar(
+                        backgroundColor: Colors.white,
+                        child: Text('N', style: AppStyles.menuPageTitle),
+                      ),
+                      const SizedBox(
+                        width: 12,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          Text(
+                            'Nethan Bukovski',
+                            style: AppStyles.subtitle1,
+                          ),
+                          Text(
+                            'nethanB@bing.com',
+                            style: AppStyles.caption,
+                          )
+                        ],
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -69,14 +69,15 @@ class SettingsPage extends StatelessWidget {
                       title: 'Manage categories',
                       action: () {
                         context.read<NavigationBloc>().add(NavigateTab(
-                            tabIndex: 6, route: ManageCategoriesPage.routeName));
+                            tabIndex: 6,
+                            route: ManageCategoriesPage.routeName));
                       }),
                   SettingOption(
                       icon: Icons.picture_as_pdf_outlined,
                       title: 'Export to PDF',
                       action: () {
-                        context.read<NavigationBloc>().add(NavigateTab
-                          (tabIndex: 0, route: StatisticsPage.routeName));
+                        context.read<NavigationBloc>().add(NavigateTab(
+                            tabIndex: 0, route: StatisticsPage.routeName));
                       }),
                   SettingOption(
                       icon: Icons.translate_outlined,

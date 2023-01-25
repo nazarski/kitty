@@ -19,6 +19,7 @@ dependencies:
   flutter_svg: ^1.1.6
   sqflite: ^2.2.2
   local_auth: ^2.1.3
+  flutter_screen_lock: ^9.0.0+1
   page_transition: ^2.0.9
   equatable: ^2.0.5
   dotted_border: ^2.0.0+3

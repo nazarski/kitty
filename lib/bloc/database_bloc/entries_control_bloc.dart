@@ -20,7 +20,6 @@ class EntriesControlBloc
   DatabaseRepository databaseRepository;
 
   //fetch categories
-
   Future<void> _getCategories(Emitter emit) async {
     final categories = await databaseRepository.getEntryCategories();
     emit(state.copyWith(

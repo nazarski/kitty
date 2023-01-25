@@ -3,8 +3,10 @@ import 'package:kitty/pages/add_category/add_category.dart';
 import 'package:kitty/pages/add_entry/add_entry.dart';
 import 'package:kitty/pages/edit_category/edit_category.dart';
 import 'package:kitty/pages/home_page/home_page.dart';
+import 'package:kitty/pages/login_page/login_page.dart';
 import 'package:kitty/pages/main_page.dart';
 import 'package:kitty/pages/manage_categories_page/manage_categories_page.dart';
+import 'package:kitty/pages/registration_page/registration_page.dart';
 import 'package:kitty/pages/search_page/search_page.dart';
 import 'package:kitty/pages/settings_page/settings_page.dart';
 import 'package:kitty/pages/check_screen/check_screen.dart';
@@ -21,6 +23,12 @@ class AppRoutes {
     print(settings.name);
 
     switch (settings.name) {
+      case LoginPage.routeName:
+        return PageTransition(
+            child: const LoginPage(), type: PageTransitionType.fade);
+      case RegistrationPage.routeName:
+        return PageTransition(
+            child: const RegistrationPage(), type: PageTransitionType.fade);
       case CheckScreen.routeName:
         return PageTransition(
             child: const CheckScreen(), type: PageTransitionType.fade);

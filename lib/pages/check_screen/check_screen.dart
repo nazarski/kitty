@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kitty/pages/home_page/home_page.dart';
+import 'package:kitty/pages/login_page/login_page.dart';
 import 'package:kitty/pages/main_page.dart';
 import 'package:kitty/resources/app_colors.dart';
 import 'package:kitty/resources/app_icons.dart';
@@ -19,7 +20,7 @@ class _CheckScreenState extends State<CheckScreen> {
   void initState() {
     Future.delayed(const Duration(seconds: 3), () {
       Navigator.of(context, rootNavigator: true)
-          .pushNamedAndRemoveUntil(MainPage.routeName, (route) => false);
+          .pushNamedAndRemoveUntil(LoginPage.routeName, (route) => false);
     });
     super.initState();
   }
