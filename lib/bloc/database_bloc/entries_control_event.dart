@@ -64,3 +64,9 @@ class ReorderCategoriesEvent extends EntriesControlEvent{
 
   ReorderCategoriesEvent({required this.oldIndex, required this.newIndex});
 }
+class EditCategoryEvent extends EntriesControlEvent{
+  final String newTitle;
+  final CategoryIcon icon;
+
+  EditCategoryEvent({required this.newTitle,required this.icon});
+}

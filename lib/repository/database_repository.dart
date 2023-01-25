@@ -301,13 +301,25 @@ class DatabaseRepository {
     await db.transaction((txn) async {
       await txn.rawQuery('''
       UPDATE ${databaseProvider.entryCatTable} SET orderNum = 
-      (CASE WHEN orderNum = $oldId THEN -$newId ELSE -$oldId END) 
+      (CASE WHEN orderNum = $oldId THEN $newId ELSE $oldId END) 
       WHERE orderNum IN ($oldId, $newId) 
       ''');
-      await txn.rawQuery('''
-      UPDATE ${databaseProvider.entryCatTable} SET orderNum = - orderNum 
-      WHERE orderNum < 0;
-      ''');
+    });
+  }
+  Future<void> editCategory(
+      {required int categoryId,
+        required int iconId,
+        required String newName}) async {
+    final db = await databaseProvider.database;
+    await db.transaction((txn) async {
+      txn.update(
+          databaseProvider.entryCatTable,
+          {
+            'title': newName,
+            'iconId': iconId,
+          },
+          where: 'categoryId = ?',
+          whereArgs: [categoryId]);
     });
   }
 }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kitty/bloc/navigation_bloc/navigation_bloc.dart';
-import 'package:kitty/pages/edit_categories_page/edit_categories_page.dart';
+import 'package:kitty/pages/manage_categories_page/manage_categories_page.dart';
+import 'package:kitty/pages/statistics_page/statistics_page.dart';
 import 'package:kitty/resources/app_colors.dart';
 import 'package:kitty/resources/app_text_styles.dart';
 
@@ -44,12 +45,12 @@ class SettingsPage extends StatelessWidget {
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
+                          children: const [
+                            Text(
                               'Nethan Bukovski',
                               style: AppStyles.subtitle1,
                             ),
-                            const Text(
+                            Text(
                               'nethanB@bing.com',
                               style: AppStyles.caption,
                             )
@@ -68,12 +69,15 @@ class SettingsPage extends StatelessWidget {
                       title: 'Manage categories',
                       action: () {
                         context.read<NavigationBloc>().add(NavigateTab(
-                            tabIndex: 6, route: EditCategoriesPage.routeName));
+                            tabIndex: 6, route: ManageCategoriesPage.routeName));
                       }),
                   SettingOption(
                       icon: Icons.picture_as_pdf_outlined,
                       title: 'Export to PDF',
-                      action: () {}),
+                      action: () {
+                        context.read<NavigationBloc>().add(NavigateTab
+                          (tabIndex: 0, route: StatisticsPage.routeName));
+                      }),
                   SettingOption(
                       icon: Icons.translate_outlined,
                       title: 'Choose language',
@@ -113,7 +117,7 @@ class SettingOption extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkResponse(
       onTap: action,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 12.0),

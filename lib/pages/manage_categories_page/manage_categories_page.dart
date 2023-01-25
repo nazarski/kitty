@@ -2,20 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kitty/bloc/database_bloc/entries_control_bloc.dart';
+import 'package:kitty/bloc/navigation_bloc/navigation_bloc.dart';
+import 'package:kitty/pages/add_category/add_category.dart';
+import 'package:kitty/pages/edit_category/edit_category.dart';
 import 'package:kitty/resources/app_colors.dart';
 import 'package:kitty/resources/app_text_styles.dart';
 import 'package:kitty/widgets/icon_view.dart';
 import 'package:kitty/widgets/navigation/back_app_bar.dart';
 
-class EditCategoriesPage extends StatefulWidget {
-  const EditCategoriesPage({Key? key}) : super(key: key);
+class ManageCategoriesPage extends StatefulWidget {
+  const ManageCategoriesPage({Key? key}) : super(key: key);
   static const routeName = '/edit_categories_page';
 
   @override
-  State<EditCategoriesPage> createState() => _EditCategoriesPageState();
+  State<ManageCategoriesPage> createState() => _ManageCategoriesPageState();
 }
 
-class _EditCategoriesPageState extends State<EditCategoriesPage> {
+class _ManageCategoriesPageState extends State<ManageCategoriesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +27,10 @@ class _EditCategoriesPageState extends State<EditCategoriesPage> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () {
+          context.read<NavigationBloc>().add(
+              NavigateTab(tabIndex: 4, route: AddCategory.routeName));
+        },
         label: const Text(
           'Add new category',
           style: AppStyles.buttonWhite,
@@ -36,7 +42,7 @@ class _EditCategoriesPageState extends State<EditCategoriesPage> {
               onReorderStart: (_) {
                 HapticFeedback.vibrate();
               },
-              padding: EdgeInsets.only(top: 12),
+              padding: const EdgeInsets.only(top: 12),
               itemBuilder: (context, index) {
                 return ListTile(
                   key: ValueKey(index),
@@ -53,7 +59,16 @@ class _EditCategoriesPageState extends State<EditCategoriesPage> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            context.read<EntriesControlBloc>().add(
+                                GetCategoryEvent(state.expCategories[index]));
+                            context.read<EntriesControlBloc>().add(
+                                GetIconEvent(state.expCategories[index].icon));
+                            context.read<NavigationBloc>().add(NavigateTab(
+                                  tabIndex: 7,
+                                  route: EditCategory.routeName,
+                                ));
+                          },
                           child: const Text(
                             'Edit',
                             style: AppStyles.button,

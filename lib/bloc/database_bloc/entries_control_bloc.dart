@@ -141,5 +141,13 @@ class EntriesControlBloc
     on<ReorderCategoriesEvent>((event, emit) async {
       await swapCategories(event.oldIndex, event.newIndex);
     });
+    on<EditCategoryEvent>((event, emit) async {
+      await databaseRepository.editCategory(
+          categoryId: state.categoryToAdd!.categoryId,
+          iconId: event.icon.iconId,
+          newName: event.newTitle);
+      add(InitialDatabaseEvent());
+      add(CallEntryCategoriesEvent());
+    });
   }
 }

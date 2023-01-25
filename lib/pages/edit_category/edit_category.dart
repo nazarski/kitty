@@ -10,15 +10,15 @@ import 'package:kitty/widgets/add_category/choose_icon.dart';
 import 'package:kitty/widgets/icon_view.dart';
 import 'package:kitty/widgets/navigation/back_app_bar.dart';
 
-class AddCategory extends StatefulWidget {
-  const AddCategory({Key? key}) : super(key: key);
-  static const routeName = 'add_category';
+class EditCategory extends StatefulWidget {
+  const EditCategory({Key? key}) : super(key: key);
+  static const routeName = '/edit_category';
 
   @override
-  State<AddCategory> createState() => _AddCategoryState();
+  State<EditCategory> createState() => _EditCategoryState();
 }
 
-class _AddCategoryState extends State<AddCategory> {
+class _EditCategoryState extends State<EditCategory> {
   PersistentBottomSheetController? bottomSheetController;
 
   final categoryController = TextEditingController();
@@ -57,16 +57,16 @@ class _AddCategoryState extends State<AddCategory> {
                             value.text.isNotEmpty
                         ? () {
                             context.read<EntriesControlBloc>().add(
-                                CreateExpenseCategoryEvent(
-                                    categoryName: value.text,
-                                    selectedIcon: state.selectedIcon!));
+                                EditCategoryEvent(
+                                    newTitle: categoryController.text,
+                                    icon: state.selectedIcon!));
                             context.read<NavigationBloc>().add(NavigationPop());
                           }
                         : null,
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width * 0.9,
                       child: const Center(
-                          heightFactor: 1, child: Text('Add new category')),
+                          heightFactor: 1, child: Text('Edit category')),
                     ));
               },
             ),
@@ -127,7 +127,8 @@ class _AddCategoryState extends State<AddCategory> {
                         child: TextField(
                           onTap: _closeBottomSheet,
                           onEditingComplete: _onComplete,
-                          controller: categoryController,
+                          controller: categoryController
+                            ..text = state.categoryToAdd!.title,
                           decoration: const InputDecoration(
                             labelText: 'Category name',
                           ),

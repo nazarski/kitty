@@ -5,8 +5,9 @@ import 'package:kitty/bloc/database_bloc/entries_control_bloc.dart';
 import 'package:kitty/bloc/navigation_bloc/navigation_bloc.dart';
 import 'package:kitty/pages/add_category/add_category.dart';
 import 'package:kitty/pages/add_entry/add_entry.dart';
-import 'package:kitty/pages/edit_categories_page/edit_categories_page.dart';
+import 'package:kitty/pages/edit_category/edit_category.dart';
 import 'package:kitty/pages/home_page/home_page.dart';
+import 'package:kitty/pages/manage_categories_page/manage_categories_page.dart';
 import 'package:kitty/pages/search_page/search_page.dart';
 import 'package:kitty/pages/settings_page/settings_page.dart';
 import 'package:kitty/pages/statistics_page/statistics_page.dart';
@@ -31,7 +32,8 @@ class _MainPageState extends State<MainPage> {
     AddEntry.routeName,
     AddCategory.routeName,
     SearchPage.routeName,
-    EditCategoriesPage.routeName,
+    ManageCategoriesPage.routeName,
+    EditCategory.routeName,
   ];
   static final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
   static final GlobalKey<NavigatorState> _navigatorKey =
