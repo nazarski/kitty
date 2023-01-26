@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kitty/bloc/database_bloc/entries_control_bloc.dart';
 import 'package:kitty/bloc/navigation_bloc/navigation_bloc.dart';
+import 'package:kitty/bloc/user_bloc/user_bloc.dart';
+import 'package:kitty/database/expenses_database.dart';
 import 'package:kitty/pages/add_category/add_category.dart';
 import 'package:kitty/pages/add_entry/add_entry.dart';
 import 'package:kitty/pages/edit_category/edit_category.dart';
@@ -52,54 +56,57 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<EntriesControlBloc>(
-            create: (_) =>
-                EntriesControlBloc(
-                    RepositoryProvider.of<DatabaseRepository>(context))
-                  ..add(CallAllDataEvent())),
-        BlocProvider<NavigationBloc>(
-          create: (_) => NavigationBloc(),
-        ),
-      ],
-      child: BlocConsumer<NavigationBloc, NavigationState>(
-        listener: (_, state) {
-          if (state.status == NavigationStateStatus.tab) {
-            _onSelectTab(state.currentIndex);
-          }
-          if (state.status == NavigationStateStatus.none) {
-            SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-          }
-        },
-        builder: (context, state) {
-          return WillPopScope(
-            onWillPop: () async {
-              final bool maybePop = await _maybePop();
-              if (!maybePop && mounted) {
-                context.read<NavigationBloc>().add(NavigationPop());
-              }
-              return maybePop;
-            },
-            child: Scaffold(
-              key: scaffoldKey,
-              body: Navigator(
-                key: _navigatorKey,
-                initialRoute: HomePage.routeName,
-                onGenerateRoute: AppRoutes.generateRoute,
+    return RepositoryProvider(
+      create: (context) => DatabaseRepository(
+          ExpensesDatabaseProvider(context.read<UserBloc>().state.userId)),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<EntriesControlBloc>(
+              create: (context) => EntriesControlBloc(
+                  RepositoryProvider.of<DatabaseRepository>(context))
+                ..add(CallAllDataEvent())),
+          BlocProvider<NavigationBloc>(
+            create: (context) => NavigationBloc(),
+          ),
+        ],
+        child: BlocConsumer<NavigationBloc, NavigationState>(
+          listener: (_, state) {
+            if (state.status == NavigationStateStatus.tab) {
+              _onSelectTab(state.currentIndex);
+            }
+            if (state.status == NavigationStateStatus.none) {
+              SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+            }
+          },
+          builder: (context, state) {
+            return WillPopScope(
+              onWillPop: () async {
+                final bool maybePop = await _maybePop();
+                if (!maybePop && mounted) {
+                  context.read<NavigationBloc>().add(NavigationPop());
+                }
+                return maybePop;
+              },
+              child: Scaffold(
+                key: scaffoldKey,
+                body: Navigator(
+                  key: _navigatorKey,
+                  initialRoute: HomePage.routeName,
+                  onGenerateRoute: AppRoutes.generateRoute,
+                ),
+                bottomNavigationBar: [0, 1, 2].contains(state.currentIndex)
+                    ? MainBottomNavigationBar(
+                        navigateTo: (value) {
+                          context.read<NavigationBloc>().add(NavigateTab(
+                              tabIndex: value, route: _pages[value]));
+                        },
+                        currentIndex: state.currentIndex,
+                      )
+                    : null,
               ),
-              bottomNavigationBar: [0, 1, 2].contains(state.currentIndex)
-                  ? MainBottomNavigationBar(
-                      navigateTo: (value) {
-                        context.read<NavigationBloc>().add(
-                            NavigateTab(tabIndex: value, route: _pages[value]));
-                      },
-                      currentIndex: state.currentIndex,
-                    )
-                  : null,
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

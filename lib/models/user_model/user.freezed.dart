@@ -22,8 +22,8 @@ User _$UserFromJson(Map<String, dynamic> json) {
 mixin _$User {
   String get name => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
-  String get authToken => throw _privateConstructorUsedError;
-  String? get imagePath => throw _privateConstructorUsedError;
+  String get pin => throw _privateConstructorUsedError;
+  bool get biometrics => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +35,7 @@ abstract class $UserCopyWith<$Res> {
   factory $UserCopyWith(User value, $Res Function(User) then) =
       _$UserCopyWithImpl<$Res, User>;
   @useResult
-  $Res call({String name, String email, String authToken, String? imagePath});
+  $Res call({String name, String email, String pin, bool biometrics});
 }
 
 /// @nodoc
@@ -53,8 +53,8 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
   $Res call({
     Object? name = null,
     Object? email = null,
-    Object? authToken = null,
-    Object? imagePath = freezed,
+    Object? pin = null,
+    Object? biometrics = null,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -65,14 +65,14 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      authToken: null == authToken
-          ? _value.authToken
-          : authToken // ignore: cast_nullable_to_non_nullable
+      pin: null == pin
+          ? _value.pin
+          : pin // ignore: cast_nullable_to_non_nullable
               as String,
-      imagePath: freezed == imagePath
-          ? _value.imagePath
-          : imagePath // ignore: cast_nullable_to_non_nullable
-              as String?,
+      biometrics: null == biometrics
+          ? _value.biometrics
+          : biometrics // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -83,7 +83,7 @@ abstract class _$$_UserCopyWith<$Res> implements $UserCopyWith<$Res> {
       __$$_UserCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name, String email, String authToken, String? imagePath});
+  $Res call({String name, String email, String pin, bool biometrics});
 }
 
 /// @nodoc
@@ -97,8 +97,8 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
   $Res call({
     Object? name = null,
     Object? email = null,
-    Object? authToken = null,
-    Object? imagePath = freezed,
+    Object? pin = null,
+    Object? biometrics = null,
   }) {
     return _then(_$_User(
       name: null == name
@@ -109,14 +109,14 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      authToken: null == authToken
-          ? _value.authToken
-          : authToken // ignore: cast_nullable_to_non_nullable
+      pin: null == pin
+          ? _value.pin
+          : pin // ignore: cast_nullable_to_non_nullable
               as String,
-      imagePath: freezed == imagePath
-          ? _value.imagePath
-          : imagePath // ignore: cast_nullable_to_non_nullable
-              as String?,
+      biometrics: null == biometrics
+          ? _value.biometrics
+          : biometrics // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -127,8 +127,8 @@ class _$_User implements _User {
   const _$_User(
       {required this.name,
       required this.email,
-      required this.authToken,
-      this.imagePath});
+      required this.pin,
+      required this.biometrics});
 
   factory _$_User.fromJson(Map<String, dynamic> json) => _$$_UserFromJson(json);
 
@@ -137,13 +137,13 @@ class _$_User implements _User {
   @override
   final String email;
   @override
-  final String authToken;
+  final String pin;
   @override
-  final String? imagePath;
+  final bool biometrics;
 
   @override
   String toString() {
-    return 'User(name: $name, email: $email, authToken: $authToken, imagePath: $imagePath)';
+    return 'User(name: $name, email: $email, pin: $pin, biometrics: $biometrics)';
   }
 
   @override
@@ -153,16 +153,14 @@ class _$_User implements _User {
             other is _$_User &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.authToken, authToken) ||
-                other.authToken == authToken) &&
-            (identical(other.imagePath, imagePath) ||
-                other.imagePath == imagePath));
+            (identical(other.pin, pin) || other.pin == pin) &&
+            (identical(other.biometrics, biometrics) ||
+                other.biometrics == biometrics));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, name, email, authToken, imagePath);
+  int get hashCode => Object.hash(runtimeType, name, email, pin, biometrics);
 
   @JsonKey(ignore: true)
   @override
@@ -182,8 +180,8 @@ abstract class _User implements User {
   const factory _User(
       {required final String name,
       required final String email,
-      required final String authToken,
-      final String? imagePath}) = _$_User;
+      required final String pin,
+      required final bool biometrics}) = _$_User;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$_User.fromJson;
 
@@ -192,9 +190,9 @@ abstract class _User implements User {
   @override
   String get email;
   @override
-  String get authToken;
+  String get pin;
   @override
-  String? get imagePath;
+  bool get biometrics;
   @override
   @JsonKey(ignore: true)
   _$$_UserCopyWith<_$_User> get copyWith => throw _privateConstructorUsedError;

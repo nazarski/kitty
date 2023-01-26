@@ -5,11 +5,14 @@ import 'package:kitty/resources/initial_values.dart';
 import 'package:sqflite/sqflite.dart';
 
 class ExpensesDatabaseProvider {
+  final String userId;
   static Database? _database;
+
+  ExpensesDatabaseProvider(this.userId);
 
   Future<Database> get database async {
     final Future<String> dbPath = getDatabasesPath();
-    const dbName = 'expense_tc.db';
+    final dbName = '${userId}_expense.db';
     final String path = '$dbPath/$dbName';
     _database = await openDatabase(
       path,

@@ -47,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
                 Icon(Icons.login, color:AppColors.title),
                 SizedBox(width: 8,),
                 const Text(
-                  'Log In',
+                  'Sign In',
                   style: TextStyle(color: AppColors.title, fontSize: 18,
                       fontWeight: FontWeight.w700),
                 ),
@@ -77,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
                 onPressed: () {
                   Navigator.of(context).pushNamed(RegistrationPage.routeName);
                 },
-                child: const Text('Register', style: AppStyles.button),),
+                child: const Text('Sign Up', style: AppStyles.button),),
             ElevatedButton(
               style: AppStyles.buttonStyle,
                 onPressed: (){

@@ -30,6 +30,8 @@ class AppIcons {
   static const String vehicle = '$_path/vehicle.svg';
   static const String expenses = '$_path/expenses.svg';
   static const String wallet = '$_path/wallet.svg';
+  static const String faceId = '$_path/faceid.svg';
+
 
   // categories
   static const String cafe = '$_pathCategories/cafe.svg';
