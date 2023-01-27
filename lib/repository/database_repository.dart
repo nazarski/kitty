@@ -86,6 +86,8 @@ class DatabaseRepository {
         'entries': 0,
         'type': 'expense',
         'iconId': iconId,
+        'orderNum':
+            '(SELECT MAX(orderNum) +1 FROM ${databaseProvider.entryCatTable})'
       });
     });
   }
@@ -306,10 +308,11 @@ class DatabaseRepository {
       ''');
     });
   }
+
   Future<void> editCategory(
       {required int categoryId,
-        required int iconId,
-        required String newName}) async {
+      required int iconId,
+      required String newName}) async {
     final db = await databaseProvider.database;
     await db.transaction((txn) async {
       txn.update(

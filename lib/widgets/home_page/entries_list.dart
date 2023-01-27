@@ -54,13 +54,16 @@ class _EntriesListBuilderState extends State<EntriesListBuilder> {
           );
         }
         if (state.entries.isEmpty) {
-          return Container(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: AppColors.borderGrey, width: 1)),
-            child: const Center(
-              child: Text('No expenses found, tap "Add new"'),
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: AppColors.borderGrey, width: 1)),
+              child: const Center(
+                child: Text('No expenses found, tap "Add new"'),
+              ),
             ),
           );
         }

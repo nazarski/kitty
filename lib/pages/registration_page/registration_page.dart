@@ -83,7 +83,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         keyboardType: TextInputType.emailAddress,
                         controller: nameController,
                         decoration: const InputDecoration(
-                          labelText: 'Your name',
+                          labelText: 'First name',
                         ),
                       ),
                     ),
@@ -96,7 +96,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         keyboardType: TextInputType.emailAddress,
                         controller: surnameController,
                         decoration: const InputDecoration(
-                          labelText: 'Your surname',
+                          labelText: 'Last name',
                         ),
                       ),
                     ),
@@ -115,6 +115,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 const SizedBox(
                   height: 16,
                 ),
+                if (state.status == AuthStatus.error) ...[
+                  Text(state.errorMessage, style: AppStyles.appRed)
+                ],
                 if (state.status == AuthStatus.loading) ...[
                   const Center(
                     child: CircularProgressIndicator(
@@ -125,34 +128,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   ElevatedButton(
                       style: AppStyles.buttonStyle,
                       onPressed: () async {
-                        screenLockCreate(
-                          title: const Text('Please, create pin code'),
-                          confirmTitle: const Text('Please, confirm pin code'),
-                          context: context,
-                          onConfirmed: (value) async {
-                            if (await LocalAuth.canAuthenticate()) {
-                              Navigator.of(context).pop();
-                              showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return BiometricsDialog(
-                                      name:
-                                          '${nameController.text} ${surnameController.text}',
-                                      email: emailController.text,
-                                      pin: value,
-                                    );
-                                  });
-                            } else {
-                              Navigator.of(context).pop();
-                              context.read<UserBloc>().add(CreateUserEvent(
-                                  name:
-                                      '${nameController.text} ${surnameController.text}',
-                                  pin: value,
-                                  email: emailController.text,
-                                  biometrics: false));
-                            }
-                          },
-                        );
+                        await buildScreenLockCreate(context);
                       },
                       child: const Center(child: Text('Sign Up')))
                 ]
@@ -163,9 +139,38 @@ class _RegistrationPageState extends State<RegistrationPage> {
       },
     );
   }
+
+  buildScreenLockCreate(BuildContext context) async {
+    screenLockCreate(
+      title: const Text('Please, create pin code'),
+      confirmTitle: const Text('Please, confirm pin code'),
+      context: context,
+      onConfirmed: (value) async {
+        if (await LocalAuth.canAuthenticate()) {
+          Navigator.of(context).pop();
+          showDialog(
+              context: context,
+              builder: (context) {
+                return BiometricsDialog(
+                  name: '${nameController.text} ${surnameController.text}',
+                  email: emailController.text,
+                  pin: value,
+                );
+              });
+        } else {
+          Navigator.of(context).pop();
+          context.read<UserBloc>().add(CreateUserEvent(
+              name: '${nameController.text} ${surnameController.text}',
+              pin: value,
+              email: emailController.text,
+              biometrics: false));
+        }
+      },
+    );
+  }
 }
 
-class BiometricsDialog extends StatelessWidget {
+class BiometricsDialog extends StatefulWidget {
   const BiometricsDialog({
     Key? key,
     required this.name,
@@ -177,6 +182,11 @@ class BiometricsDialog extends StatelessWidget {
   final String email;
   final String pin;
 
+  @override
+  State<BiometricsDialog> createState() => _BiometricsDialogState();
+}
+
+class _BiometricsDialogState extends State<BiometricsDialog> {
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
@@ -217,10 +227,13 @@ class BiometricsDialog extends StatelessWidget {
           height: 16,
         ),
         TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              context.read<UserBloc>().add(CreateUserEvent(
-                  name: name, pin: pin, email: email, biometrics: true));
+            onPressed: ()async {
+              final ifAuth = await LocalAuth.authenticate();
+              if(ifAuth && mounted) {
+                Navigator.of(context).pop();
+                context.read<UserBloc>().add(CreateUserEvent(
+                    name: widget.name, pin: widget.pin, email: widget.email, biometrics: true));
+              }
             },
             child: const Text(
               'Yes, sure',
@@ -230,7 +243,7 @@ class BiometricsDialog extends StatelessWidget {
             onPressed: () {
               Navigator.of(context).pop();
               context.read<UserBloc>().add(CreateUserEvent(
-                  name: name, pin: pin, email: email, biometrics: false));
+                  name: widget.name, pin: widget.pin, email: widget.email, biometrics: false));
             },
             child: const Text(
               "No, I'll use pin",

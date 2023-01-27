@@ -8,7 +8,7 @@ class LocalAuth{
   static Future<bool> authenticate()async{
     return await _auth.authenticate(
         localizedReason: 'Please authenticate',
-      options: AuthenticationOptions(
+      options: const AuthenticationOptions(
           stickyAuth:  true,
           biometricOnly: true,
       )

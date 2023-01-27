@@ -80,13 +80,15 @@ class DateBloc extends Bloc<DateEvent, DateState> {
   DateBloc(this.databaseRepository) : super(DateState(DateTime.now().year)) {
     on<InitialDateEvent>((_, emit) async {
       final entriesDates = await databaseRepository.getAllEntriesDates();
-      getRange(entriesDates, emit);
-      add(
-        SetDateEvent(
-          month: years['${allYears!.first}']!.first,
-          year: allYears!.first,
-        ),
-      );
+      if(entriesDates.isNotEmpty) {
+        getRange(entriesDates, emit);
+        add(
+          SetDateEvent(
+            month: years['${allYears!.first}']!.first,
+            year: allYears!.first,
+          ),
+        );
+      }
     });
     on<ToSelectedDateEvent>((event, emit) {
       emit(state.copyWith(

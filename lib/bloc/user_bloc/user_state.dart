@@ -1,15 +1,15 @@
 part of 'user_bloc.dart';
 
-enum AuthStatus { initial, loading, done }
+enum AuthStatus { initial, loading, done, error, signedOut }
 
 class UserState extends Equatable {
-  final User? user;
+  final User user;
   final String userId;
   final String errorMessage;
   final AuthStatus status;
 
   const UserState({
-    this.user,
+    this.user = const User(name: '', email: '', pin: '', biometrics: false),
     this.userId = '',
     this.errorMessage = '',
     this.status = AuthStatus.initial,
@@ -30,5 +30,6 @@ class UserState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [user, userId, errorMessage, status];
+  // TODO: implement props
+  List<Object?> get props => [user,userId, errorMessage, status];
 }

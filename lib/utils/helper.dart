@@ -17,7 +17,9 @@ Color fromHex(String str) {
 }
 
 String checkDate(DateTime date) {
-  final int day = date.day - DateTime.now().day;
+  final int day = date.day - DateTime
+      .now()
+      .day;
   switch (day) {
     case 0:
       return 'TODAY';
@@ -34,7 +36,7 @@ Map<String, List<Entry>> groupEntries({required List<Entry> list}) {
 
 String getSum(List<Entry> list) {
   final sum =
-      list.fold(0, (previousValue, element) => previousValue + element.amount);
+  list.fold(0, (previousValue, element) => previousValue + element.amount);
   return '$sum';
 }
 
@@ -58,16 +60,15 @@ int findElement(Set<int> months, int current, int onFound) {
   return 0;
 }
 
-Future<void> createOpenPdf(
-    {required List<StatisticsElement> statistics,
-    required DateTime reportDate}) async {
+Future<void> createOpenPdf({required List<StatisticsElement> statistics,
+  required DateTime reportDate}) async {
   final data = await buildPdf(
     selectedMonth: reportDate,
     stats: statistics,
   );
   await savePdfFile(
       fileName:
-          'Expense_report_by_${DateFormat(DateFormat.MONTH).format(reportDate)}_'
+      'Expense_report_by_${DateFormat(DateFormat.MONTH).format(reportDate)}_'
           '${reportDate.year}',
       byteList: data);
 }
@@ -76,7 +77,9 @@ Future<void> savePdfFile(
     {required String fileName, required Uint8List byteList}) async {
   final output = await getTemporaryDirectory();
   final path =
-      '${output.path}/${fileName}_${DateTime.now().millisecondsSinceEpoch}.pdf';
+      '${output.path}/${fileName}_${DateTime
+      .now()
+      .millisecondsSinceEpoch}.pdf';
   final file = File(path);
   await file.writeAsBytes(byteList);
   await OpenDocument.openDocument(filePath: path);
@@ -96,7 +99,8 @@ Future<Uint8List> buildPdf({
     headers: ['Category', 'Transactions', 'Expenses', 'Result'],
     data: List<List<dynamic>>.generate(
       stats.length,
-      (index) => <dynamic>[
+          (index) =>
+      <dynamic>[
         stats[index].categoryTitle,
         stats[index].countOfEntries,
         stats[index].totalAmount,
@@ -132,8 +136,9 @@ Future<Uint8List> buildPdf({
           pw.Flexible(
             child: pw.Chart(
               title: pw.Text(
-                  'Expense report on ${DateFormat(DateFormat.MONTH).format(selectedMonth)}, '
-                  '${selectedMonth.year}',
+                  'Expense report on ${DateFormat(DateFormat.MONTH).format(
+                      selectedMonth)}, '
+                      '${selectedMonth.year}',
                   style: pw.TextStyle(
                       color: PdfColor.fromInt(0xff212121),
                       font: medium,
@@ -141,7 +146,7 @@ Future<Uint8List> buildPdf({
               grid: pw.PieGrid(),
               datasets: List.generate(
                 stats.length,
-                (index) {
+                    (index) {
                   return pw.PieDataSet(
                       legend: '${stats[index].categoryTitle} '
                           '${stats[index].monthShare.round()}%',
@@ -179,4 +184,25 @@ Future<Uint8List> buildPdf({
     ),
   );
   return doc.save();
+}
+
+String? validateUserInfo(String email, String name) {
+  if (!validateEmail(email)) {
+    return 'Sorry, your email is invalid';
+  }
+  if (!validateName(name)) {
+    return 'Something is wrong with the name you typed';
+  }
+  return null;
+}
+
+bool validateName(String name) {
+  return RegExp(r"^\s*([A-Za-z]{1,}([\.,] |[-']| ))+[A-Za-z]+\.?\s*$")
+      .hasMatch(name);
+}
+
+bool validateEmail(String email) {
+  return RegExp(
+      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+      .hasMatch(email);
 }

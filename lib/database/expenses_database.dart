@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:kitty/models/category_icon_model/category_icon.dart';
 import 'package:kitty/resources/initial_values.dart';
@@ -11,8 +10,9 @@ class ExpensesDatabaseProvider {
   ExpensesDatabaseProvider(this.userId);
 
   Future<Database> get database async {
+    final userDb = userId.substring(0, userId.indexOf('@'));
     final Future<String> dbPath = getDatabasesPath();
-    final dbName = '${userId}_expense.db';
+    final dbName = '${userDb}_expense.db';
     final String path = '$dbPath/$dbName';
     _database = await openDatabase(
       path,
@@ -40,7 +40,7 @@ class ExpensesDatabaseProvider {
       entries INTEGER,
       type TEXT,
       iconId INTEGER NOT NULL,
-      orderNum INTEGER AUTOINCREMENT,
+      orderNum INTEGER,
       FOREIGN KEY (iconId) REFERENCES $icTable (iconId)
       )
       ''');
@@ -72,7 +72,6 @@ class ExpensesDatabaseProvider {
       timeStamp INTEGER)
       ''');
 
-
       // initial values
 
       // icons
@@ -80,7 +79,8 @@ class ExpensesDatabaseProvider {
         ...InitialValues.incomeIcons.values.toList(),
         ...InitialValues.expenseIcons.values.toList(),
       ];
-      for (int i = 0; i < allIcons.length; i++) {
+
+      for (int i = 1; i < allIcons.length; i++) {
         await txn.insert(
             icTable,
             CategoryIcon(
@@ -89,6 +89,7 @@ class ExpensesDatabaseProvider {
                     color: allIcons[i]['color']!)
                 .toJson());
       }
+
       // income categories
       for (int i = 0; i < InitialValues.incomeCategories.length; i++) {
         await txn.insert(entryCatTable, {
@@ -96,9 +97,11 @@ class ExpensesDatabaseProvider {
           'totalAmount': (0.0).toString(),
           'entries': 0,
           'type': 'income',
+          'orderNum': i+1,
           'iconId': i,
         });
       }
+
       // expense categories
       for (int i = 6; i < 9; i++) {
         await txn.insert(entryCatTable, {
@@ -106,6 +109,7 @@ class ExpensesDatabaseProvider {
           'totalAmount': (0.0).toString(),
           'entries': 0,
           'type': 'expense',
+          'orderNum': i+1,
           'iconId': i
         });
       }
