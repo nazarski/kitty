@@ -116,7 +116,9 @@ class DatabaseRepository {
     return await db.transaction((txn) async {
       return await txn.rawQuery('''
          SELECT  COUNT(*) totalCount, $entryTable.categoryId, 
-         $categoriesTable.title, $categoriesTable.type, $icons.iconId, 
+         $categoriesTable.title, $categoriesTable.type, $categoriesTable
+         .orderNum ,
+         $icons.iconId, 
          $icons.localPath, $icons.color
          FROM $entryTable 
          INNER JOIN $categoriesTable 

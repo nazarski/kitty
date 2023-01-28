@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kitty/bloc/database_bloc/entries_control_bloc.dart';
 import 'package:kitty/bloc/navigation_bloc/navigation_bloc.dart';
+import 'package:kitty/generated/locale_keys.g.dart';
 import 'package:kitty/pages/add_category/add_category.dart';
 import 'package:kitty/pages/edit_category/edit_category.dart';
 import 'package:kitty/resources/app_colors.dart';
@@ -22,8 +24,8 @@ class _ManageCategoriesPageState extends State<ManageCategoriesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const BackAppBar(
-        text: 'Manage categories',
+      appBar: BackAppBar(
+        text: LocaleKeys.manage_cat.tr(),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton.extended(
@@ -31,8 +33,8 @@ class _ManageCategoriesPageState extends State<ManageCategoriesPage> {
           context.read<NavigationBloc>().add(
               NavigateTab(tabIndex: 4, route: AddCategory.routeName));
         },
-        label: const Text(
-          'Add new category',
+        label: Text(
+          LocaleKeys.add_category.tr(),
           style: AppStyles.buttonWhite,
         ),
       ),
@@ -69,8 +71,8 @@ class _ManageCategoriesPageState extends State<ManageCategoriesPage> {
                                   route: EditCategory.routeName,
                                 ));
                           },
-                          child: const Text(
-                            'Edit',
+                          child: Text(
+                            LocaleKeys.edit.tr(),
                             style: AppStyles.button,
                           )),
                       const SizedBox(

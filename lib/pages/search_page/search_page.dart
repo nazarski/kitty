@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kitty/bloc/database_bloc/entries_control_bloc.dart';
 import 'package:kitty/bloc/navigation_bloc/navigation_bloc.dart';
 import 'package:kitty/bloc/search_bloc/search_bloc.dart';
+import 'package:kitty/generated/locale_keys.g.dart';
 import 'package:kitty/repository/database_repository.dart';
 import 'package:kitty/resources/app_colors.dart';
 import 'package:kitty/resources/app_text_styles.dart';
@@ -63,7 +65,7 @@ class _SearchPageState extends State<SearchPage> {
                             Icons.arrow_back,
                             color: AppColors.mainText,
                           )),
-                      hintText: 'Search for notes, categories or labels',
+                      hintText: LocaleKeys.search.tr(),
                       hintStyle: AppStyles.body2),
                 ),
                 SizedBox(

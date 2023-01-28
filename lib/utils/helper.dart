@@ -1,13 +1,14 @@
 import 'dart:io';
 
 import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:kitty/bloc/database_bloc/entries_control_bloc.dart';
+import 'package:kitty/generated/locale_keys.g.dart';
 import 'package:kitty/models/entry_model/entry.dart';
 import 'package:kitty/models/statistics_element_model/statistics_element.dart';
-import 'package:open_document/open_document.dart';
+import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -17,14 +18,12 @@ Color fromHex(String str) {
 }
 
 String checkDate(DateTime date) {
-  final int day = date.day - DateTime
-      .now()
-      .day;
+  final int day = date.day - DateTime.now().day;
   switch (day) {
     case 0:
-      return 'TODAY';
+      return LocaleKeys.today.tr();
     case -1:
-      return 'YESTERDAY';
+      return LocaleKeys.yesterday.tr();
     default:
       return DateFormat('dd-MMM-yyyy').format(date);
   }
@@ -36,7 +35,7 @@ Map<String, List<Entry>> groupEntries({required List<Entry> list}) {
 
 String getSum(List<Entry> list) {
   final sum =
-  list.fold(0, (previousValue, element) => previousValue + element.amount);
+      list.fold(0, (previousValue, element) => previousValue + element.amount);
   return '$sum';
 }
 
@@ -60,29 +59,28 @@ int findElement(Set<int> months, int current, int onFound) {
   return 0;
 }
 
-Future<void> createOpenPdf({required List<StatisticsElement> statistics,
-  required DateTime reportDate}) async {
+Future<void> createOpenPdf(
+    {required List<StatisticsElement> statistics,
+    required DateTime reportDate}) async {
   final data = await buildPdf(
     selectedMonth: reportDate,
     stats: statistics,
   );
-  await savePdfFile(
+  final path = await savePdfFile(
       fileName:
-      'Expense_report_by_${DateFormat(DateFormat.MONTH).format(reportDate)}_'
+          'Expense_report_by_${DateFormat(DateFormat.MONTH).format(reportDate)}_'
           '${reportDate.year}',
       byteList: data);
+  final result = await OpenFilex.open(path);
 }
 
-Future<void> savePdfFile(
+Future<String> savePdfFile(
     {required String fileName, required Uint8List byteList}) async {
   final output = await getTemporaryDirectory();
   final path =
-      '${output.path}/${fileName}_${DateTime
-      .now()
-      .millisecondsSinceEpoch}.pdf';
+      '${output.path}/${fileName}_${DateTime.now().millisecondsSinceEpoch}.pdf';
   final file = File(path);
-  await file.writeAsBytes(byteList);
-  await OpenDocument.openDocument(filePath: path);
+  return await file.writeAsBytes(byteList).then((value) => value.path);
 }
 
 Future<Uint8List> buildPdf({
@@ -99,8 +97,7 @@ Future<Uint8List> buildPdf({
     headers: ['Category', 'Transactions', 'Expenses', 'Result'],
     data: List<List<dynamic>>.generate(
       stats.length,
-          (index) =>
-      <dynamic>[
+      (index) => <dynamic>[
         stats[index].categoryTitle,
         stats[index].countOfEntries,
         stats[index].totalAmount,
@@ -136,9 +133,8 @@ Future<Uint8List> buildPdf({
           pw.Flexible(
             child: pw.Chart(
               title: pw.Text(
-                  'Expense report on ${DateFormat(DateFormat.MONTH).format(
-                      selectedMonth)}, '
-                      '${selectedMonth.year}',
+                  'Expense report on ${DateFormat(DateFormat.MONTH).format(selectedMonth)}, '
+                  '${selectedMonth.year}',
                   style: pw.TextStyle(
                       color: PdfColor.fromInt(0xff212121),
                       font: medium,
@@ -146,7 +142,7 @@ Future<Uint8List> buildPdf({
               grid: pw.PieGrid(),
               datasets: List.generate(
                 stats.length,
-                    (index) {
+                (index) {
                   return pw.PieDataSet(
                       legend: '${stats[index].categoryTitle} '
                           '${stats[index].monthShare.round()}%',
@@ -203,6 +199,6 @@ bool validateName(String name) {
 
 bool validateEmail(String email) {
   return RegExp(
-      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
       .hasMatch(email);
 }

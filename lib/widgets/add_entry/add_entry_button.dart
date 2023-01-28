@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kitty/bloc/database_bloc/entries_control_bloc.dart';
 import 'package:kitty/bloc/navigation_bloc/navigation_bloc.dart';
+import 'package:kitty/generated/locale_keys.g.dart';
 import 'package:kitty/resources/app_text_styles.dart';
 
 class AddEntryButton extends StatelessWidget {
@@ -20,13 +22,15 @@ class AddEntryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: AppStyles.buttonStyle,
-      onPressed: isActive
-          ? action
-          : null,
+      onPressed: isActive ? action : null,
       child: SizedBox(
         width: MediaQuery.of(context).size.width - 32,
         child: Center(
-          child: Text('Add new $option'),
+          child: option == 'income'
+              ? Text(LocaleKeys.add_income.tr())
+              : option == 'expense'
+                  ? Text(LocaleKeys.add_expense.tr())
+                  : Text(LocaleKeys.add_smth.tr()),
         ),
       ),
     );

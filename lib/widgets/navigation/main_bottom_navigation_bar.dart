@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:kitty/generated/locale_keys.g.dart';
 import 'package:kitty/resources/app_icons.dart';
 
 class MainBottomNavigationBar extends StatelessWidget {
@@ -19,17 +21,17 @@ final int currentIndex;
         BottomNavigationBarItem(
           icon: SvgPicture.asset(AppIcons.pieChart),
           activeIcon: SvgPicture.asset(AppIcons.pieChartFilled),
-          label: 'Statistics',
+          label: LocaleKeys.stats.tr(),
         ),
         BottomNavigationBarItem(
           icon: SvgPicture.asset(AppIcons.home),
           activeIcon: SvgPicture.asset(AppIcons.homeFilled),
-          label: 'Home',
+          label: LocaleKeys.home.tr(),
         ),
         BottomNavigationBarItem(
           icon: SvgPicture.asset(AppIcons.settings),
           activeIcon: SvgPicture.asset(AppIcons.settingsFilled),
-          label: 'Settings',
+          label: LocaleKeys.settings.tr(),
         ),
       ],
     );

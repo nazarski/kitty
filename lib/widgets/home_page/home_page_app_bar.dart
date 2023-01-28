@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kitty/bloc/navigation_bloc/navigation_bloc.dart';
+import 'package:kitty/bloc/user_bloc/user_bloc.dart';
 import 'package:kitty/pages/search_page/search_page.dart';
 import 'package:kitty/resources/app_colors.dart';
 import 'package:kitty/resources/app_icons.dart';
@@ -53,9 +54,9 @@ class HomePageAppBar extends StatelessWidget with PreferredSizeWidget {
               color: AppColors.basicGrey,
               shape: BoxShape.circle,
             ),
-            child: const Center(
+            child: Center(
               child: Text(
-                'N',
+                context.read<UserBloc>().state.user.name.substring(0,1),
                 style: AppStyles.buttonBlack,
               ),
             ),

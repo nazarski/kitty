@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kitty/bloc/database_bloc/entries_control_bloc.dart';
+import 'package:kitty/generated/locale_keys.g.dart';
 import 'package:kitty/utils/helper.dart';
 import 'package:kitty/widgets/month_picker/month_picker.dart';
 import 'package:kitty/resources/app_text_styles.dart';
@@ -36,11 +38,14 @@ class _StatisticsPageState extends State<StatisticsPage> {
               Icons.file_download_outlined,
               color: Colors.white,
             ),
-            label: const Text('Download report'),
-            onPressed: () async {
-              await createOpenPdf(
-                  statistics: state.statistics, reportDate: state.reportDate!);
-            },
+            label: Text(LocaleKeys.report.tr()),
+            onPressed: state.statistics.isNotEmpty
+                ? () async {
+                    await createOpenPdf(
+                        statistics: state.statistics,
+                        reportDate: state.reportDate!);
+                  }
+                : null,
           ),
           body: Padding(
             padding: const EdgeInsets.only(top: 8.0, left: 16, right: 16),
@@ -53,8 +58,8 @@ class _StatisticsPageState extends State<StatisticsPage> {
                 const SizedBox(
                   height: 20,
                 ),
-                const Text(
-                  'OVERVIEW',
+                Text(
+                  LocaleKeys.overview.tr(),
                   style: AppStyles.overline,
                 ),
                 const SizedBox(
@@ -63,11 +68,11 @@ class _StatisticsPageState extends State<StatisticsPage> {
                 BlockChart(
                   stats: state.statistics,
                 ),
-                const Center(
+                 Center(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 16),
+                    padding: const EdgeInsets.symmetric(vertical: 16),
                     child: Text(
-                      'DETAILS',
+                      LocaleKeys.details.tr(),
                       style: AppStyles.overline,
                     ),
                   ),

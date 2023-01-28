@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kitty/bloc/database_bloc/entries_control_bloc.dart';
 import 'package:kitty/bloc/navigation_bloc/navigation_bloc.dart';
+import 'package:kitty/generated/locale_keys.g.dart';
 import 'package:kitty/pages/add_entry/add_entry.dart';
 import 'package:kitty/resources/app_icons.dart';
 import 'package:kitty/widgets/home_page/balance.dart';
@@ -24,7 +26,7 @@ class HomePage extends StatelessWidget {
           AppIcons.addPlus,
           color: Colors.white,
         ),
-        label: const Text('Add new'),
+        label: Text(LocaleKeys.add_new.tr()),
         onPressed: () {
           context
               .read<NavigationBloc>()

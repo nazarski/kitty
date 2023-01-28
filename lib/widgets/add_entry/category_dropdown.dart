@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:kitty/generated/locale_keys.g.dart';
 
 class CategoryDropDown extends StatelessWidget {
   const CategoryDropDown(
@@ -14,11 +16,13 @@ class CategoryDropDown extends StatelessWidget {
         onChanged: onChanged,
         borderRadius: BorderRadius.circular(8),
         icon: const Icon(Icons.keyboard_arrow_down),
-        hint: const Text('Select'),
+        hint: Text(LocaleKeys.select.tr()),
         isDense: true,
-        items: const [
-          DropdownMenuItem(value: 'income', child: Text('Income')),
-          DropdownMenuItem(value: 'expense', child: Text('Expense'))
+        items: [
+          DropdownMenuItem(
+              value: 'income', child: Text(LocaleKeys.income.tr())),
+          DropdownMenuItem(
+              value: 'expense', child: Text(LocaleKeys.expenses.tr()))
         ]);
   }
 }

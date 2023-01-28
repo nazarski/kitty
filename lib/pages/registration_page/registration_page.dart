@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screen_lock/flutter_screen_lock.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kitty/bloc/user_bloc/user_bloc.dart';
+import 'package:kitty/generated/locale_keys.g.dart';
 import 'package:kitty/pages/main_page.dart';
 import 'package:kitty/resources/app_colors.dart';
 import 'package:kitty/resources/app_icons.dart';
@@ -57,15 +59,15 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   height: 24,
                 ),
                 Wrap(
-                  children: const [
-                    Icon(Icons.app_registration_outlined,
+                  children: [
+                    const Icon(Icons.app_registration_outlined,
                         color: AppColors.title),
-                    SizedBox(
+                    const SizedBox(
                       width: 8,
                     ),
                     Text(
-                      'Sign Up',
-                      style: TextStyle(
+                      LocaleKeys.registration_singup.tr(),
+                      style: const TextStyle(
                           color: AppColors.title,
                           fontSize: 18,
                           fontWeight: FontWeight.w700),
@@ -82,8 +84,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       child: TextField(
                         keyboardType: TextInputType.emailAddress,
                         controller: nameController,
-                        decoration: const InputDecoration(
-                          labelText: 'First name',
+                        decoration: InputDecoration(
+                          labelText: LocaleKeys.registration_name.tr(),
                         ),
                       ),
                     ),
@@ -95,8 +97,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       child: TextField(
                         keyboardType: TextInputType.emailAddress,
                         controller: surnameController,
-                        decoration: const InputDecoration(
-                          labelText: 'Last name',
+                        decoration: InputDecoration(
+                          labelText: LocaleKeys.registration_surname.tr(),
                         ),
                       ),
                     ),
@@ -108,8 +110,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 TextField(
                   keyboardType: TextInputType.emailAddress,
                   controller: emailController,
-                  decoration: const InputDecoration(
-                    labelText: 'Your e-mail',
+                  decoration: InputDecoration(
+                    labelText: LocaleKeys.registration_e_mail.tr(),
                   ),
                 ),
                 const SizedBox(
@@ -126,11 +128,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   )
                 ] else ...[
                   ElevatedButton(
-                      style: AppStyles.buttonStyle,
-                      onPressed: () async {
-                        await buildScreenLockCreate(context);
-                      },
-                      child: const Center(child: Text('Sign Up')))
+                    style: AppStyles.buttonStyle,
+                    onPressed: () async {
+                      await buildScreenLockCreate(context);
+                    },
+                    child: Center(
+                      child: Text(LocaleKeys.registration_singup.tr()),
+                    ),
+                  )
                 ]
               ],
             ),
@@ -142,8 +147,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   buildScreenLockCreate(BuildContext context) async {
     screenLockCreate(
-      title: const Text('Please, create pin code'),
-      confirmTitle: const Text('Please, confirm pin code'),
+      title: Text(LocaleKeys.registration_create_pin.tr()),
+      confirmTitle: Text(LocaleKeys.registration_confirm_pin.tr()),
       context: context,
       onConfirmed: (value) async {
         if (await LocalAuth.canAuthenticate()) {
@@ -190,17 +195,16 @@ class _BiometricsDialogState extends State<BiometricsDialog> {
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
-      title: const Center(
+      title: Center(
         child: Text(
-          'Use biometrics?',
+          LocaleKeys.registration_use_biometrics.tr(),
           style: AppStyles.menuPageTitle,
         ),
       ),
       contentPadding: const EdgeInsets.all(16),
       children: [
-        const Text(
-          'Would you like to use fingerprint or '
-          'FaceId to sign in?',
+         Text(
+          LocaleKeys.registration_choose_biometrics.tr(),
           style: AppStyles.body2,
           textAlign: TextAlign.center,
         ),
@@ -227,26 +231,32 @@ class _BiometricsDialogState extends State<BiometricsDialog> {
           height: 16,
         ),
         TextButton(
-            onPressed: ()async {
+            onPressed: () async {
               final ifAuth = await LocalAuth.authenticate();
-              if(ifAuth && mounted) {
+              if (ifAuth && mounted) {
                 Navigator.of(context).pop();
                 context.read<UserBloc>().add(CreateUserEvent(
-                    name: widget.name, pin: widget.pin, email: widget.email, biometrics: true));
+                    name: widget.name,
+                    pin: widget.pin,
+                    email: widget.email,
+                    biometrics: true));
               }
             },
-            child: const Text(
-              'Yes, sure',
+            child: Text(
+              LocaleKeys.registration_yes.tr(),
               style: AppStyles.button,
             )),
         TextButton(
             onPressed: () {
               Navigator.of(context).pop();
               context.read<UserBloc>().add(CreateUserEvent(
-                  name: widget.name, pin: widget.pin, email: widget.email, biometrics: false));
+                  name: widget.name,
+                  pin: widget.pin,
+                  email: widget.email,
+                  biometrics: false));
             },
-            child: const Text(
-              "No, I'll use pin",
+            child: Text(
+              LocaleKeys.registration_no.tr(),
               style: AppStyles.buttonBlack,
             ))
       ],

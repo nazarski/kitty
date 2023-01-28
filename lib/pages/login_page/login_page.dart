@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screen_lock/flutter_screen_lock.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kitty/bloc/user_bloc/user_bloc.dart';
+import 'package:kitty/generated/locale_keys.g.dart';
 import 'package:kitty/models/user_model/user.dart';
 import 'package:kitty/pages/main_page.dart';
 import 'package:kitty/pages/registration_page/registration_page.dart';
@@ -57,14 +59,14 @@ class _LoginPageState extends State<LoginPage> {
                   height: 24,
                 ),
                 Wrap(
-                  children: const [
-                    Icon(Icons.login, color: AppColors.title),
-                    SizedBox(
+                  children: [
+                    const Icon(Icons.login, color: AppColors.title),
+                    const SizedBox(
                       width: 8,
                     ),
                     Text(
-                      'Sign In',
-                      style: TextStyle(
+                      LocaleKeys.registration_signin.tr(),
+                      style: const TextStyle(
                           color: AppColors.title,
                           fontSize: 18,
                           fontWeight: FontWeight.w700),
@@ -77,8 +79,8 @@ class _LoginPageState extends State<LoginPage> {
                 TextField(
                   keyboardType: TextInputType.emailAddress,
                   controller: emailController,
-                  decoration: const InputDecoration(
-                    labelText: 'Your e-mail',
+                  decoration: InputDecoration(
+                    labelText: LocaleKeys.registration_e_mail.tr(),
                   ),
                 ),
                 const SizedBox(
@@ -103,7 +105,8 @@ class _LoginPageState extends State<LoginPage> {
                       Navigator.of(context)
                           .pushNamed(RegistrationPage.routeName);
                     },
-                    child: const Text('Sign Up', style: AppStyles.button),
+                    child: Text(LocaleKeys.registration_singup.tr(), style:
+                    AppStyles.button),
                   ),
                   ElevatedButton(
                       style: AppStyles.buttonStyle,
@@ -112,7 +115,8 @@ class _LoginPageState extends State<LoginPage> {
                             .read<UserBloc>()
                             .add(SignInEvent(emailController.text));
                       },
-                      child: const Center(child: Text('Sign In')))
+                      child: Center(child: Text(LocaleKeys
+                          .registration_signin.tr())))
                 ]
               ],
             ),

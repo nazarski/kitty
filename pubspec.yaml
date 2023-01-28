@@ -29,6 +29,8 @@ dependencies:
   open_document: ^1.0.5
   flutter_secure_storage: ^7.0.1
   uuid: ^3.0.7
+  easy_localization: ^3.0.1
+  open_filex: ^4.3.2
 
 
 dev_dependencies:
@@ -45,6 +47,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/translations/
     - assets/icons/
     - assets/icons/categories/
 

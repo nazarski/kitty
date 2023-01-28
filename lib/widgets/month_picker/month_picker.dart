@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kitty/bloc/database_bloc/entries_control_bloc.dart';
 import 'package:kitty/bloc/date_bloc/date_bloc.dart';
+import 'package:kitty/generated/locale_keys.g.dart';
 import 'package:kitty/repository/database_repository.dart';
 import 'package:kitty/resources/app_colors.dart';
 import 'package:kitty/resources/app_text_styles.dart';
@@ -43,18 +45,18 @@ class _MonthPickerState extends State<MonthPicker> {
   }
 
   final List<String> listOfMonths = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
+    LocaleKeys.months_jan.tr(),
+    LocaleKeys.months_feb.tr(),
+    LocaleKeys.months_mar.tr(),
+    LocaleKeys.months_apr.tr(),
+    LocaleKeys.months_may.tr(),
+    LocaleKeys.months_jun.tr(),
+    LocaleKeys.months_jul.tr(),
+    LocaleKeys.months_aug.tr(),
+    LocaleKeys.months_sep.tr(),
+    LocaleKeys.months_oct.tr(),
+    LocaleKeys.months_nov.tr(),
+    LocaleKeys.months_dec.tr(),
   ];
 
   @override

@@ -1,8 +1,10 @@
 import 'dart:developer';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:kitty/bloc/database_bloc/entries_control_bloc.dart';
 import 'package:kitty/bloc/navigation_bloc/navigation_bloc.dart';
+import 'package:kitty/generated/locale_keys.g.dart';
 import 'package:kitty/pages/add_category/add_category.dart';
 import 'package:kitty/resources/app_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -57,7 +59,7 @@ class _AddEntryState extends State<AddEntry> {
           },
           child: Scaffold(
             appBar: BackAppBar(
-              text: 'Add new',
+              text: LocaleKeys.add_new.tr(),
               back: _closeBottomSheet,
             ),
             body: SingleChildScrollView(
@@ -92,8 +94,8 @@ class _AddEntryState extends State<AddEntry> {
                         bottomSheetController =
                             buildShowBottomSheet(context, state);
                       },
-                      decoration: const InputDecoration(
-                        labelText: 'Category name',
+                      decoration: InputDecoration(
+                        labelText: LocaleKeys.category_name.tr(),
                       ),
                     ),
                     const SizedBox(
@@ -105,8 +107,8 @@ class _AddEntryState extends State<AddEntry> {
                       onEditingComplete: _onComplete,
                       keyboardType: TextInputType.number,
                       controller: amountController,
-                      decoration: const InputDecoration(
-                        labelText: 'Enter amount',
+                      decoration: InputDecoration(
+                        labelText: LocaleKeys.enter_amount.tr(),
                       ),
                     ),
                     const SizedBox(
@@ -116,8 +118,8 @@ class _AddEntryState extends State<AddEntry> {
                       onTap: _closeBottomSheet,
                       onEditingComplete: _onComplete,
                       controller: descriptionController,
-                      decoration: const InputDecoration(
-                        labelText: 'Description (optional)',
+                      decoration: InputDecoration(
+                        labelText: LocaleKeys.description.tr(),
                       ),
                     ),
                     const SizedBox(
@@ -163,7 +165,7 @@ class _AddEntryState extends State<AddEntry> {
           BoxConstraints(maxHeight: MediaQuery.of(context).size.height / 2),
       enableDrag: false,
       context: context,
-      builder: (_) {
+      builder: (context) {
         if (option == 'income') {
           return CategorySelection(
             controller: bottomSheetController!,
@@ -180,9 +182,9 @@ class _AddEntryState extends State<AddEntry> {
                 context.read<NavigationBloc>().add(
                     NavigateTab(tabIndex: 4, route: AddCategory.routeName));
               },
-              child: const Text(
-                'Add new category',
-                style: TextStyle(
+              child: Text(
+                LocaleKeys.add_category.tr(),
+                style: const TextStyle(
                     color: AppColors.activeBlue,
                     fontSize: 14,
                     fontWeight: FontWeight.w500),

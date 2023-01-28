@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kitty/bloc/database_bloc/entries_control_bloc.dart';
+import 'package:kitty/generated/locale_keys.g.dart';
 import 'package:kitty/resources/app_colors.dart';
 import 'package:kitty/resources/app_text_styles.dart';
 import 'package:kitty/utils/helper.dart';
@@ -61,8 +63,8 @@ class _EntriesListBuilderState extends State<EntriesListBuilder> {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(color: AppColors.borderGrey, width: 1)),
-              child: const Center(
-                child: Text('No expenses found, tap "Add new"'),
+              child: Center(
+                child: Text(LocaleKeys.no_expense.tr()),
               ),
             ),
           );
@@ -116,7 +118,7 @@ class _EntriesListBuilderState extends State<EntriesListBuilder> {
                           } else {
                             _showDeleteOption(
                                 context,
-                                '${category.title} transaction',
+                                '${category.title} ${LocaleKeys.transaction}',
                                 blockEntries[index].expenseId);
                           }
                         },

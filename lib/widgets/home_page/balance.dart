@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kitty/bloc/database_bloc/entries_control_bloc.dart';
+import 'package:kitty/generated/locale_keys.g.dart';
 import 'package:kitty/resources/app_colors.dart';
 import 'package:kitty/resources/app_icons.dart';
 import 'package:kitty/resources/app_text_styles.dart';
@@ -38,8 +40,8 @@ class BalanceWidget extends StatelessWidget {
                       '${state.balance.expenses}',
                       style: AppStyles.appRed,
                     ),
-                    const Text(
-                      'Expenses',
+                     Text(
+                      LocaleKeys.expenses.tr(),
                       style: AppStyles.caption,
                     )
                   ],
@@ -60,8 +62,8 @@ class BalanceWidget extends StatelessWidget {
                       '${state.balance.balance}',
                       style: AppStyles.appGreen,
                     ),
-                    const Text(
-                      'Balance',
+                    Text(
+                      LocaleKeys.balance.tr(),
                       style: AppStyles.caption,
                     )
                   ],
@@ -77,8 +79,8 @@ class BalanceWidget extends StatelessWidget {
                       '${state.balance.income}',
                       style: AppStyles.buttonBlack,
                     ),
-                    const Text(
-                      'Income',
+                     Text(
+                      LocaleKeys.income.tr(),
                       style: AppStyles.caption,
                     )
                   ],
