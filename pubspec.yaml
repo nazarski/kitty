@@ -47,6 +47,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/res/
     - assets/translations/
     - assets/icons/
     - assets/icons/categories/

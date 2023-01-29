@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kitty/bloc/navigation_bloc/navigation_bloc.dart';
 import 'package:kitty/bloc/user_bloc/user_bloc.dart';
 import 'package:kitty/generated/locale_keys.g.dart';
+import 'package:kitty/pages/faq_page/faq_page.dart';
 import 'package:kitty/pages/login_page/login_page.dart';
 import 'package:kitty/pages/manage_categories_page/manage_categories_page.dart';
 import 'package:kitty/pages/statistics_page/statistics_page.dart';
@@ -54,7 +55,10 @@ class SettingsPage extends StatelessWidget {
                     SettingOption(
                         icon: Icons.help_center_outlined,
                         title: LocaleKeys.faq.tr(),
-                        action: () {}),
+                        action: () {
+                          context.read<NavigationBloc>().add(NavigateTab
+                            (tabIndex: 8, route: FAQPage.routeName));
+                        }),
                     SettingOption(
                       icon: Icons.logout_outlined,
                       title: LocaleKeys.logout.tr(),

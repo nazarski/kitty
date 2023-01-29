@@ -5,6 +5,7 @@ import 'package:kitty/utils/helper.dart';
 
 class AppThemeData {
   static ThemeData mainTheme = ThemeData(
+      dividerColor: Colors.transparent,
       scaffoldBackgroundColor: Colors.white,
       fontFamily: 'Inter',
       appBarTheme: const AppBarTheme(
@@ -38,5 +39,10 @@ class AppThemeData {
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
         backgroundColor: AppColors.activeBlue,
         extendedTextStyle: AppStyles.buttonWhite,
-      ));
+      ),
+    expansionTileTheme: ExpansionTileThemeData(
+      iconColor: AppColors.activeBlue,
+
+    )
+  );
 }

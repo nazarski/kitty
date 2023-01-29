@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kitty/pages/add_category/add_category.dart';
 import 'package:kitty/pages/add_entry/add_entry.dart';
 import 'package:kitty/pages/edit_category/edit_category.dart';
+import 'package:kitty/pages/faq_page/faq_page.dart';
 import 'package:kitty/pages/home_page/home_page.dart';
 import 'package:kitty/pages/login_page/login_page.dart';
 import 'package:kitty/pages/main_page.dart';
@@ -59,6 +60,9 @@ class AppRoutes {
       case EditCategory.routeName:
         return PageTransition(
             child: const EditCategory(), type: PageTransitionType.fade);
+      case FAQPage.routeName:
+        return PageTransition(
+            child: const FAQPage(), type: PageTransitionType.fade);
 
       default:
         throw Exception('Invalid route: ${settings.name}');
