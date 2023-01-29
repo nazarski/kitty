@@ -49,9 +49,7 @@ class _AddEntryState extends State<AddEntry> {
   Widget build(BuildContext context) {
     return BlocBuilder<EntriesControlBloc, EntriesControlState>(
       builder: (context, state) {
-        if (state.categoryToAdd != null) {
-          categoryController.text = state.categoryToAdd!.title;
-        }
+          categoryController.text = state.categoryToAdd.title;
         return WillPopScope(
           onWillPop: () async {
             _closeBottomSheet();
@@ -72,7 +70,7 @@ class _AddEntryState extends State<AddEntry> {
                     CategoryDropDown(
                       onTap: _closeBottomSheet,
                       onChanged: (value) {
-                        if (state.categoryToAdd != null) {
+                        if (!state.categoryToAdd.categoryId.isNegative) {
                           context
                               .read<EntriesControlBloc>()
                               .add(InitialDatabaseEvent());
@@ -131,7 +129,7 @@ class _AddEntryState extends State<AddEntry> {
                           Widget? child) {
                         return AddEntryButton(
                           option: option,
-                          isActive: state.categoryToAdd != null &&
+                          isActive: state.categoryToAdd.title.isNotEmpty &&
                               option != 'entry' &&
                               value.text.isNotEmpty,
                           action: () {

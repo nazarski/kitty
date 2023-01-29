@@ -77,7 +77,10 @@ class _MonthPickerState extends State<MonthPicker> {
         },
         builder: (context, state) {
           if (state.selectedYear == 0) {
-            return PlaceHolder(listOfMonths: listOfMonths);
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: PlaceHolder(listOfMonths: listOfMonths),
+            );
           }
           final bool back = state.allYears.contains(state.selectedYear - 1) ||
               state.selectedMonth != state.activeMonths.last &&
@@ -87,7 +90,7 @@ class _MonthPickerState extends State<MonthPicker> {
                   state.selectedMonth != state.activeMonths.first &&
                       state.selectedYear == state.year;
           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 8),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

@@ -15,7 +15,7 @@ class PlaceHolder extends StatelessWidget {
     return Center(
       child: Container(
         padding:
-        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        const EdgeInsets.symmetric(horizontal: 12,vertical: 8),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(50),
             color: AppColors.basicGrey),

@@ -55,13 +55,13 @@ class _AddCategoryState extends State<AddCategory> {
                   Widget? child) {
                 return ElevatedButton(
                     style: AppStyles.buttonStyle,
-                    onPressed: state.selectedIcon != null &&
+                    onPressed: !state.selectedIcon.iconId.isNegative &&
                             value.text.isNotEmpty
                         ? () {
                             context.read<EntriesControlBloc>().add(
                                 CreateExpenseCategoryEvent(
                                     categoryName: value.text,
-                                    selectedIcon: state.selectedIcon!));
+                                    selectedIcon: state.selectedIcon));
                             context.read<NavigationBloc>().add(NavigationPop());
                           }
                         : null,
@@ -112,10 +112,10 @@ class _AddCategoryState extends State<AddCategory> {
                                 });
                             setState(() {});
                           },
-                          icon: state.selectedIcon != null
+                          icon: !state.selectedIcon.iconId.isNegative
                               ? IconView(
-                                  icon: state.selectedIcon!.localPath,
-                                  color: state.selectedIcon!.color,
+                                  icon: state.selectedIcon.localPath,
+                                  color: state.selectedIcon.color,
                                 )
                               : const IconView(
                                   icon: AppIcons.addPlus,

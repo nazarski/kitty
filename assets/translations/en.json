@@ -29,7 +29,6 @@
   "add_income": "Add new income",
   "add_expense": "Add new expense",
   "add_smth": "Add new transaction",
-
   "registration": {
     "singup": "Sign Up",
     "signin": "Sign In",
@@ -39,7 +38,7 @@
     "create_pin": "Please, create pin code",
     "confirm_pin": "Please, confirm pin code",
     "choose_biometrics": "Would you like to use fingerprint or FaceId to sign in?",
-    "use_biometrics" : "Use biometrics?",
+    "use_biometrics": "Use biometrics?",
     "yes": "Yes, sure",
     "no": "No, I`ll use pin",
     "errors": {
@@ -71,5 +70,25 @@
     "groceries": "Groceries",
     "cafe": "Cafe",
     "electronics": "Electronics"
+  },
+  "faq_data": {
+    "questions": {
+      "how_add_trans": "How to add transaction?",
+      "how_add_cat": "How to add category?",
+      "how_edit_trans": "How to edit transaction?",
+      "how_del_trans": "How to delete transaction?",
+      "how_stats_work": "How does Statistics works?",
+      "how_balance_work": "How does Balance works?",
+      "how_change_date": "How change the date of the report?"
+    },
+    "answers": {
+      "how_add_trans": "You can add transaction by pressing the button \"Add new\" on Home page, after that choose type of transaction, it`s amount and description",
+      "how_add_cat": "You edit or add expense categories in \"Manage categories\" menu. Go to \"Settings\" > \"Manage categories\". App allows you to edit category`s icon, title, and even order",
+      "how_edit_trans": "If you made a mistake creating a note about transaction you can simply delete it and create a new one! To do this,long press on a transaction item on Home page, and then press \"Delete\" button in context menu",
+      "how_del_trans": "To do this,long press on a transaction item on Home page, and then press \"Delete\" button in context menu",
+      "how_stats_work": "It creates a report of all monthly transactions. You also can download it in PDF",
+      "how_balance_work": "It takes all the transactions you`ve added from the beginning to the month you`ve chosen",
+      "how_change_date": "You can choose the date by pressing \"<\" or \">\" buttons to navigate back and forward, also by pressing the date you can choose month in context menu."
+    }
   }
 }

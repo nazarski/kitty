@@ -14,8 +14,8 @@ class EntriesControlState extends Equatable {
   final Balance balance;
   final Map<String, List<Entry>> entries;
   final List<CategoryIcon> icons;
-  final EntryCategory? categoryToAdd;
-  final CategoryIcon? selectedIcon;
+  final EntryCategory categoryToAdd;
+  final CategoryIcon selectedIcon;
   final DatabaseStatus status;
   final List<StatisticsElement> statistics;
 
@@ -30,8 +30,8 @@ class EntriesControlState extends Equatable {
     ),
     this.entries = const {},
     this.icons = const [],
-    this.categoryToAdd,
-    this.selectedIcon,
+    this.categoryToAdd = EntriesControlBloc.zeroCategory,
+    this.selectedIcon = EntriesControlBloc.zeroIcon,
     this.status = DatabaseStatus.initial,
     this.statistics = const [],
   });

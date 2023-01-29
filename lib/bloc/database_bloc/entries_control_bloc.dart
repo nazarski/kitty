@@ -18,6 +18,10 @@ part 'entries_control_state.dart';
 class EntriesControlBloc
     extends Bloc<EntriesControlEvent, EntriesControlState> {
   DatabaseRepository databaseRepository;
+  static const CategoryIcon zeroIcon =
+      CategoryIcon(iconId: -1, localPath: '', color: '');
+  static const EntryCategory zeroCategory = EntryCategory(
+      categoryId: -1, title: '', type: '', orderNum: -1, icon: zeroIcon);
 
   //fetch categories
   Future<void> _getCategories(Emitter emit) async {
@@ -96,8 +100,8 @@ class EntriesControlBloc
       : super(const EntriesControlState()) {
     on<InitialDatabaseEvent>((event, emit) {
       emit(state.copyWith(
-          categoryToAdd: null,
-          selectedIcon: null,
+          categoryToAdd: zeroCategory,
+          selectedIcon: zeroIcon,
           status: DatabaseStatus.initial));
     });
     on<CallAllDataEvent>((_, emit) async => _getAllData(emit));
@@ -110,15 +114,16 @@ class EntriesControlBloc
     });
     on<CreateExpenseCategoryEvent>((event, _) async {
       await databaseRepository.createExpenseCategory(
-          title: event.categoryName, iconId: state.selectedIcon!.iconId);
+          title: event.categoryName, iconId: state.selectedIcon.iconId);
       add(InitialDatabaseEvent());
       add(CallEntryCategoriesEvent());
     });
     on<CreateEntryEvent>((event, emit) async {
       await databaseRepository.createEntry(
-          categoryId: state.categoryToAdd!.categoryId,
+          categoryId: state.categoryToAdd.categoryId,
           amount: event.amount,
           description: event.description);
+      add(InitialDatabaseEvent());
       add(SetDateToEntriesEvent(
           type: 'range',
           year: DateTime.now().year,
@@ -142,7 +147,7 @@ class EntriesControlBloc
     });
     on<EditCategoryEvent>((event, emit) async {
       await databaseRepository.editCategory(
-          categoryId: state.categoryToAdd!.categoryId,
+          categoryId: state.categoryToAdd.categoryId,
           iconId: event.icon.iconId,
           newName: event.newTitle);
       add(InitialDatabaseEvent());
