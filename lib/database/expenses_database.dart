@@ -42,7 +42,11 @@ class ExpensesDatabaseProvider {
       iconId INTEGER NOT NULL,
       orderNum INTEGER,
       FOREIGN KEY (iconId) REFERENCES $icTable (iconId)
-      )
+      );
+      CREATE TRIGGER auto_increment_trigger AFTER INSERT ON $entryCatTable
+      WHEN new.orderNum IS NULL BEGIN UPDATE $entryCatTable SET orderNum = 
+      (SELECT IFNULL(MAX(orderNum), 0) + 1 FROM $entryCatTable) WHERE categoryId = 
+      new.categoryId; END;
       ''');
 
       // entries table
@@ -80,7 +84,7 @@ class ExpensesDatabaseProvider {
         ...InitialValues.expenseIcons.values.toList(),
       ];
 
-      for (int i = 1; i < allIcons.length; i++) {
+      for (int i = 1; i < allIcons.length+1; i++) {
         await txn.insert(
             icTable,
             CategoryIcon(
@@ -91,9 +95,9 @@ class ExpensesDatabaseProvider {
       }
 
       // income categories
-      for (int i = 0; i < InitialValues.incomeCategories.length; i++) {
+      for (int i = 1; i < InitialValues.incomeCategories.length+1; i++) {
         await txn.insert(entryCatTable, {
-          'title': InitialValues.incomeCategories[i],
+          'title': InitialValues.incomeCategories[i-1],
           'totalAmount': (0.0).toString(),
           'entries': 0,
           'type': 'income',
@@ -103,9 +107,9 @@ class ExpensesDatabaseProvider {
       }
 
       // expense categories
-      for (int i = 6; i < 9; i++) {
+      for (int i = 7; i < 10; i++) {
         await txn.insert(entryCatTable, {
-          'title': InitialValues.expenseCategories[i - 6],
+          'title': InitialValues.expenseCategories[i - 7],
           'totalAmount': (0.0).toString(),
           'entries': 0,
           'type': 'expense',
@@ -113,7 +117,6 @@ class ExpensesDatabaseProvider {
           'iconId': i
         });
       }
-
     });
   }
 }

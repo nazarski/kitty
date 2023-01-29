@@ -86,8 +86,6 @@ class DatabaseRepository {
         'entries': 0,
         'type': 'expense',
         'iconId': iconId,
-        'orderNum':
-            '(SELECT MAX(orderNum) +1 FROM ${databaseProvider.entryCatTable})'
       });
     });
   }
