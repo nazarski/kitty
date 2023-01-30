@@ -42,11 +42,7 @@ class ExpensesDatabaseProvider {
       iconId INTEGER NOT NULL,
       orderNum INTEGER,
       FOREIGN KEY (iconId) REFERENCES $icTable (iconId)
-      );
-      CREATE TRIGGER auto_increment_trigger AFTER INSERT ON $entryCatTable
-      WHEN new.orderNum IS NULL BEGIN UPDATE $entryCatTable SET orderNum = 
-      (SELECT IFNULL(MAX(orderNum), 0) + 1 FROM $entryCatTable) WHERE categoryId = 
-      new.categoryId; END;
+      )
       ''');
 
       // entries table
@@ -76,6 +72,13 @@ class ExpensesDatabaseProvider {
       timeStamp INTEGER)
       ''');
 
+      await txn.execute('''
+      CREATE TRIGGER auto_increment_trigger AFTER INSERT ON $entryCatTable 
+      WHEN new.orderNum IS NULL BEGIN UPDATE $entryCatTable SET orderNum = 
+      (SELECT IFNULL(MAX(orderNum), 0) + 1 FROM $entryCatTable) WHERE 
+      categoryId = new.categoryId; END;
+      ''');
+
       // initial values
 
       // icons
@@ -84,37 +87,35 @@ class ExpensesDatabaseProvider {
         ...InitialValues.expenseIcons.values.toList(),
       ];
 
-      for (int i = 1; i < allIcons.length+1; i++) {
+      for (int i = 0; i < allIcons.length; i++) {
         await txn.insert(
             icTable,
             CategoryIcon(
-                    iconId: i,
+                    iconId: i+1,
                     localPath: allIcons[i]['icon']!,
                     color: allIcons[i]['color']!)
                 .toJson());
       }
 
       // income categories
-      for (int i = 1; i < InitialValues.incomeCategories.length+1; i++) {
+      for (int i = 0; i < InitialValues.incomeCategories.length; i++) {
         await txn.insert(entryCatTable, {
-          'title': InitialValues.incomeCategories[i-1],
+          'title': InitialValues.incomeCategories[i],
           'totalAmount': (0.0).toString(),
           'entries': 0,
           'type': 'income',
-          'orderNum': i+1,
-          'iconId': i,
+          'iconId': i+1,
         });
       }
 
       // expense categories
-      for (int i = 7; i < 10; i++) {
+      for (int i = 6; i < 9; i++) {
         await txn.insert(entryCatTable, {
-          'title': InitialValues.expenseCategories[i - 7],
+          'title': InitialValues.expenseCategories[i - 6],
           'totalAmount': (0.0).toString(),
           'entries': 0,
           'type': 'expense',
-          'orderNum': i+1,
-          'iconId': i
+          'iconId': i+1
         });
       }
     });
