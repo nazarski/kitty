@@ -1,12 +1,9 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:kitty/resources/app_colors.dart';
 import 'package:kitty/resources/app_text_styles.dart';
 import 'package:kitty/resources/initial_values.dart';
+import 'package:kitty/utils/helper.dart';
 import 'package:kitty/widgets/navigation/back_app_bar.dart';
-import 'package:open_filex/open_filex.dart';
-import 'package:path_provider/path_provider.dart';
 
 class FAQPage extends StatefulWidget {
   const FAQPage({Key? key}) : super(key: key);
@@ -58,15 +55,7 @@ class _FAQPageState extends State<FAQPage> {
                         ),
                     itemCount: InitialValues.faq.length)),
             TextButton(
-                onPressed: () async {
-                  final tempDir = await getTemporaryDirectory();
-                  final data =
-                      await rootBundle.load('assets/res/privacy_policy.html');
-                  final bytes = data.buffer.asInt8List();
-                  final filePath = File('${tempDir.path}/pp.html');
-                  filePath.writeAsBytes(bytes);
-                  await OpenFilex.open(filePath.path);
-                },
+                onPressed: () async => await openPP(),
                 child: const Text('Privacy policy', style: AppStyles.button))
           ],
         ),

@@ -21,7 +21,7 @@ class BackAppBar extends StatelessWidget with PreferredSizeWidget {
           if (back != null){
             back!();
           }
-          context.read<NavigationBloc>().add(NavigationPop());
+          Navigator.of(context).pop();
         },
       ),
       title: Text(

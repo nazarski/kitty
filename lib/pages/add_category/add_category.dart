@@ -28,6 +28,7 @@ class _AddCategoryState extends State<AddCategory> {
   void _closeBottomSheet() {
     if (bottomSheetController != null) {
       bottomSheetController!.close();
+      bottomSheetController = null;
     }
   }
 
@@ -41,7 +42,10 @@ class _AddCategoryState extends State<AddCategory> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        _closeBottomSheet();
+        if (bottomSheetController != null){
+          _closeBottomSheet();
+          return false;
+        }
         return true;
       },
       child: BlocBuilder<EntriesControlBloc, EntriesControlState>(
@@ -62,7 +66,7 @@ class _AddCategoryState extends State<AddCategory> {
                                 CreateExpenseCategoryEvent(
                                     categoryName: value.text,
                                     selectedIcon: state.selectedIcon));
-                            context.read<NavigationBloc>().add(NavigationPop());
+                            Navigator.of(context).pop();
                           }
                         : null,
                     child: SizedBox(

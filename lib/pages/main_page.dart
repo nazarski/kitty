@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kitty/bloc/database_bloc/entries_control_bloc.dart';
 import 'package:kitty/bloc/navigation_bloc/navigation_bloc.dart';
@@ -47,8 +44,9 @@ class _MainPageState extends State<MainPage> {
 
   void _onSelectTab(int index) {
     if (_navigatorKey.currentState != null) {
-      _navigatorKey.currentState!
-          .pushNamedAndRemoveUntil(_pages[index], (_) => false);
+      _navigatorKey.currentState!.pushNamed(
+        _pages[index],
+      );
     }
   }
 
@@ -71,45 +69,55 @@ class _MainPageState extends State<MainPage> {
             create: (context) => NavigationBloc(),
           ),
         ],
-        child: BlocConsumer<NavigationBloc, NavigationState>(
-          listener: (_, state) {
-            if (state.status == NavigationStateStatus.tab) {
-              _onSelectTab(state.currentIndex);
-            }
-            if (state.status == NavigationStateStatus.none) {
-              SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-            }
-          },
-          builder: (context, state) {
-            return WillPopScope(
-              onWillPop: () async {
-                final bool maybePop = await _maybePop();
-                if (!maybePop && mounted) {
-                  context.read<NavigationBloc>().add(NavigationPop());
-                }
-                return maybePop;
-              },
-              child: Scaffold(
-                key: scaffoldKey,
-                body: Navigator(
-                  key: _navigatorKey,
-                  initialRoute: HomePage.routeName,
-                  onGenerateRoute: AppRoutes.generateRoute,
-                ),
-                bottomNavigationBar: [0, 1, 2].contains(state.currentIndex)
-                    ? MainBottomNavigationBar(
-                        navigateTo: (value) {
+        child:
+            BlocConsumer<NavigationBloc, NavigationState>(listener: (_, state) {
+          if (state.status == NavigationStateStatus.tab) {
+            _onSelectTab(state.currentIndex);
+          }
+        }, builder: (context, state) {
+          return WillPopScope(
+            onWillPop: () async {
+              return !await _maybePop();
+            },
+            child: Scaffold(
+              key: scaffoldKey,
+              body: Navigator(
+                key: _navigatorKey,
+                initialRoute: HomePage.routeName,
+                onGenerateRoute: AppRoutes.generateRoute,
+                observers: [
+                  MyNavigatorObserver((value) {
+                    context
+                        .read<NavigationBloc>()
+                        .add(NavigationOnPop(_pages.indexOf(value)));
+                  })
+                ],
+              ),
+              bottomNavigationBar: [0, 1, 2].contains(state.currentIndex)
+                  ? MainBottomNavigationBar(
+                      navigateTo: (value) {
+                        if(value !=null) {
                           context.read<NavigationBloc>().add(NavigateTab(
                               tabIndex: value, route: _pages[value]));
-                        },
-                        currentIndex: state.currentIndex,
-                      )
-                    : null,
-              ),
-            );
-          },
-        ),
+                        }
+                      },
+                      currentIndex: state.currentIndex,
+                    )
+                  : null,
+            ),
+          );
+        }),
       ),
     );
   }
+}
+
+class MyNavigatorObserver extends NavigatorObserver {
+  final ValueChanged action;
+
+  MyNavigatorObserver(this.action);
+
+  @override
+  void didPop(Route route, Route? previousRoute) =>
+      action(previousRoute!.settings.name);
 }

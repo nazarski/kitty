@@ -14,6 +14,10 @@ class NavigateTab extends NavigationEvent {
   final String route;
 }
 
-class NavigationPop extends NavigationEvent{}
+class NavigationOnPop extends NavigationEvent{
+  final int index;
+
+  NavigationOnPop(this.index);
+}
 
 // class NavigationInitial extends NavigationEvent{}

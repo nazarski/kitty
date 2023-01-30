@@ -12,11 +12,11 @@ class CategorySelection extends StatelessWidget {
   const CategorySelection({
     Key? key,
     required this.categories,
-    required this.controller,
+    // required this.controller,
     this.addCategory,
   }) : super(key: key);
   final List<EntryCategory> categories;
-  final PersistentBottomSheetController controller;
+  // final PersistentBottomSheetController controller;
   final Widget? addCategory;
 
   @override
@@ -62,7 +62,7 @@ class CategorySelection extends StatelessWidget {
                         onPressed: () {
                           context.read<EntriesControlBloc>().add(
                                 GetCategoryEvent(categories[index]));
-                          controller.close();
+                         Navigator.of(context).pop();
                         },
                         iconSize: 60,
                         icon: IconView(

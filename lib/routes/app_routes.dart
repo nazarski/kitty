@@ -21,48 +21,72 @@ class AppRoutes {
     final arguments = settings.arguments;
 
     WidgetBuilder builder;
-    print(settings.name);
-
     switch (settings.name) {
       case LoginPage.routeName:
         return PageTransition(
-            child: const LoginPage(), type: PageTransitionType.fade);
+            settings: RouteSettings(name: settings.name),
+            child: const LoginPage(),
+            type: PageTransitionType.fade);
       case RegistrationPage.routeName:
         return PageTransition(
-            child: const RegistrationPage(), type: PageTransitionType.fade);
+            settings: RouteSettings(name: settings.name),
+            child: const RegistrationPage(),
+            type: PageTransitionType.fade);
       case CheckScreen.routeName:
         return PageTransition(
-            child: const CheckScreen(), type: PageTransitionType.fade);
+            settings: RouteSettings(name: settings.name),
+            child: const CheckScreen(),
+            type: PageTransitionType.fade);
       case MainPage.routeName:
         return PageTransition(
-            child: const MainPage(), type: PageTransitionType.fade);
+            settings: RouteSettings(name: settings.name),
+            child: const MainPage(),
+            type: PageTransitionType.fade);
       case HomePage.routeName:
         return PageTransition(
-            child: const HomePage(), type: PageTransitionType.fade);
+            settings: RouteSettings(name: settings.name),
+            child: const HomePage(),
+            type: PageTransitionType.fade);
       case SettingsPage.routeName:
         return PageTransition(
-            child: const SettingsPage(), type: PageTransitionType.fade);
+            settings: RouteSettings(name: settings.name),
+            child: const SettingsPage(),
+            type: PageTransitionType.fade);
       case StatisticsPage.routeName:
         return PageTransition(
-            child: const StatisticsPage(), type: PageTransitionType.fade);
+            settings: RouteSettings(name: settings.name),
+            child: const StatisticsPage(),
+            type: PageTransitionType.fade);
       case AddEntry.routeName:
         return PageTransition(
-            child: const AddEntry(), type: PageTransitionType.fade);
+            settings: RouteSettings(name: settings.name),
+            child: const AddEntry(),
+            type: PageTransitionType.fade);
       case AddCategory.routeName:
         return PageTransition(
-            child: const AddCategory(), type: PageTransitionType.fade);
+            settings: RouteSettings(name: settings.name),
+            child: const AddCategory(),
+            type: PageTransitionType.fade);
       case SearchPage.routeName:
         return PageTransition(
-            child: const SearchPage(), type: PageTransitionType.fade);
+            settings: RouteSettings(name: settings.name),
+            child: const SearchPage(),
+            type: PageTransitionType.fade);
       case ManageCategoriesPage.routeName:
         return PageTransition(
-            child: const ManageCategoriesPage(), type: PageTransitionType.fade);
+            settings: RouteSettings(name: settings.name),
+            child: const ManageCategoriesPage(),
+            type: PageTransitionType.fade);
       case EditCategory.routeName:
         return PageTransition(
-            child: const EditCategory(), type: PageTransitionType.fade);
+            settings: RouteSettings(name: settings.name),
+            child: const EditCategory(),
+            type: PageTransitionType.fade);
       case FAQPage.routeName:
         return PageTransition(
-            child: const FAQPage(), type: PageTransitionType.fade);
+            settings: RouteSettings(name: settings.name),
+            child: const FAQPage(),
+            type: PageTransitionType.fade);
 
       default:
         throw Exception('Invalid route: ${settings.name}');

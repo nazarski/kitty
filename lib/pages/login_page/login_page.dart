@@ -142,6 +142,7 @@ class _LoginPageState extends State<LoginPage> {
           correctString: user.pin,
           onCancelled: (){
             context.read<UserBloc>().add(InitialUserEvent());
+            Navigator.of(context).pop();
           },
           onUnlocked: () {
             Navigator.of(context).pop();

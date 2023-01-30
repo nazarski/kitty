@@ -202,3 +202,12 @@ bool validateEmail(String email) {
           r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
       .hasMatch(email);
 }
+Future<void> openPP()async{
+  final tempDir = await getTemporaryDirectory();
+  final data =
+  await rootBundle.load('assets/res/privacy_policy.html');
+  final bytes = data.buffer.asInt8List();
+  final filePath = File('${tempDir.path}/privacy_policy.html');
+  filePath.writeAsBytes(bytes);
+  await OpenFilex.open(filePath.path);
+}

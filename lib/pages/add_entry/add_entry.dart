@@ -22,9 +22,11 @@ class AddEntry extends StatefulWidget {
 }
 
 class _AddEntryState extends State<AddEntry> {
+
   void _closeBottomSheet() {
     if (bottomSheetController != null) {
-      bottomSheetController!.close();
+      bottomSheetController?.close();
+      bottomSheetController = null;
     }
   }
 
@@ -47,18 +49,20 @@ class _AddEntryState extends State<AddEntry> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<EntriesControlBloc, EntriesControlState>(
-      builder: (context, state) {
+    return WillPopScope(
+      onWillPop: () async {
+        if (bottomSheetController != null) {
+          _closeBottomSheet();
+          return false;
+        }
+        return true;
+      },
+      child: BlocBuilder<EntriesControlBloc, EntriesControlState>(
+        builder: (context, state) {
           categoryController.text = state.categoryToAdd.title;
-        return WillPopScope(
-          onWillPop: () async {
-            _closeBottomSheet();
-            return true;
-          },
-          child: Scaffold(
+          return Scaffold(
             appBar: BackAppBar(
               text: LocaleKeys.add_new.tr(),
-              back: _closeBottomSheet,
             ),
             body: SingleChildScrollView(
               reverse: true,
@@ -133,6 +137,7 @@ class _AddEntryState extends State<AddEntry> {
                               option != 'entry' &&
                               value.text.isNotEmpty,
                           action: () {
+                            _closeBottomSheet();
                             context.read<EntriesControlBloc>().add(
                                   CreateEntryEvent(
                                     amount: option == 'expense'
@@ -141,7 +146,7 @@ class _AddEntryState extends State<AddEntry> {
                                     description: descriptionController.text,
                                   ),
                                 );
-                            context.read<NavigationBloc>().add(NavigationPop());
+                            Navigator.of(context).pop();
                           },
                         );
                       },
@@ -150,9 +155,9 @@ class _AddEntryState extends State<AddEntry> {
                 ),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 
@@ -166,17 +171,15 @@ class _AddEntryState extends State<AddEntry> {
       builder: (context) {
         if (option == 'income') {
           return CategorySelection(
-            controller: bottomSheetController!,
             categories: state.inCategories,
           );
         }
         if (option == 'expense') {
           return CategorySelection(
-            controller: bottomSheetController!,
             categories: state.expCategories,
             addCategory: OutlinedButton(
               onPressed: () {
-                _closeBottomSheet();
+                Navigator.of(context).pop();
                 context.read<NavigationBloc>().add(
                     NavigateTab(tabIndex: 4, route: AddCategory.routeName));
               },

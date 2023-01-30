@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kitty/resources/app_colors.dart';
 import 'package:kitty/resources/app_text_styles.dart';
-import 'package:kitty/utils/helper.dart';
 
 class AppThemeData {
   static ThemeData mainTheme = ThemeData(

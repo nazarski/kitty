@@ -3,7 +3,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kitty/bloc/database_bloc/entries_control_bloc.dart';
-import 'package:kitty/bloc/navigation_bloc/navigation_bloc.dart';
 import 'package:kitty/generated/locale_keys.g.dart';
 import 'package:kitty/resources/app_colors.dart';
 import 'package:kitty/resources/app_icons.dart';
@@ -28,6 +27,7 @@ class _EditCategoryState extends State<EditCategory> {
   void _closeBottomSheet() {
     if (bottomSheetController != null) {
       bottomSheetController!.close();
+      bottomSheetController = null;
     }
   }
 
@@ -41,7 +41,10 @@ class _EditCategoryState extends State<EditCategory> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        _closeBottomSheet();
+        if(bottomSheetController!= null) {
+          _closeBottomSheet();
+          return false;
+        }
         return true;
       },
       child: BlocBuilder<EntriesControlBloc, EntriesControlState>(
@@ -55,14 +58,14 @@ class _EditCategoryState extends State<EditCategory> {
                   Widget? child) {
                 return ElevatedButton(
                     style: AppStyles.buttonStyle,
-                    onPressed: state.selectedIcon != null &&
+                    onPressed: !state.selectedIcon.iconId.isNegative &&
                             value.text.isNotEmpty
                         ? () {
                             context.read<EntriesControlBloc>().add(
                                 EditCategoryEvent(
                                     newTitle: categoryController.text,
-                                    icon: state.selectedIcon!));
-                            context.read<NavigationBloc>().add(NavigationPop());
+                                    icon: state.selectedIcon));
+                            Navigator.of(context).pop();
                           }
                         : null,
                     child: SizedBox(
@@ -112,10 +115,10 @@ class _EditCategoryState extends State<EditCategory> {
                                 });
                             setState(() {});
                           },
-                          icon: state.selectedIcon != null
+                          icon: !state.selectedIcon.iconId.isNegative
                               ? IconView(
-                                  icon: state.selectedIcon!.localPath,
-                                  color: state.selectedIcon!.color,
+                                  icon: state.selectedIcon.localPath,
+                                  color: state.selectedIcon.color,
                                 )
                               : const IconView(
                                   icon: AppIcons.addPlus,
@@ -131,7 +134,7 @@ class _EditCategoryState extends State<EditCategory> {
                           onTap: _closeBottomSheet,
                           onEditingComplete: _onComplete,
                           controller: categoryController
-                            ..text = state.categoryToAdd!.title,
+                            ..text = state.categoryToAdd.title,
                           decoration: InputDecoration(
                             labelText: LocaleKeys.category_name.tr(),
                           ),

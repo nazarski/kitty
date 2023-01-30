@@ -4,7 +4,9 @@ import 'package:kitty/generated/locale_keys.g.dart';
 
 class CategoryDropDown extends StatelessWidget {
   const CategoryDropDown(
-      {Key? key, required this.onTap, required this.onChanged})
+      {Key? key,
+        required this.onTap,
+        required this.onChanged})
       : super(key: key);
   final VoidCallback onTap;
   final ValueChanged onChanged;
