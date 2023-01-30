@@ -31,6 +31,8 @@ class AppIcons {
   static const String expenses = '$_path/expenses.svg';
   static const String wallet = '$_path/wallet.svg';
   static const String faceId = '$_path/faceid.svg';
+  static const String noAvatar = '$_path/no_avatar.svg';
+
 
 
   // categories

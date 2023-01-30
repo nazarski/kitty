@@ -11,35 +11,37 @@ class InitialValues {
     'Savings',
     'Allowance',
   ];
+
   static const List<String> expenseCategories = [
     'Groceries',
     'Cafe',
-    'Electronics',
+    'Electronics'
   ];
-  static const Map<String, Map<String, String>> incomeIcons = {
-    'money': {'color': 'FFCCBC', 'icon': AppIcons.money},
-    'giftcard': {'color': 'E1BEE7', 'icon': AppIcons.giftCard},
-    'donation': {'color': 'FFF9C4', 'icon': AppIcons.donate},
-    'institute': {'color': 'FFE0B2', 'icon': AppIcons.institute},
-    'savings': {'color': 'C5CAE9', 'icon': AppIcons.savings},
-    'allowance': {'color': 'C8E6C9', 'icon': AppIcons.money},
-  };
-  static const Map<String, Map<String, String>> expenseIcons = {
-    'groceries': {'color': 'C8E6C9', 'icon': AppIcons.groceries},
-    'cafe': {'color': 'FFECB3', 'icon': AppIcons.cafe},
-    'electronics': {'color': 'FFCDD2', 'icon': AppIcons.electronics},
-    'laundry': {'color': 'B3E5FC', 'icon': AppIcons.laundry},
-    'party': {'color': 'BBDEFB', 'icon': AppIcons.party},
-    'liquor': {'color': 'DCEDC8', 'icon': AppIcons.liquor},
-    'fuel': {'color': 'D7CCC8', 'icon': AppIcons.fuel},
-    'maintenance': {'color': 'B39DDB', 'icon': AppIcons.maintenance},
-    'education': {'color': 'C8E6C9', 'icon': AppIcons.education},
-    'transportation': {'color': 'B2EBF2', 'icon': AppIcons.transportation},
-    'sport': {'color': 'E6EE9C', 'icon': AppIcons.sport},
-    'self_development': {'color': 'CFD8DC', 'icon': AppIcons.selfDevelopment},
-    'savings': {'color': 'FFECB3', 'icon': AppIcons.savings},
-    'restaurant': {'color': 'C5CAE9', 'icon': AppIcons.restaurant},
-  };
+
+  static const List<Map<String, String>> allIcons = [
+    {'color': 'C8E6C9', 'icon': AppIcons.groceries},
+    {'color': 'FFECB3', 'icon': AppIcons.cafe},
+    {'color': 'FFCDD2', 'icon': AppIcons.electronics},
+    {'color': 'B3E5FC', 'icon': AppIcons.laundry},
+    {'color': 'BBDEFB', 'icon': AppIcons.party},
+    {'color': 'FFECB3', 'icon': AppIcons.savings},
+    {'color': 'DCEDC8', 'icon': AppIcons.liquor},
+    {'color': 'D7CCC8', 'icon': AppIcons.fuel},
+    {'color': 'B39DDB', 'icon': AppIcons.maintenance},
+    {'color': 'C8E6C9', 'icon': AppIcons.education},
+    {'color': 'CFD8DC', 'icon': AppIcons.selfDevelopment},
+    {'color': 'F8BBD0', 'icon': AppIcons.health},
+    {'color': 'B2EBF2', 'icon': AppIcons.transportation},
+    {'color': 'C5CAE9', 'icon': AppIcons.restaurant},
+    {'color': 'E6EE9C', 'icon': AppIcons.sport},
+    {'color': 'FFCCBC', 'icon': AppIcons.money},
+    {'color': 'E1BEE7', 'icon': AppIcons.giftCard},
+    {'color': 'FFF9C4', 'icon': AppIcons.donate},
+    {'color': 'FFE0B2', 'icon': AppIcons.institute},
+    {'color': 'C5CAE9', 'icon': AppIcons.savings},
+    {'color': 'C8E6C9', 'icon': AppIcons.money},
+  ];
+
   static final List<Map<String, String>> faq = [
     {
       'question': LocaleKeys.faq_data_questions_how_add_trans.tr(),
@@ -48,32 +50,26 @@ class InitialValues {
     {
       'question': LocaleKeys.faq_data_questions_how_add_cat.tr(),
       'answer': LocaleKeys.faq_data_answers_how_add_cat.tr()
-
     },
     {
       'question': LocaleKeys.faq_data_questions_how_edit_trans.tr(),
       'answer': LocaleKeys.faq_data_answers_how_edit_trans.tr()
-
     },
     {
       'question': LocaleKeys.faq_data_questions_how_del_trans.tr(),
       'answer': LocaleKeys.faq_data_answers_how_del_trans.tr()
-
     },
     {
       'question': LocaleKeys.faq_data_questions_how_stats_work.tr(),
       'answer': LocaleKeys.faq_data_answers_how_stats_work.tr()
-
     },
     {
       'question': LocaleKeys.faq_data_questions_how_balance_work.tr(),
       'answer': LocaleKeys.faq_data_answers_how_balance_work.tr()
-
     },
     {
       'question': LocaleKeys.faq_data_questions_how_change_date.tr(),
       'answer': LocaleKeys.faq_data_answers_how_change_date.tr()
-
     },
   ];
 }

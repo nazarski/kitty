@@ -31,6 +31,7 @@ dependencies:
   uuid: ^3.0.7
   easy_localization: ^3.0.1
   open_filex: ^4.3.2
+  image_picker: ^0.8.6+1
 
 
 dev_dependencies:

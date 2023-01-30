@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:kitty/pages/add_category/add_category.dart';
-import 'package:kitty/pages/add_entry/add_entry.dart';
-import 'package:kitty/pages/edit_category/edit_category.dart';
-import 'package:kitty/pages/faq_page/faq_page.dart';
-import 'package:kitty/pages/home_page/home_page.dart';
-import 'package:kitty/pages/login_page/login_page.dart';
-import 'package:kitty/pages/main_page.dart';
-import 'package:kitty/pages/manage_categories_page/manage_categories_page.dart';
-import 'package:kitty/pages/registration_page/registration_page.dart';
-import 'package:kitty/pages/search_page/search_page.dart';
-import 'package:kitty/pages/settings_page/settings_page.dart';
-import 'package:kitty/pages/check_screen/check_screen.dart';
-import 'package:kitty/pages/statistics_page/statistics_page.dart';
+import 'package:kitty/ui/screens/add_category_screen/add_category_screen.dart';
+import 'package:kitty/ui/screens/add_entry_screen/add_entry_screen.dart';
+import 'package:kitty/ui/screens/edit_category_screen/edit_category_screen.dart';
+import 'package:kitty/ui/screens/faq_screen/faq_screen.dart';
+import 'package:kitty/ui/screens/home_screen/home_screen.dart';
+import 'package:kitty/ui/screens/login_screen/login_screen.dart';
+import 'package:kitty/ui/screens/main_screen.dart';
+import 'package:kitty/ui/screens/manage_categories_screen/manage_categories_screen.dart';
+import 'package:kitty/ui/screens/registration_screen/registration_screen.dart';
+import 'package:kitty/ui/screens/search_screen/search_screen.dart';
+import 'package:kitty/ui/screens/settings_screen/settings_screen.dart';
+import 'package:kitty/ui/screens/statistics_screen/statistics_screen.dart';
 import 'package:page_transition/page_transition.dart';
 
 class AppRoutes {
@@ -22,70 +21,70 @@ class AppRoutes {
 
     WidgetBuilder builder;
     switch (settings.name) {
-      case LoginPage.routeName:
+      case LoginScreen.routeName:
         return PageTransition(
             settings: RouteSettings(name: settings.name),
-            child: const LoginPage(),
+            child: const LoginScreen(),
             type: PageTransitionType.fade);
-      case RegistrationPage.routeName:
+      case RegistrationScreen.routeName:
         return PageTransition(
             settings: RouteSettings(name: settings.name),
-            child: const RegistrationPage(),
+            child: const RegistrationScreen(),
             type: PageTransitionType.fade);
-      case CheckScreen.routeName:
+      // case CheckScreen.routeName:
+      //   return PageTransition(
+      //       settings: RouteSettings(name: settings.name),
+      //       child: const CheckScreen(),
+      //       type: PageTransitionType.fade);
+      case MainScreen.routeName:
         return PageTransition(
             settings: RouteSettings(name: settings.name),
-            child: const CheckScreen(),
+            child: const MainScreen(),
             type: PageTransitionType.fade);
-      case MainPage.routeName:
+      case HomeScreen.routeName:
         return PageTransition(
             settings: RouteSettings(name: settings.name),
-            child: const MainPage(),
+            child: const HomeScreen(),
             type: PageTransitionType.fade);
-      case HomePage.routeName:
+      case SettingsScreen.routeName:
         return PageTransition(
             settings: RouteSettings(name: settings.name),
-            child: const HomePage(),
+            child: const SettingsScreen(),
             type: PageTransitionType.fade);
-      case SettingsPage.routeName:
+      case StatisticsScreen.routeName:
         return PageTransition(
             settings: RouteSettings(name: settings.name),
-            child: const SettingsPage(),
+            child: const StatisticsScreen(),
             type: PageTransitionType.fade);
-      case StatisticsPage.routeName:
+      case AddEntryScreen.routeName:
         return PageTransition(
             settings: RouteSettings(name: settings.name),
-            child: const StatisticsPage(),
+            child: const AddEntryScreen(),
             type: PageTransitionType.fade);
-      case AddEntry.routeName:
+      case AddCategoryScreen.routeName:
         return PageTransition(
             settings: RouteSettings(name: settings.name),
-            child: const AddEntry(),
+            child: const AddCategoryScreen(),
             type: PageTransitionType.fade);
-      case AddCategory.routeName:
+      case SearchScreen.routeName:
         return PageTransition(
             settings: RouteSettings(name: settings.name),
-            child: const AddCategory(),
+            child: const SearchScreen(),
             type: PageTransitionType.fade);
-      case SearchPage.routeName:
+      case ManageCategoriesScreen.routeName:
         return PageTransition(
             settings: RouteSettings(name: settings.name),
-            child: const SearchPage(),
+            child: const ManageCategoriesScreen(),
             type: PageTransitionType.fade);
-      case ManageCategoriesPage.routeName:
+      case EditCategoryScreen.routeName:
         return PageTransition(
             settings: RouteSettings(name: settings.name),
-            child: const ManageCategoriesPage(),
+            child: const EditCategoryScreen(),
             type: PageTransitionType.fade);
-      case EditCategory.routeName:
+      case FAQScreen.routeName:
         return PageTransition(
             settings: RouteSettings(name: settings.name),
-            child: const EditCategory(),
-            type: PageTransitionType.fade);
-      case FAQPage.routeName:
-        return PageTransition(
-            settings: RouteSettings(name: settings.name),
-            child: const FAQPage(),
+            child: const FAQScreen(),
             type: PageTransitionType.fade);
 
       default:

@@ -4,10 +4,11 @@ import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:kitty/domain/models/entry_model/entry.dart';
+import 'package:kitty/domain/models/statistics_element_model/statistics_element.dart';
 import 'package:kitty/generated/locale_keys.g.dart';
-import 'package:kitty/models/entry_model/entry.dart';
-import 'package:kitty/models/statistics_element_model/statistics_element.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
@@ -202,12 +203,23 @@ bool validateEmail(String email) {
           r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
       .hasMatch(email);
 }
-Future<void> openPP()async{
+
+Future<void> openPP() async {
   final tempDir = await getTemporaryDirectory();
-  final data =
-  await rootBundle.load('assets/res/privacy_policy.html');
+  final data = await rootBundle.load('assets/res/privacy_policy.html');
   final bytes = data.buffer.asInt8List();
   final filePath = File('${tempDir.path}/privacy_policy.html');
   filePath.writeAsBytes(bytes);
   await OpenFilex.open(filePath.path);
+}
+
+Future<String> pickImage() async {
+  final path = await getApplicationDocumentsDirectory();
+  final fileName =
+      '${path.path}/avatar-${DateTime.now().millisecondsSinceEpoch}.jpg';
+  final XFile? image =
+      await ImagePicker().pickImage(source: ImageSource.gallery);
+  if (image == null) return '';
+  await image.saveTo(fileName);
+  return fileName;
 }
