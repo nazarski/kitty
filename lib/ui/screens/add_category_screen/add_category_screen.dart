@@ -85,64 +85,63 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
             body: Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 16, vertical: 24.0),
-              child: Column(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      DottedBorder(
-                        borderType: BorderType.Circle,
-                        color: bottomSheetController == null
-                            ? AppColors.title
-                            : AppColors.activeBlue,
-                        strokeWidth: 2,
-                        dashPattern: const [5, 2],
-                        child: IconButton(
-                          padding: EdgeInsets.zero,
-                          onPressed: () {
-                            if (FocusScope.of(context).hasFocus) {
-                              FocusScope.of(context).unfocus();
-                              Future.delayed(const Duration(seconds: 2));
-                            }
-                            bottomSheetController = showBottomSheet(
-                                context: context,
-                                constraints: BoxConstraints(
-                                    maxHeight:
-                                        MediaQuery.of(context).size.height / 2),
-                                enableDrag: false,
-                                builder: (_) {
-                                  return ChooseIcon(
-                                    iconList: state.icons,
-                                    controller: bottomSheetController!,
-                                  );
-                                });
-                            setState(() {});
-                          },
-                          icon: !state.selectedIcon.iconId.isNegative
-                              ? IconView(
-                                  icon: state.selectedIcon.localPath,
-                                  color: state.selectedIcon.color,
-                                )
-                              : const IconView(
-                                  icon: AppIcons.addPlus,
-                                  color: 'E0E0E0',
-                                ),
-                        ),
+                  DottedBorder(
+                    padding: EdgeInsets.zero,
+                    borderType: BorderType.Circle,
+                    color: bottomSheetController == null
+                        ? AppColors.title
+                        : AppColors.activeBlue,
+                    strokeWidth: 2,
+                    dashPattern: const [5, 2],
+                    child: IconButton(
+                      padding: EdgeInsets.zero,
+                      onPressed: () {
+                        if (FocusScope.of(context).hasFocus) {
+                          FocusScope.of(context).unfocus();
+                          Future.delayed(const Duration(seconds: 2));
+                        }
+                        bottomSheetController = showBottomSheet(
+                            context: context,
+                            constraints: BoxConstraints(
+                                maxHeight:
+                                    MediaQuery.of(context).size.height / 2),
+                            enableDrag: false,
+                            builder: (_) {
+                              return ChooseIcon(
+                                iconList: state.icons,
+                                controller: bottomSheetController!,
+                              );
+                            });
+                        setState(() {});
+                      },
+                      icon: !state.selectedIcon.iconId.isNegative
+                          ? IconView(
+                              icon: state.selectedIcon.localPath,
+                              color: state.selectedIcon.color,
+                            )
+                          : const IconView(
+                              icon: AppIcons.addPlus,
+                              color: 'E0E0E0',
+                            ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 12,
+                  ),
+                  Expanded(
+                    child: TextField(
+                      onTap: _closeBottomSheet,
+                      maxLength: 24,
+                      onEditingComplete: _onComplete,
+                      controller: categoryController,
+                      decoration: InputDecoration(
+                        labelText: LocaleKeys.category_name.tr(),
                       ),
-                      const SizedBox(
-                        width: 12,
-                      ),
-                      Flexible(
-                        child: TextField(
-                          onTap: _closeBottomSheet,
-                          onEditingComplete: _onComplete,
-                          controller: categoryController,
-                          decoration: InputDecoration(
-                            labelText: LocaleKeys.category_name.tr(),
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
+                    ),
+                  ),
                 ],
               ),
             ),

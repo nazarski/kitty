@@ -2,10 +2,8 @@ import 'dart:io';
 
 import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 import 'package:kitty/domain/models/entry_model/entry.dart';
 import 'package:kitty/domain/models/statistics_element_model/statistics_element.dart';
 import 'package:kitty/generated/locale_keys.g.dart';
@@ -185,16 +183,17 @@ Future<Uint8List> buildPdf({
 
 String? validateUserInfo(String email, String name) {
   if (!validateEmail(email)) {
-    return 'Sorry, your email is invalid';
+    return LocaleKeys.registration_errors_email_invalid.tr();
   }
   if (!validateName(name)) {
-    return 'Something is wrong with the name you typed';
+    return LocaleKeys.registration_errors_wring_name.tr();
   }
   return null;
 }
 
 bool validateName(String name) {
-  return RegExp(r"^\s*([A-Za-z]{1,}([\.,] |[-']| ))+[A-Za-z]+\.?\s*$")
+  name.replaceAll(' ', '');
+  return !RegExp(r"^([a-zA-Z'-]{0,50}|[а-яА-ЯёЁ'-]{0,50})$")
       .hasMatch(name);
 }
 

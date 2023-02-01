@@ -34,91 +34,99 @@ class _LoginScreenState extends State<LoginScreen> {
         }
       },
       builder: (context, state) {
-        return Scaffold(
-          body: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: Column(
+        return WillPopScope(
+          onWillPop: ()async{
+            if(mounted){
+              context.read<UserBloc>().add(InitialUserEvent());
+            }
+            return true;
+          },
+          child: Scaffold(
+            body: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: Column(
+                      children: [
+                        SvgPicture.asset(AppIcons.logo),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        const Text(
+                          'Kitty',
+                          style: AppStyles.menuPageTitle,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  Wrap(
                     children: [
-                      SvgPicture.asset(AppIcons.logo),
+                      const Icon(Icons.login, color: AppColors.title),
                       const SizedBox(
-                        height: 16,
+                        width: 8,
                       ),
-                      const Text(
-                        'Kitty',
-                        style: AppStyles.menuPageTitle,
+                      Text(
+                        LocaleKeys.registration_signin.tr(),
+                        style: const TextStyle(
+                            color: AppColors.title,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700),
                       ),
                     ],
                   ),
-                ),
-                const SizedBox(
-                  height: 24,
-                ),
-                Wrap(
-                  children: [
-                    const Icon(Icons.login, color: AppColors.title),
-                    const SizedBox(
-                      width: 8,
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  TextField(
+                    keyboardType: TextInputType.emailAddress,
+                    controller: emailController,
+                    decoration: InputDecoration(
+                      labelText: LocaleKeys.registration_e_mail.tr(),
                     ),
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  if (state.status == AuthStatus.error) ...[
                     Text(
-                      LocaleKeys.registration_signin.tr(),
-                      style: const TextStyle(
-                          color: AppColors.title,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700),
-                    ),
+                      state.errorMessage,
+                      style: AppStyles.appRed,
+                    )
                   ],
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                TextField(
-                  keyboardType: TextInputType.emailAddress,
-                  controller: emailController,
-                  decoration: InputDecoration(
-                    labelText: LocaleKeys.registration_e_mail.tr(),
-                  ),
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-                if (state.status == AuthStatus.error) ...[
-                  Text(
-                    state.errorMessage,
-                    style: AppStyles.appRed,
-                  )
-                ],
-                if (state.status == AuthStatus.loading) ...[
-                  const Center(
-                    child: CircularProgressIndicator(
-                      color: AppColors.activeBlue,
-                    ),
-                  )
-                ] else ...[
-                  TextButton(
-                    onPressed: () {
-                      context.read<UserBloc>().add(InitialUserEvent());
-                      Navigator.of(context)
-                          .pushNamed(RegistrationScreen.routeName);
-                    },
-                    child: Text(LocaleKeys.registration_singup.tr(), style:
-                    AppStyles.button),
-                  ),
-                  ElevatedButton(
-                      style: AppStyles.buttonStyle,
+                  if (state.status == AuthStatus.loading) ...[
+                    const Center(
+                      child: CircularProgressIndicator(
+                        color: AppColors.activeBlue,
+                      ),
+                    )
+                  ] else ...[
+                    TextButton(
                       onPressed: () {
-                        context
-                            .read<UserBloc>()
-                            .add(SignInEvent(emailController.text));
+                        context.read<UserBloc>().add(InitialUserEvent());
+                        Navigator.of(context)
+                            .pushNamed(RegistrationScreen.routeName);
                       },
-                      child: Center(child: Text(LocaleKeys
-                          .registration_signin.tr())))
-                ]
-              ],
+                      child: Text(LocaleKeys.registration_singup.tr(), style:
+                      AppStyles.button),
+                    ),
+                    ElevatedButton(
+                        style: AppStyles.buttonStyle,
+                        onPressed: () {
+                          context
+                              .read<UserBloc>()
+                              .add(SignInEvent(emailController.text));
+                        },
+                        child: Center(child: Text(LocaleKeys
+                            .registration_signin.tr())))
+                  ]
+                ],
+              ),
             ),
           ),
         );
@@ -138,6 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     } else {
       screenLock(
+        title: Text(LocaleKeys.enter_pin.tr()),
           context: context,
           correctString: user.pin,
           onCancelled: (){

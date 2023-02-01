@@ -30,125 +30,144 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<UserBloc, UserState>(
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state.status == AuthStatus.done) {
           Navigator.of(context, rootNavigator: true)
               .pushNamedAndRemoveUntil(MainScreen.routeName, (route) => false);
         }
+        if (state.status == AuthStatus.valid) {
+          await buildScreenLockCreate(context);
+        }
       },
       builder: (context, state) {
-        return Scaffold(
-          body: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            reverse: true,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 36,),
-                  Center(
-                    child: Column(
+        return WillPopScope(
+          onWillPop: ()async{
+            if(mounted){
+              context.read<UserBloc>().add(InitialUserEvent());
+            }
+            return true;
+          },
+          child: Scaffold(
+            body: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              reverse: true,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 36,
+                    ),
+                    Center(
+                      child: Column(
+                        children: [
+                          SvgPicture.asset(AppIcons.logo),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          const Text(
+                            'Kitty',
+                            style: AppStyles.menuPageTitle,
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 24,
+                    ),
+                    const AvatarPick(),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    Wrap(
                       children: [
-                        SvgPicture.asset(AppIcons.logo),
+                        const Icon(Icons.app_registration_outlined,
+                            color: AppColors.title),
                         const SizedBox(
-                          height: 16,
+                          width: 8,
                         ),
-                        const Text(
-                          'Kitty',
-                          style: AppStyles.menuPageTitle,
+                        Text(
+                          LocaleKeys.registration_singup.tr(),
+                          style: const TextStyle(
+                              color: AppColors.title,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700),
                         ),
                       ],
                     ),
-                  ),
-                  const SizedBox(
-                    height: 24,
-                  ),
-                  const AvatarPick(),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  Wrap(
-                    children: [
-                      const Icon(Icons.app_registration_outlined,
-                          color: AppColors.title),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      Text(
-                        LocaleKeys.registration_singup.tr(),
-                        style: const TextStyle(
-                            color: AppColors.title,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: TextField(
-                          keyboardType: TextInputType.emailAddress,
-                          controller: nameController,
-                          decoration: InputDecoration(
-                            labelText: LocaleKeys.registration_name.tr(),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: TextField(
-                          keyboardType: TextInputType.emailAddress,
-                          controller: surnameController,
-                          decoration: InputDecoration(
-                            labelText: LocaleKeys.registration_surname.tr(),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  TextField(
-                    keyboardType: TextInputType.emailAddress,
-                    controller: emailController,
-                    decoration: InputDecoration(
-                      labelText: LocaleKeys.registration_e_mail.tr(),
+                    const SizedBox(
+                      height: 16,
                     ),
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  if (state.status == AuthStatus.error) ...[
-                    Text(state.errorMessage, style: AppStyles.appRed)
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: TextField(
+                            keyboardType: TextInputType.emailAddress,
+                            controller: nameController,
+                            decoration: InputDecoration(
+                              labelText: LocaleKeys.registration_name.tr(),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: TextField(
+                            keyboardType: TextInputType.emailAddress,
+                            controller: surnameController,
+                            decoration: InputDecoration(
+                              labelText: LocaleKeys.registration_surname.tr(),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    TextField(
+                      keyboardType: TextInputType.emailAddress,
+                      controller: emailController,
+                      decoration: InputDecoration(
+                        labelText: LocaleKeys.registration_e_mail.tr(),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    if (state.status == AuthStatus.error) ...[
+                      Text(state.errorMessage, style: AppStyles.appRed),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                    ],
+                    if (state.status == AuthStatus.loading) ...[
+                      const Center(
+                        child: CircularProgressIndicator(
+                          color: AppColors.activeBlue,
+                        ),
+                      )
+                    ] else ...[
+                      ElevatedButton(
+                        style: AppStyles.buttonStyle,
+                        onPressed: () {
+                          context.read<UserBloc>().add(ValidateUserEvent(
+                              name: '${nameController.text} '
+                                  '${surnameController.text}',
+                              email: emailController.text));
+                        },
+                        child: Center(
+                          child: Text(LocaleKeys.registration_singup.tr()),
+                        ),
+                      )
+                    ]
                   ],
-                  if (state.status == AuthStatus.loading) ...[
-                    const Center(
-                      child: CircularProgressIndicator(
-                        color: AppColors.activeBlue,
-                      ),
-                    )
-                  ] else ...[
-                    ElevatedButton(
-                      style: AppStyles.buttonStyle,
-                      onPressed: () async {
-                        await buildScreenLockCreate(context);
-                      },
-                      child: Center(
-                        child: Text(LocaleKeys.registration_singup.tr()),
-                      ),
-                    )
-                  ]
-                ],
+                ),
               ),
             ),
           ),
@@ -186,4 +205,3 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     );
   }
 }
-

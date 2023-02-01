@@ -1,6 +1,6 @@
 part of 'user_bloc.dart';
 
-enum AuthStatus { initial, loading, done, error, signedOut }
+enum AuthStatus { initial, loading, done, error, signedOut, valid, }
 
 class UserState extends Equatable {
   final User user;

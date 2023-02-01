@@ -108,6 +108,7 @@ class _AddEntryScreenState extends State<AddEntryScreen> {
                       onEditingComplete: _onComplete,
                       keyboardType: TextInputType.number,
                       controller: amountController,
+                      maxLength: 12,
                       decoration: InputDecoration(
                         labelText: LocaleKeys.enter_amount.tr(),
                       ),
@@ -118,6 +119,7 @@ class _AddEntryScreenState extends State<AddEntryScreen> {
                     TextField(
                       onTap: _closeBottomSheet,
                       onEditingComplete: _onComplete,
+                      maxLength: 24,
                       controller: descriptionController,
                       decoration: InputDecoration(
                         labelText: LocaleKeys.description.tr(),

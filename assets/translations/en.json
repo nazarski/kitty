@@ -6,6 +6,8 @@
   "edit_category": "Edit category",
   "transaction": "transaction",
   "edit": "Edit",
+  "enter_pin": "Please, enter your pin code",
+  "pick_month": "PICK A MONTH",
   "category_name": "Category name",
   "enter_amount": "Enter amount",
   "description": "Description (optional)",
@@ -43,7 +45,9 @@
     "no": "No, I`ll use pin",
     "errors": {
       "user_exists": "This user already exists",
-      "no_user": "There's no such email. Would you like to sign up?"
+      "no_user": "There's no such email. Would you like to sign up?",
+      "email_invalid": "Sorry, your email is invalid",
+      "wring_name": "Name must include only letters"
     }
   },
   "months": {

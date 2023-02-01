@@ -36,5 +36,12 @@ class SignOutEvent extends UserEvent {}
 class ChooseAvatarEvent extends UserEvent{
   final String path;
 
-  ChooseAvatarEvent(this.path);
+  const ChooseAvatarEvent(this.path);
+}
+class ValidateUserEvent extends UserEvent{
+  final String name;
+  final String email;
+
+ const ValidateUserEvent({required this.name, required this.email});
+
 }
