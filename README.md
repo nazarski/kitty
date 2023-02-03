@@ -27,6 +27,7 @@ Figma template https://www.figma.com/community/file/1141026080000052242
 
 ## ⚡ Platforms
 🤖 Android
+ iOS
 
 ## 📸 Demo
 
