@@ -31,10 +31,17 @@ Figma template https://www.figma.com/community/file/1141026080000052242
 ## 📸 Demo
 
 
-| Add expenses                                  | Date management Home page                             |
-|-----------------------------------------------|-------------------------------------------------------|
-| <img src="demo/add_expenses.gif" width="300"> | <img src="demo/home_date.gif" width="300"> |
+| Sign Up                                  | Add expenses                                  |
+|------------------------------------------|-----------------------------------------------|
+| <img src="demo/sign_up.gif" width="300"> | <img src="demo/add_expenses.gif" width="300"> |
 
+| Home date management                       | Statistics management                      |
+|--------------------------------------------|--------------------------------------------|
+| <img src="demo/home_date.gif" width="300"> | <img src="demo/stat_date.gif" width="300"> |
+
+| Search                                  |
+|-----------------------------------------|
+| <img src="demo/search.gif" width="300"> |
 
 ## 🔌 Plugins
 
