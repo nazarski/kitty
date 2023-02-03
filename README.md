@@ -31,9 +31,9 @@ Figma template https://www.figma.com/community/file/1141026080000052242
 ## 📸 Demo
 
 
-| Add expenses           | Date management Home page |
-|------------------------|---------------------------|
-| ![Drag Racing](demo/add_expense.gif) | ![Drag Racing](demo/home_date.gif)      |
+| Add expenses                                  | Date management Home page                             |
+|-----------------------------------------------|-------------------------------------------------------|
+| <img src="demo/add_expenses.gif" width="300"> | <img src="demo/home_date.gif" width="300"> |
 
 
 ## 🔌 Plugins
