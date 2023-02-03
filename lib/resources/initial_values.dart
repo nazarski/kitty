@@ -72,4 +72,18 @@ class InitialValues {
       'answer': LocaleKeys.faq_data_answers_how_change_date.tr()
     },
   ];
+  static final List<String> listOfMonths = [
+    LocaleKeys.months_jan.tr(),
+    LocaleKeys.months_feb.tr(),
+    LocaleKeys.months_mar.tr(),
+    LocaleKeys.months_apr.tr(),
+    LocaleKeys.months_may.tr(),
+    LocaleKeys.months_jun.tr(),
+    LocaleKeys.months_jul.tr(),
+    LocaleKeys.months_aug.tr(),
+    LocaleKeys.months_sep.tr(),
+    LocaleKeys.months_oct.tr(),
+    LocaleKeys.months_nov.tr(),
+    LocaleKeys.months_dec.tr(),
+  ];
 }

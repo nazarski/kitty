@@ -5,6 +5,7 @@ import 'package:kitty/domain/repository/database_repository.dart';
 import 'package:kitty/generated/locale_keys.g.dart';
 import 'package:kitty/resources/app_colors.dart';
 import 'package:kitty/resources/app_text_styles.dart';
+import 'package:kitty/resources/initial_values.dart';
 import 'package:kitty/ui/bloc/date_bloc/date_bloc.dart';
 import 'package:kitty/ui/bloc/entries_control_bloc/entries_control_bloc.dart';
 
@@ -45,20 +46,6 @@ class _MonthPickerState extends State<MonthPicker> {
     _overlayEntry = null;
   }
 
-  final List<String> listOfMonths = [
-    LocaleKeys.months_jan.tr(),
-    LocaleKeys.months_feb.tr(),
-    LocaleKeys.months_mar.tr(),
-    LocaleKeys.months_apr.tr(),
-    LocaleKeys.months_may.tr(),
-    LocaleKeys.months_jun.tr(),
-    LocaleKeys.months_jul.tr(),
-    LocaleKeys.months_aug.tr(),
-    LocaleKeys.months_sep.tr(),
-    LocaleKeys.months_oct.tr(),
-    LocaleKeys.months_nov.tr(),
-    LocaleKeys.months_dec.tr(),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +67,7 @@ class _MonthPickerState extends State<MonthPicker> {
           if (state.selectedYear == 0) {
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: PlaceHolder(listOfMonths: listOfMonths),
+              child: PlaceHolder(),
             );
           }
           final bool back = state.allYears.contains(state.selectedYear - 1) ||
@@ -129,7 +116,8 @@ class _MonthPickerState extends State<MonthPicker> {
                           width: 8,
                         ),
                         Text(
-                          '${listOfMonths[state.selectedMonth - 1]}, ${state.selectedYear}',
+                          '${InitialValues.listOfMonths[state.selectedMonth - 1]}, ${state
+                              .selectedYear}',
                           style: AppStyles.buttonBlack,
                         )
                       ],
@@ -176,9 +164,7 @@ class _MonthPickerState extends State<MonthPicker> {
               left: offset.dx,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: OverlayCalendarWindow(
-                  listOfMonths: listOfMonths,
-                ),
+                child: OverlayCalendarWindow(),
               ))
         ]),
       );

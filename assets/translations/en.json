@@ -7,6 +7,8 @@
   "transaction": "transaction",
   "edit": "Edit",
   "enter_pin": "Please, enter your pin code",
+  "added_category": "New category added successfully!",
+  "edited_category": "The category was edited successfully!",
   "pick_month": "PICK A MONTH",
   "category_name": "Category name",
   "enter_amount": "Enter amount",

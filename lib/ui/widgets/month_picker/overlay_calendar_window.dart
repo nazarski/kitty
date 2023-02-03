@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kitty/generated/locale_keys.g.dart';
 import 'package:kitty/resources/app_colors.dart';
 import 'package:kitty/resources/app_text_styles.dart';
+import 'package:kitty/resources/initial_values.dart';
 import 'package:kitty/ui/bloc/date_bloc/date_bloc.dart';
 
 import 'month_item.dart';
@@ -11,9 +12,7 @@ import 'month_item.dart';
 class OverlayCalendarWindow extends StatelessWidget {
   const OverlayCalendarWindow({
     Key? key,
-    required this.listOfMonths,
   }) : super(key: key);
-  final List<String> listOfMonths;
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +86,7 @@ class OverlayCalendarWindow extends StatelessWidget {
                     return MonthItem(
                       isActive: state.selectedYear == state.year &&
                           state.selectedMonth == index + 1,
-                      month: listOfMonths[index].substring(0, 3),
+                      month: InitialValues.listOfMonths[index].substring(0, 3),
                       inRange: state.activeMonths.contains(index + 1),
                       onTap: () {
                         context.read<DateBloc>().add(

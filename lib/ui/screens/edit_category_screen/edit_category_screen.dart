@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kitty/generated/locale_keys.g.dart';
+import 'package:kitty/main.dart';
 import 'package:kitty/resources/app_colors.dart';
 import 'package:kitty/resources/app_icons.dart';
 import 'package:kitty/resources/app_text_styles.dart';
@@ -10,6 +11,7 @@ import 'package:kitty/ui/bloc/entries_control_bloc/entries_control_bloc.dart';
 import 'package:kitty/ui/widgets/choose_icon.dart';
 import 'package:kitty/ui/widgets/icon_view.dart';
 import 'package:kitty/ui/widgets/navigation/back_app_bar.dart';
+import 'package:kitty/ui/widgets/snack_bar_builder.dart';
 
 class EditCategoryScreen extends StatefulWidget {
   const EditCategoryScreen({Key? key}) : super(key: key);
@@ -41,7 +43,7 @@ class _EditCategoryScreenState extends State<EditCategoryScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        if(bottomSheetController!= null) {
+        if (bottomSheetController != null) {
           _closeBottomSheet();
           return false;
         }
@@ -66,13 +68,15 @@ class _EditCategoryScreenState extends State<EditCategoryScreen> {
                                     newTitle: categoryController.text,
                                     icon: state.selectedIcon));
                             Navigator.of(context).pop();
+                            buildShowSnackBar(context, LocaleKeys
+                                .added_category.tr());
                           }
                         : null,
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width * 0.9,
                       child: Center(
-                          heightFactor: 1, child: Text(LocaleKeys
-                          .edit_category.tr())),
+                          heightFactor: 1,
+                          child: Text(LocaleKeys.edit_category.tr())),
                     ));
               },
             ),
@@ -149,3 +153,4 @@ class _EditCategoryScreenState extends State<EditCategoryScreen> {
     );
   }
 }
+

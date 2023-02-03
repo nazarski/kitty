@@ -9,6 +9,7 @@ import 'package:kitty/ui/bloc/user_bloc/user_bloc.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+
   runApp(
     EasyLocalization(
       supportedLocales: const [Locale('en'), Locale('uk')],
@@ -28,9 +29,13 @@ class KittyApp extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
+  static final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey =
+      GlobalKey<ScaffoldMessengerState>();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      scaffoldMessengerKey: rootScaffoldMessengerKey,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,

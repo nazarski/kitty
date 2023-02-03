@@ -97,7 +97,7 @@ class _MainScreenState extends State<MainScreen> {
               bottomNavigationBar: [0, 1, 2].contains(state.currentIndex)
                   ? MainBottomNavigationAppBar(
                       navigateTo: (value) {
-                        if(value !=null) {
+                        if (value != null) {
                           context.read<NavigationBloc>().add(NavigateTab(
                               tabIndex: value, route: _pages[value]));
                         }

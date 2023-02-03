@@ -10,6 +10,7 @@ import 'package:kitty/ui/bloc/entries_control_bloc/entries_control_bloc.dart';
 import 'package:kitty/ui/widgets/choose_icon.dart';
 import 'package:kitty/ui/widgets/icon_view.dart';
 import 'package:kitty/ui/widgets/navigation/back_app_bar.dart';
+import 'package:kitty/ui/widgets/snack_bar_builder.dart';
 
 
 
@@ -68,7 +69,9 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                                     categoryName: value.text,
                                     selectedIcon: state.selectedIcon));
                             Navigator.of(context).pop();
-                          }
+                            buildShowSnackBar(context, LocaleKeys
+                                .edited_category.tr());
+                    }
                         : null,
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width * 0.9,

@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:kitty/resources/app_colors.dart';
 import 'package:kitty/resources/app_text_styles.dart';
+import 'package:kitty/resources/initial_values.dart';
 
 class PlaceHolder extends StatelessWidget {
   const PlaceHolder({
     Key? key,
-    required this.listOfMonths,
   }) : super(key: key);
 
-  final List<String> listOfMonths;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +30,8 @@ class PlaceHolder extends StatelessWidget {
               width: 8,
             ),
             Text(
-              '${listOfMonths[DateTime.now().month - 1]}, ${DateTime.now().year}',
+              '${InitialValues.listOfMonths[DateTime.now().month - 1]}, ${DateTime.now()
+            .year}',
               style: AppStyles.buttonBlack,
             )
           ],
