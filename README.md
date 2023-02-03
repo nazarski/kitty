@@ -35,7 +35,7 @@ Figma template https://www.figma.com/community/file/1141026080000052242
 |------------------------------------------|-----------------------------------------------|
 | <img src="demo/sign_up.gif" width="300"> | <img src="demo/add_expenses.gif" width="300"> |
 
-| Home date management                       | Statistics management                      |
+| Home date management                       | Statistics date management                 |
 |--------------------------------------------|--------------------------------------------|
 | <img src="demo/home_date.gif" width="300"> | <img src="demo/stat_date.gif" width="300"> |
 
