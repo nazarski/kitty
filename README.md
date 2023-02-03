@@ -36,7 +36,7 @@ Figma template https://www.figma.com/community/file/1141026080000052242
 
 | Add expenses           | Date management Home page |
 |------------------------|---------------------------|
-| (demo/add_expense.gif) | (demo/home_date.gif)      |
+| ![Drag Racing](demo/add_expense.gif) | ![Drag Racing](demo/home_date.gif)      |
 
 ## 🔌 Plugins
 
