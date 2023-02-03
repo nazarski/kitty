@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kitty/resources/app_colors.dart';
+
+import 'app_colors.dart';
 
 class AppStyles {
   static const TextStyle menuPageTitle = TextStyle(

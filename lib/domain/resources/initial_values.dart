@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:kitty/generated/locale_keys.g.dart';
-import 'package:kitty/resources/app_icons.dart';
+
+import 'app_icons.dart';
 
 class InitialValues {
   static const List<String> incomeCategories = [

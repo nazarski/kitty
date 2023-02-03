@@ -1,6 +1,6 @@
 
 import 'package:kitty/domain/models/category_icon_model/category_icon.dart';
-import 'package:kitty/resources/initial_values.dart';
+import 'package:kitty/domain/resources/initial_values.dart';
 import 'package:sqflite/sqflite.dart';
 
 class ExpensesDatabaseProvider {

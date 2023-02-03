@@ -6,8 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kitty/domain/models/entry_model/entry.dart';
 import 'package:kitty/domain/models/statistics_element_model/statistics_element.dart';
+import 'package:kitty/domain/resources/initial_values.dart';
 import 'package:kitty/generated/locale_keys.g.dart';
-import 'package:kitty/resources/initial_values.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
@@ -72,7 +72,7 @@ Future<void> createOpenPdf(
           'Expense_report_by_${DateFormat(DateFormat.MONTH).format(reportDate)}_'
           '${reportDate.year}',
       byteList: data);
-  final result = await OpenFilex.open(path);
+  await OpenFilex.open(path);
 }
 
 Future<String> savePdfFile(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:kitty/resources/app_icons.dart';
+import 'package:kitty/domain/resources/app_icons.dart';
 import 'package:kitty/ui/bloc/navigation_bloc/navigation_bloc.dart';
 import 'package:kitty/ui/screens/search_screen/search_screen.dart';
 

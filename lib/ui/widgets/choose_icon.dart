@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kitty/domain/models/category_icon_model/category_icon.dart';
-import 'package:kitty/resources/app_colors.dart';
-import 'package:kitty/resources/app_icons.dart';
-import 'package:kitty/resources/app_text_styles.dart';
+import 'package:kitty/domain/resources/app_colors.dart';
+import 'package:kitty/domain/resources/app_icons.dart';
+import 'package:kitty/domain/resources/app_text_styles.dart';
 import 'package:kitty/ui/bloc/entries_control_bloc/entries_control_bloc.dart';
 import 'package:kitty/ui/widgets/icon_view.dart';
 

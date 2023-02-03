@@ -1,11 +1,9 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kitty/domain/repository/database_repository.dart';
-import 'package:kitty/generated/locale_keys.g.dart';
-import 'package:kitty/resources/app_colors.dart';
-import 'package:kitty/resources/app_text_styles.dart';
-import 'package:kitty/resources/initial_values.dart';
+import 'package:kitty/domain/resources/app_colors.dart';
+import 'package:kitty/domain/resources/app_text_styles.dart';
+import 'package:kitty/domain/resources/initial_values.dart';
 import 'package:kitty/ui/bloc/date_bloc/date_bloc.dart';
 import 'package:kitty/ui/bloc/entries_control_bloc/entries_control_bloc.dart';
 
@@ -65,8 +63,8 @@ class _MonthPickerState extends State<MonthPicker> {
         },
         builder: (context, state) {
           if (state.selectedYear == 0) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
+            return const Padding(
+              padding: EdgeInsets.symmetric(vertical: 16.0),
               child: PlaceHolder(),
             );
           }
@@ -162,8 +160,8 @@ class _MonthPickerState extends State<MonthPicker> {
               width: size.width,
               top: offset.dy + size.height,
               left: offset.dx,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
                 child: OverlayCalendarWindow(),
               ))
         ]),

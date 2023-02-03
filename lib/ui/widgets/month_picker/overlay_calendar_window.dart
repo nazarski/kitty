@@ -1,10 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kitty/domain/resources/app_colors.dart';
+import 'package:kitty/domain/resources/app_text_styles.dart';
+import 'package:kitty/domain/resources/initial_values.dart';
 import 'package:kitty/generated/locale_keys.g.dart';
-import 'package:kitty/resources/app_colors.dart';
-import 'package:kitty/resources/app_text_styles.dart';
-import 'package:kitty/resources/initial_values.dart';
 import 'package:kitty/ui/bloc/date_bloc/date_bloc.dart';
 
 import 'month_item.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:kitty/resources/app_icons.dart';
-import 'package:kitty/resources/app_text_styles.dart';
+import 'package:kitty/domain/resources/app_icons.dart';
+import 'package:kitty/domain/resources/app_text_styles.dart';
 
 class HomeLeading extends StatelessWidget {
   const HomeLeading({

@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kitty/resources/app_colors.dart';
-import 'package:kitty/resources/app_text_styles.dart';
+import 'package:kitty/domain/resources/app_colors.dart';
+import 'package:kitty/domain/resources/app_text_styles.dart';
 import 'package:kitty/ui/bloc/user_bloc/user_bloc.dart';
 
 class MiniAvatar extends StatelessWidget {
@@ -18,7 +18,7 @@ class MiniAvatar extends StatelessWidget {
         return Container(
           height: 32,
           width: 32,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: AppColors.basicGrey,
             shape: BoxShape.circle,
           ),

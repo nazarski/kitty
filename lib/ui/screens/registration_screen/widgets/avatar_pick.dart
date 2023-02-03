@@ -4,8 +4,8 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:kitty/resources/app_colors.dart';
-import 'package:kitty/resources/app_icons.dart';
+import 'package:kitty/domain/resources/app_colors.dart';
+import 'package:kitty/domain/resources/app_icons.dart';
 import 'package:kitty/ui/bloc/user_bloc/user_bloc.dart';
 import 'package:kitty/utils/helper.dart';
 

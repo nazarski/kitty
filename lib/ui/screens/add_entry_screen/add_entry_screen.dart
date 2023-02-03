@@ -1,8 +1,8 @@
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:kitty/domain/resources/app_colors.dart';
 import 'package:kitty/generated/locale_keys.g.dart';
-import 'package:kitty/resources/app_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kitty/ui/bloc/entries_control_bloc/entries_control_bloc.dart';
 import 'package:kitty/ui/bloc/navigation_bloc/navigation_bloc.dart';

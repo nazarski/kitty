@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:kitty/domain/resources/app_colors.dart';
 import 'package:kitty/main.dart';
-import 'package:kitty/resources/app_colors.dart';
 
 ScaffoldFeatureController<SnackBar, SnackBarClosedReason>? buildShowSnackBar
     (BuildContext context, String message) {

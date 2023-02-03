@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kitty/resources/app_colors.dart';
-import 'package:kitty/resources/app_text_styles.dart';
+import 'package:kitty/domain/resources/app_colors.dart';
+import 'package:kitty/domain/resources/app_text_styles.dart';
 
 class AppThemeData {
   static ThemeData mainTheme = ThemeData(
@@ -39,7 +39,7 @@ class AppThemeData {
         backgroundColor: AppColors.activeBlue,
         extendedTextStyle: AppStyles.buttonWhite,
       ),
-    expansionTileTheme: ExpansionTileThemeData(
+    expansionTileTheme: const ExpansionTileThemeData(
       iconColor: AppColors.activeBlue,
 
     )

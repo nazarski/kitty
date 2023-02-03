@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kitty/resources/app_colors.dart';
-import 'package:kitty/resources/app_text_styles.dart';
+import 'package:kitty/domain/resources/app_colors.dart';
+import 'package:kitty/domain/resources/app_text_styles.dart';
 
 class SettingOption extends StatelessWidget {
   const SettingOption({

@@ -3,7 +3,9 @@ class LocalAuth{
   static final _auth = LocalAuthentication();
 
   static Future<bool> canAuthenticate()async{
-    return await _auth.canCheckBiometrics;
+    final supported = await _auth.isDeviceSupported();
+    final canCheck = await _auth.canCheckBiometrics;
+    return supported && canCheck;
   }
   static Future<bool> authenticate()async{
     return await _auth.authenticate(

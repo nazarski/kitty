@@ -1,6 +1,6 @@
 # 🧾🪙 Flutter Expense Management App
 
-A simple Flutter app to manage expenses. A pet project to improve skills and learn new features.
+A simple Flutter app to manage expenses. A pet project to improve skills and learn new features.</br>
 I had several technical task:
 
 ## ⚡ UI:
@@ -25,6 +25,9 @@ Figma template https://www.figma.com/community/file/1141026080000052242
 - [x] Search transaction by its title or filter by category.
 - [x] Supports Ukrainian and English.
 
+## ⚡ Platforms
+🤖 Android
+
 ## 📸 Demo
 
 
@@ -42,6 +45,6 @@ Figma template https://www.figma.com/community/file/1141026080000052242
 | [**Page Transition**](https://pub.dev/packages/page_transition)                             | Gives beautiful page transition.                                          |
 | [**pdf**](https://pub.dev/packages/pdf)                                                     | A pdf producer for Dart. It can create pdf files for both web or flutter. |
 | [**Flutter Secured Storage**](https://pub.dev/packages/flutter_secure_storage)              | Secure Storage provides API to store data in secure storage.              |
-| [**Easy Localization**](https://pub.dev/packages/easy_localization)                         | https://pub.dev/packages/easy_localization                                |
+| [**Easy Localization**](https://pub.dev/packages/easy_localization)                         | Localizes app                                                             |
 
 
