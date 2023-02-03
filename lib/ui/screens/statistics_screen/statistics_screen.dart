@@ -54,39 +54,42 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                   }
                 : null,
           ),
-          body: Padding(
-            padding: const EdgeInsets.only(top: 8.0, left: 16, right: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const MonthPicker(
-                  selectType: 'exact',
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Text(
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const MonthPicker(
+                selectType: 'exact',
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0),
+                child: Text(
                   LocaleKeys.overview.tr(),
                   style: AppStyles.overline,
                 ),
-                const SizedBox(
-                  height: 8,
-                ),
-                BlockChart(
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: BlockChart(
                   stats: state.statistics,
                 ),
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    child: Text(
-                      LocaleKeys.details.tr(),
-                      style: AppStyles.overline,
-                    ),
+              ),
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  child: Text(
+                    LocaleKeys.details.tr(),
+                    style: AppStyles.overline,
                   ),
                 ),
-                const StatisticsElementBuilder(),
-              ],
-            ),
+              ),
+              const StatisticsElementBuilder(),
+            ],
           ),
         );
       },

@@ -68,7 +68,7 @@ class _EditCategoryScreenState extends State<EditCategoryScreen> {
                                     icon: state.selectedIcon));
                             Navigator.of(context).pop();
                             buildShowSnackBar(context, LocaleKeys
-                                .added_category.tr());
+                                .edited_category.tr());
                           }
                         : null,
                     child: SizedBox(

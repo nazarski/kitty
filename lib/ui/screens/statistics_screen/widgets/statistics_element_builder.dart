@@ -15,6 +15,7 @@ class StatisticsElementBuilder extends StatelessWidget {
       builder: (context, state) {
         return Flexible(
           child: ListView.builder(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
               itemCount: state.statistics.length,
               itemBuilder: (context, index) {
                 return ListTile(
